@@ -81,7 +81,7 @@
     </fragment>
     <fragment
         android:id="@+id/agregarPlatoFragment"
-        android:name="com.example.myapplication.Fragments.AgregarPlatoFragment"
+        android:name="com.example.myapplication.interfaz.AgregarPlatoFragment"
         android:label="fragment_agregar_plato"
         tools:layout="@layout/fragment_agregar_plato" >
         <action
