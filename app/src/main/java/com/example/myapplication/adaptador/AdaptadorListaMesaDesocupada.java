@@ -71,6 +71,7 @@ public class AdaptadorListaMesaDesocupada  extends  RecyclerView.Adapter<Adaptad
     }
     public void metodocualquiera()
     {
-        //Hola Sebas como estas
+        //Este commit
+
     }
 }
