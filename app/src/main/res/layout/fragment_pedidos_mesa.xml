@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/fragment_pedidos_mesa_scene"
+    tools:context=".interfaz.PedidosFragment">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/fondopedidos" />
+
+
+    <SearchView
+        android:id="@+id/searchBuscarPlato"
+        android:layout_width="492dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="30dp"
+        android:background="#85575656"
+        android:queryHint="Buscar mesa"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="485dp"
+        android:layout_height="492dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="37dp"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBuscarPlato">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listaPlatosMesas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/fondomesa" />
+
+
+    <ImageButton
+        android:id="@+id/AgregarPedido"
+        android:layout_width="465dp"
+        android:layout_height="115dp"
+
+        android:src="@mipmap/imgagregarpedido"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="506dp"
+        android:layout_height="38dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listaMesasDesocupadas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

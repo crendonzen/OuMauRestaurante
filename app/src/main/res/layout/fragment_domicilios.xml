@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".interfaz.DomiciliosFragment">
+
+    <fragment
+        android:id="@+id/fragment5"
+        android:name="com.example.myapplication.interfaz.PedidosDomicilioFragment"
+        android:layout_width="516dp"
+        android:layout_height="616dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <fragment
+        android:id="@+id/fragment6"
+        android:name="com.example.myapplication.interfaz.PlatosDomiciliosFragment"
+        android:layout_width="775dp"
+        android:layout_height="420dp"
+        app:layout_constraintEnd_toStartOf="@+id/fragment5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <fragment
+        android:id="@+id/fragment7"
+        android:name="com.example.myapplication.interfaz.MenuPlatosFragment"
+        android:layout_width="765dp"
+        android:layout_height="375dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <fragment
+        android:id="@+id/fragment8"
+        android:name="com.example.myapplication.interfaz.FacturaDomicilioFragment"
+        android:layout_width="514dp"
+        android:layout_height="189dp"
+        android:layout_marginStart="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragment7"
+        app:layout_constraintTop_toBottomOf="@+id/fragment5" />
+</androidx.constraintlayout.widget.ConstraintLayout>
