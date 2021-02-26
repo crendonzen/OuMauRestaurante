@@ -69,4 +69,8 @@ public class AdaptadorListaMesaDesocupada  extends  RecyclerView.Adapter<Adaptad
             txtNumeroMesaDesocupada=(TextView)itemView.findViewById(R.id.txtNombreMesaLibre);
         }
     }
+    public void metodocualquiera()
+    {
+
+    }
 }
