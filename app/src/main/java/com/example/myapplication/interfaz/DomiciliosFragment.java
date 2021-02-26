@@ -12,7 +12,8 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.myapplication.R;
 import com.example.myapplication.ui.slideshow.SlideshowViewModel;
 
-public class DomiciliosFragment extends Fragment {
+public class DomiciliosFragment extends Fragment
+{
 
     private SlideshowViewModel slideshowViewModel;
 
