@@ -12,7 +12,8 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.myapplication.R;
 
 
-public class DomiciliosFragment extends Fragment {
+public class DomiciliosFragment extends Fragment
+{
 
 
 
