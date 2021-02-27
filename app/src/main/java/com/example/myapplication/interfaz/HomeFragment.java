@@ -15,17 +15,17 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.example.myapplication.R;
-import com.example.myapplication.ui.home.HomeViewModel;
+
 
 public class HomeFragment extends Fragment {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    private HomeViewModel homeViewModel;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+
+
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         ImageButton agregarPedido = root.findViewById(R.id.botonAgregar);
 
