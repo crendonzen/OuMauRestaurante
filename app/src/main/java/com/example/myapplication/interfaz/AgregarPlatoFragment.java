@@ -171,7 +171,7 @@ public class AgregarPlatoFragment extends Fragment
         {
             buscarImage.setEnabled(true);
         }else{
-            buscarImage.setEnabled(false);
+            //buscarImage.setEnabled(false);
         }
         return view;
     }
