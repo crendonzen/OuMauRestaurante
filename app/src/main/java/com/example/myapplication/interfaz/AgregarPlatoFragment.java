@@ -440,6 +440,7 @@ public class AgregarPlatoFragment extends Fragment
         dialogo.show();
     }
 
+
     public void limpiar()
     {
         nombrePlato.setText("");
