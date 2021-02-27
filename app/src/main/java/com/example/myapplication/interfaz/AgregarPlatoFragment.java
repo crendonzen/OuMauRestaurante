@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -171,7 +172,7 @@ public class AgregarPlatoFragment extends Fragment
         {
             buscarImage.setEnabled(true);
         }else{
-            buscarImage.setEnabled(false);
+           // buscarImage.setEnabled(false);
         }
         return view;
     }
@@ -188,6 +189,7 @@ public class AgregarPlatoFragment extends Fragment
         Intent intent=new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.createChooser(intent,"Seleccione la Aplicación");
         intent.setType("image/*");
+
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent,COD_SELECCIONA);
     }
@@ -298,19 +300,16 @@ public class AgregarPlatoFragment extends Fragment
             switch (requestCode)
             {
                 case COD_SELECCIONA:
-/*
-                    Bundle bundle = data.getExtras();
-                    Bitmap bitma = bundle.getParcelable("data");
-                    imagenPlato.setImageBitmap(bitma);
-*/
+                    String f=data.getData().getQuery ();
+                    System.out.println (f);
                     miPath=data.getData();
-                    selectedImagePath = getPath(miPath);
-                    System.out.println (selectedImagePath+" URL");
-                    System.out.println (miPath+" URL");
-                    imagenPlato.setImageURI (miPath);
+                    imagenPlato.setImageURI(miPath);
+                    Bitmap drawingCache = imagenPlato.getDrawingCache ();
+                    drawingCache =redimensionarImagenMaximo(drawingCache,50,50);
+                    imagenPlato.setImageBitmap (drawingCache);
                     break;
                 case COD_FOTO:
-                    MediaScannerConnection.scanFile(getContext (), new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener()
+                    MediaScannerConnection.scanFile(getContext (), new String[]{this.path}, null, new MediaScannerConnection.OnScanCompletedListener()
                     {
                         @Override
                         public void onScanCompleted(String path, Uri uri)
@@ -318,17 +317,27 @@ public class AgregarPlatoFragment extends Fragment
                             Log.i("Ruta de almacenamiento","Path: "+path);
                         }
                     });
-                    Bitmap bitmap= BitmapFactory.decodeFile(path);
+                    Bitmap bitmap= BitmapFactory.decodeFile(this.path);
                     imagenPlato.setImageBitmap(bitmap);
                     break;
             }
         }
 
     }
+    public Bitmap redimensionarImagenMaximo(Bitmap mBitmap, float newWidth, float newHeigth)
+    {
+        int width = mBitmap.getWidth();
+        int height = mBitmap.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeigth) / height;
+        Matrix matrix = new Matrix ();
+        matrix.postScale(scaleWidth, scaleHeight);
+        return Bitmap.createBitmap(mBitmap, 0, 0, width, height, matrix, false);
+    }
     public String getPath(Uri uri)
     {
         String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
+        Cursor cursor = getContext ().getContentResolver().query(uri, projection, null, null, null);
         if (cursor == null) return null;
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
