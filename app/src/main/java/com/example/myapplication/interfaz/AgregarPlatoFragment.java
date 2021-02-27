@@ -405,6 +405,7 @@ public class AgregarPlatoFragment extends Fragment
                 }
             }
         });
+
         alertOpciones.show();
     }
     @Override
