@@ -78,12 +78,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgPlato" />
 
-    <ImageButton
-        android:maxWidth="200px"
-        android:maxHeight="200px"
+    <ImageView
         android:id="@+id/imgPlato"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="200px"
+        android:maxHeight="200px"
+        android:scaleType="centerCrop"
+        android:scaleY="200"
         android:src="@mipmap/agregarc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

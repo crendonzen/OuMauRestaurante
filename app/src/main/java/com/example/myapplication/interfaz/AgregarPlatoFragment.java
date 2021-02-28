@@ -72,7 +72,7 @@ public class AgregarPlatoFragment extends Fragment
     final int COD_SELECCIONA = 10;
     final int COD_FOTO = 20;
 
-    private ImageButton imagenPlato;
+    private ImageView imagenPlato;
     private EditText nombrePlato;
     private EditText precioPlato;
     private Spinner categoriaPalto;
@@ -108,7 +108,7 @@ public class AgregarPlatoFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
     {
         View view= inflater.inflate(R.layout.fragment_agregar_plato, container, false);
-        this.imagenPlato =(ImageButton) view.findViewById(R.id.imgPlato);
+        this.imagenPlato =(ImageView) view.findViewById(R.id.imgPlato);
         this.imagenPlato.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v)
