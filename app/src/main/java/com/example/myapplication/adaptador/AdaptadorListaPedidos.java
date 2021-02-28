@@ -20,15 +20,17 @@ import com.example.myapplication.mundo.Plato;
 
 import java.util.ArrayList;
 
-public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaPedidos.ViewHolder> {
+public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaPedidos.ViewHolder>
+{
 
-    private Factura plato;
-    private ArrayList<Factura> list;
+    private Plato plato;
+    private ArrayList<Plato> list;
     private MenuPlatosFragment buscarPlato;
     private Context contexto;
     private static LayoutInflater  inflater = null;
 
-    public AdaptadorListaPedidos(Context conexto, ArrayList<Factura> lista)
+
+    public AdaptadorListaPedidos(Context conexto, ArrayList<Plato> lista)
     {
         this.list=lista;
         inflater = (LayoutInflater ) conexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -48,10 +50,10 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
         plato = this.list.get(position);
-        holder.txtNombre.setText(list.get(position).getPlatos_nombre ());
-        holder.txtPrecio.setText(list.get(position).getPlatos_precio ()+"");
+        holder.txtNombre.setText(list.get(position).getNombre ());
+        holder.txtPrecio.setText(list.get(position).getPrecio ()+"");
         Glide.with(inflater.getContext ())
-                .load(list.get(position).getPlatos_imagen ())
+                .load(list.get(position).getImage ())
                 .into(holder.imgPlatos);
 
     }
@@ -64,6 +66,7 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
     {
         this.buscarPlato=buscarPlato;
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -79,5 +82,13 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
             imgPlatos=(ImageView) itemView.findViewById(R.id.imgPlatos);
         }
     }
+
+
+
+    public ArrayList<Plato> getList()
+    {
+        return this.list;
+    }
+
 
 }

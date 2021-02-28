@@ -69,7 +69,10 @@ public class AdaptadorListaMesa extends  RecyclerView.Adapter<AdaptadorListaMesa
         }
     }
 
-
+    public void setOnclickListener(View.OnClickListener listener)
+    {
+        this.listener = listener;
+    }
     public class ViewHolder  extends RecyclerView.ViewHolder
     {
         TextView txtNumeroMesa;
@@ -80,9 +83,6 @@ public class AdaptadorListaMesa extends  RecyclerView.Adapter<AdaptadorListaMesa
             txtNumeroMesa=(TextView) itemView.findViewById(R.id.txtNombrePlato);
         }
     }
-    public void setOnclickListener(View.OnClickListener listener)
-    {
-        this.listener = listener;
-    }
+
 
 }

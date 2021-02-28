@@ -73,7 +73,7 @@ public class AgregarPlatoFragment extends Fragment
     final int COD_SELECCIONA = 10;
     final int COD_FOTO = 20;
 
-    private ImageButton imagenPlato;
+    private ImageView imagenPlato;
     private EditText nombrePlato;
     private EditText precioPlato;
     private Spinner categoriaPalto;
@@ -109,7 +109,7 @@ public class AgregarPlatoFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
     {
         View view= inflater.inflate(R.layout.fragment_agregar_plato, container, false);
-        this.imagenPlato =(ImageButton) view.findViewById(R.id.imgPlato);
+        this.imagenPlato =(ImageView) view.findViewById(R.id.imgPlato);
         this.imagenPlato.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v)
@@ -300,13 +300,8 @@ public class AgregarPlatoFragment extends Fragment
             switch (requestCode)
             {
                 case COD_SELECCIONA:
-                    String f=data.getData().getQuery ();
-                    System.out.println (f);
                     miPath=data.getData();
-                    imagenPlato.setImageURI(miPath);
-                    Bitmap drawingCache = imagenPlato.getDrawingCache ();
-                    drawingCache =redimensionarImagenMaximo(drawingCache,50,50);
-                    imagenPlato.setImageBitmap (drawingCache);
+                    imagenPlato.setImageURI (miPath);
                     break;
                 case COD_FOTO:
                     MediaScannerConnection.scanFile(getContext (), new String[]{this.path}, null, new MediaScannerConnection.OnScanCompletedListener()
@@ -324,6 +319,7 @@ public class AgregarPlatoFragment extends Fragment
         }
 
     }
+
     public Bitmap redimensionarImagenMaximo(Bitmap mBitmap, float newWidth, float newHeigth)
     {
         int width = mBitmap.getWidth();

@@ -50,7 +50,7 @@
                         android:textColor="#FAF8F8"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageView12" />
+                        app:layout_constraintTop_toBottomOf="@+id/imgLogo" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/listaPlatosMesas"
@@ -62,7 +62,7 @@
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <ImageView
-                        android:id="@+id/imageView12"
+                        android:id="@+id/imgLogo"
                         android:layout_width="117dp"
                         android:layout_height="97dp"
                         android:src="@mipmap/mesa"

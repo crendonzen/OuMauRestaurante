@@ -5,6 +5,7 @@
  */
 package com.example.myapplication.mundo;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Factura
@@ -25,14 +26,14 @@ public class Factura
     private String usuarios_apellidos;
     private String usuarios_telefono;
     private String usuarios_cargo;
-    private String platos_imagen;
-    private double platos_precio;
-    private String platos_descripcion;
-    private String platos_nombre;
-    private String platos_categoria;
-    private int platos_idplatos;
+    private ArrayList<Plato> platos;
 
-    public Factura(int mesas_idmesas, String mesas_numero, String estado, double factura_pagado, double factura_IVA, Date factura_fecha, int factura_idfacturas, String pedidos_observacion, int pedidos_cantidad, int pedidos_idpedidos, int usuarios_idempleado, String usuarios_identificacion, String usuarios_nombres, String usuarios_apellidos, String usuarios_telefono, String usuarios_cargo, String platos_imagen, double platos_precio, String platos_descripcion, String platos_nombre, String platos_categoria, int platos_idplatos)
+    public Factura()
+    {
+        this.platos=new ArrayList<> ();
+    }
+
+    public void inicializarPedidos(int mesas_idmesas, String mesas_numero, String estado, double factura_pagado, double factura_IVA, Date factura_fecha, int factura_idfacturas, String pedidos_observacion, int pedidos_cantidad, int pedidos_idpedidos, int usuarios_idempleado, String usuarios_identificacion, String usuarios_nombres, String usuarios_apellidos, String usuarios_telefono, String usuarios_cargo)
     {
         this.mesas_idmesas = mesas_idmesas;
         this.mesas_numero = mesas_numero;
@@ -50,12 +51,10 @@ public class Factura
         this.usuarios_apellidos = usuarios_apellidos;
         this.usuarios_telefono = usuarios_telefono;
         this.usuarios_cargo = usuarios_cargo;
-        this.platos_imagen = platos_imagen;
-        this.platos_precio = platos_precio;
-        this.platos_descripcion = platos_descripcion;
-        this.platos_nombre = platos_nombre;
-        this.platos_categoria = platos_categoria;
-        this.platos_idplatos = platos_idplatos;
+    }
+    public void agregarPlato(Plato plato)
+    {
+        this.platos.add (plato);
     }
 
     public int getMesas_idmesas()
@@ -218,71 +217,13 @@ public class Factura
         this.usuarios_cargo = usuarios_cargo;
     }
 
-    public String getPlatos_imagen()
+    public ArrayList getPlatos()
     {
-        return platos_imagen;
+        return  this.platos;
     }
 
-    public void setPlatos_imagen(String platos_imagen)
+    public void limpiarLista()
     {
-        this.platos_imagen = platos_imagen;
+        this.platos.clear ();
     }
-
-    public double getPlatos_precio()
-    {
-        return platos_precio;
-    }
-
-    public void setPlatos_precio(double platos_precio)
-    {
-        this.platos_precio = platos_precio;
-    }
-
-    public String getPlatos_descripcion()
-    {
-        return platos_descripcion;
-    }
-
-    public void setPlatos_descripcion(String platos_descripcion)
-    {
-        this.platos_descripcion = platos_descripcion;
-    }
-
-    public String getPlatos_nombre()
-    {
-        return platos_nombre;
-    }
-
-    public void setPlatos_nombre(String platos_nombre)
-    {
-        this.platos_nombre = platos_nombre;
-    }
-
-    public String getPlatos_categoria()
-    {
-        return platos_categoria;
-    }
-
-    public void setPlatos_categoria(String platos_categoria)
-    {
-        this.platos_categoria = platos_categoria;
-    }
-
-    public int getPlatos_idplatos()
-    {
-        return platos_idplatos;
-    }
-
-    public void setPlatos_idplatos(int platos_idplatos)
-    {
-        this.platos_idplatos = platos_idplatos;
-    }
-
-
-
-
-
-    
-    
-
 }
