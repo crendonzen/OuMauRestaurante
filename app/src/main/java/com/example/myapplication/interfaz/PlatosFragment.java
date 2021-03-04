@@ -150,6 +150,7 @@ public class PlatosFragment extends Fragment {
                                     Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image);
                                     platosMenu.add (m);
                                 }
+
                                 adaptadorListaPlatosMenu = new AdaptadorListaPlatosMenu (getContext (),platosMenu);
                                 listaPlatos.setAdapter(adaptadorListaPlatosMenu);
                                 adaptadorListaPlatosMenu.setOnclickListener(new View.OnClickListener()
