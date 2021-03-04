@@ -4,60 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.PlatosFragment">
+    tools:context=".interfaz.PlatosFragment">
 
-    <ScrollView
+    <ImageView
+        android:id="@+id/imageView12"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/fondoa" />
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="907dp">
+            <ImageButton
+                android:id="@+id/botonAgregarPlato"
+                android:layout_width="338dp"
+                android:layout_height="450dp"
+                android:layout_marginStart="208dp"
+                android:backgroundTint="#00FFFFFF"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/agreplato"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.425" />
 
-                <ImageButton
-                    android:id="@+id/botonAgregarPlato"
-                    android:layout_width="wrap_content"
+            <SearchView
+                android:id="@+id/buscar_plato"
+                android:layout_width="477dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="112dp"
+                android:layout_marginTop="32dp"
+                android:background="#A3686767"
+                app:layout_constraintStart_toEndOf="@+id/botonAgregarPlato"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </SearchView>
+
+            <ScrollView
+                android:layout_width="581dp"
+                android:layout_height="581dp"
+                android:layout_marginStart="72dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toEndOf="@+id/botonAgregarPlato"
+                app:layout_constraintTop_toBottomOf="@+id/buscar_plato">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:src="@mipmap/agregarc"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Agregar nuevo plato"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/botonAgregarPlato" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="907dp">
 
-                <SearchView
-                    android:id="@+id/searchView2"
-                    android:layout_width="994dp"
-                    android:layout_height="93dp"
-                    android:layout_marginTop="32dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/listaPlatosCarta"
+                            android:layout_width="558dp"
+                            android:layout_height="519dp"
+                            android:layout_marginStart="23dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/listaPlatos"
-                    android:layout_width="988dp"
-                    android:layout_height="467dp"
-                    android:layout_marginTop="28dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/searchView2" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-    </ScrollView>
 </FrameLayout>

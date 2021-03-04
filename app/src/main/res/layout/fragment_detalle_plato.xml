@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.DetallePlatoFragment">
+    tools:context=".interfaz.AgregarPlatoFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/imageView19"
+        android:layout_width="1286dp"
+        android:layout_height="800dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/fondoa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/editTextNombrePlato"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
-            android:layout_marginEnd="496dp"
-            android:layout_marginRight="496dp"
-            android:text="TextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="355dp"
+        android:layout_height="466dp"
+        android:layout_marginStart="198dp"
+        android:layout_marginTop="142dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:id="@+id/editTextPrecioPlato"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:text="TextView"
-            app:layout_constraintEnd_toEndOf="@+id/editTextNombrePlato"
-            app:layout_constraintTop_toBottomOf="@+id/editTextNombrePlato" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/txtnombre_Plato"
+        android:layout_width="472dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="188dp"
+        android:ems="10"
+        android:hint="Nombre del plato"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -122,9 +122,9 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
         this.adaptadorListaPlatos = new AdaptadorListaPlatos (getContext (),this.platosMenu);
         this.adaptadorListaPedidos = new AdaptadorListaPedidos (getContext (),this.pedidoFactura.getPlatos ());
 
-        this.listaPlatos.setLayoutManager(new GridLayoutManager(getContext(),4));
+        this.listaPlatos.setLayoutManager(new GridLayoutManager(getContext(),5));
         this.listaPlatos.setAdapter(this.adaptadorListaPlatos);
-        this.listaPedidos.setLayoutManager(new GridLayoutManager(getContext(),4));
+        this.listaPedidos.setLayoutManager(new GridLayoutManager(getContext(),5));
         this.listaPedidos.setAdapter(this.adaptadorListaPedidos);
 
 

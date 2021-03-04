@@ -22,7 +22,7 @@ import com.example.myapplication.mundo.Plato;
 
 import java.util.ArrayList;
 
-public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPlatos.ViewHolder>
+public class AdaptadorListaPlatosMenu extends  RecyclerView.Adapter<AdaptadorListaPlatosMenu.ViewHolder> implements View.OnClickListener
 {
 
     private Plato plato;
@@ -30,8 +30,9 @@ public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPl
     private MenuPlatosFragment buscarPlato;
     private Context contexto;
     private static LayoutInflater  inflater = null;
+    private View.OnClickListener listener;
 
-    public AdaptadorListaPlatos(Context conexto, ArrayList<Plato> lista)
+    public AdaptadorListaPlatosMenu(Context conexto, ArrayList<Plato> lista)
     {
         this.list=lista;
         inflater = (LayoutInflater ) conexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -43,31 +44,20 @@ public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPl
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
 
-        View view = inflater.inflate(R.layout.fragment_lista_menu_platos, null);
-        return new AdaptadorListaPlatos.ViewHolder(view);
+        View view = inflater.inflate(R.layout.fragment_lista_platos, null);
+        view.setOnClickListener(this);
+        return new AdaptadorListaPlatosMenu.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         plato = this.list.get(position);
-        holder.txtNombrePlato.setText(list.get(position).getNombre ());
+        holder.txtNombrePlato.setText(list.get(position).getNombre());
 
         Glide.with(inflater.getContext ())
                 .load(list.get(position).getImage())
                 .into(holder.imgPlatos);
-        holder.item.setTag (position);
-        holder.item.setOnLongClickListener (new View.OnLongClickListener ()
-        {
-            @Override
-            public boolean onLongClick(View view)
-            {
-                ClipData data = ClipData.newPlainText("", "");
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                view.startDrag(data, shadowBuilder, view, 0);
-                view.setVisibility(View.INVISIBLE);
-                return true;
-            }
-        });
+
 
     }
     public ArrayList<Plato> getList()
@@ -76,27 +66,35 @@ public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPl
     }
     @Override
     public int getItemCount() {
-            return list.size();
+        return list.size();
     }
-    public void setFragment(MenuPlatosFragment buscarPlato)
-    {
-        this.buscarPlato=buscarPlato;
+
+
+    public void setOnclickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(listener!=null){
+            listener.onClick(view);
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        ConstraintLayout item;
+
         TextView txtNombrePlato,txtPrecioPlato,txtCategoriaPlato,txtDescripcionPlato;
         ImageView imgPlatos;
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            txtNombrePlato=(TextView) itemView.findViewById(R.id.txtNombrePlatoMenu);
+            txtNombrePlato=(TextView) itemView.findViewById(R.id.txtNombrePlato_menu);
             txtPrecioPlato=(TextView) itemView.findViewById(R.id.txtPrecioPlato);
 
-            txtDescripcionPlato=(TextView) itemView.findViewById(R.id.txtPrecioMenu);
-            imgPlatos=(ImageView) itemView.findViewById(R.id.imgPlatosMenu);
-            item=(ConstraintLayout) itemView.findViewById (R.id.itemPlato);
+            txtCategoriaPlato=(TextView) itemView.findViewById(R.id.categoria_menu);
+            imgPlatos=(ImageView) itemView.findViewById(R.id.imgPlatos_menu);
+
         }
     }
 
