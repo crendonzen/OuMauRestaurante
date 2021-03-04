@@ -1,33 +1,23 @@
 package com.example.myapplication.interfaz;
 
-import android.content.ClipData;
-import android.content.ClipDescription;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapplication.Abtract.InterfazFragamen;
-import com.example.myapplication.Fragments.DetallePlatoFragment;
-import com.example.myapplication.Fragments.PlatosFragment;
 import com.example.myapplication.R;
 import com.example.myapplication.mundo.Mesa;
+import com.example.myapplication.mundo.Plato;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -39,8 +29,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InterfazFragamen
-{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InterfazFragamen {
     Button cerrarSesion;
     private AppBarConfiguration mAppBarConfiguration;
     FragmentManager fragmentManager;
@@ -52,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageButton menu,agregarPedido,pedidos;
 
     private MenuPlatosFragment menuPlatosFragment;
+    private DetallePlatoFragment detallePlatoFragment;
 
 
     @Override
@@ -166,23 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
-/*
-    public void enviarPlato(Platos platos) {
 
-        detallePlatoFragment = new DetallePlatoFragment();
-        //objeto bundle para transportar la informacion
-        Bundle bundleEnvio = new Bundle();
-        //se manda el objeto que le esta llegando:
-        bundleEnvio.putSerializable("objetoPlato", platos);
-        detallePlatoFragment.setArguments(bundleEnvio);
-
-        //CArgar fragment en el activity
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment, detallePlatoFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }*/
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item)
@@ -213,6 +187,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.nav_host_fragment, menuPlatosFragment);
 
+        fragmentTransaction.commit();
+    }
+
+
+    public void enviarPlato(Plato plato)
+    {
+        detallePlatoFragment = new DetallePlatoFragment();
+        Bundle bundleEnvio = new Bundle();
+        bundleEnvio.putSerializable("plato", plato);
+        detallePlatoFragment.setArguments(bundleEnvio);
+
+
+        //CArgar fragment en el activity
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment, detallePlatoFragment);
         fragmentTransaction.commit();
     }
 }

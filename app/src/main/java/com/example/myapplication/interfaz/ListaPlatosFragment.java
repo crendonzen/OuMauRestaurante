@@ -1,4 +1,4 @@
-package com.example.myapplication.Fragments;
+package com.example.myapplication.interfaz;
 
 import android.os.Bundle;
 
@@ -7,18 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.myapplication.R;
 
-
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DetallePlatoFragment#newInstance} factory method to
+ * Use the {@link ListaPlatosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetallePlatoFragment extends Fragment {
+public class ListaPlatosFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,10 +26,7 @@ public class DetallePlatoFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private static final String URL = "http://192.168.56.1/restaurante/platos/consultar_plato.php";
-    TextView nombrePlato,precioPlato;
-
-    public DetallePlatoFragment() {
+    public ListaPlatosFragment() {
         // Required empty public constructor
     }
 
@@ -42,11 +36,11 @@ public class DetallePlatoFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DetallePlatoFragment.
+     * @return A new instance of fragment ListaPlatosFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DetallePlatoFragment newInstance(String param1, String param2) {
-        DetallePlatoFragment fragment = new DetallePlatoFragment();
+    public static ListaPlatosFragment newInstance(String param1, String param2) {
+        ListaPlatosFragment fragment = new ListaPlatosFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -63,28 +57,10 @@ public class DetallePlatoFragment extends Fragment {
         }
     }
 
-  /*  @Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_detalle_plato, container, false);
-
-
-        nombrePlato= view.findViewById(R.id.editTextNombrePlato);
-        precioPlato= view.findViewById(R.id.editTextPrecioPlato);
-
-        Bundle objetoPlato = getArguments();
-        Platos platos = null;
-        //validacion para verificar si existen argumentos para mostrar
-        if(objetoPlato !=null){
-
-            platos = (Platos) objetoPlato.getSerializable("objetoPlato");
-
-            nombrePlato.setText(platos.getNombrePlato());
-            precioPlato.setText(String.valueOf(platos.getPrecioPlato()));
-
-        }
-
-       return view;
-    }*/
+        return inflater.inflate(R.layout.fragment_lista_platos, container, false);
+    }
 }

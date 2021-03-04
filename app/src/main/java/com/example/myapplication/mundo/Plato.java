@@ -8,11 +8,13 @@ package com.example.myapplication.mundo;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Crendon
  */
-public class Plato
+public class Plato implements Serializable
 {
 
     private int idPlato;
