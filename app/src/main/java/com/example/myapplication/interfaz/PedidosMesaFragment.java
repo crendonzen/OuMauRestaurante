@@ -19,9 +19,11 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
@@ -135,7 +137,7 @@ public class PedidosMesaFragment extends Fragment
                 buscarMesaDesocupada();
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1,5000);
+        },1000,5000);
 
         this.buscarMesa.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
         {
@@ -168,17 +170,8 @@ public class PedidosMesaFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-
                 String numeroMesa = mesas.get(listaMesas.getChildAdapterPosition(v)).getNumero();
-
-
-                //enviar mediante la interface el objeto seleccionado al detalle
-                //se envia el objeto completo
-                //se utiliza la interface como puente para enviar el objeto seleccionado
                 interfazFragamen.enviarMesa(mesas.get(listaMesas.getChildAdapterPosition(v)));
-                //luego en el mainactivity se hace la implementacion de la interface para implementar el metodo enviarpersona
-
-
             }
         });
 
@@ -200,7 +193,7 @@ public class PedidosMesaFragment extends Fragment
         Map<String,String> params= new HashMap<String, String> ();
         params.put("buscarMesasDesocupadas","Mes");
         JSONObject parameters = new JSONObject(params);
-        String url="https://openm.co/consultas/pedidos.php";
+        String url="https://192.168.0.3/restaurante/pedidos.php";
 
         jsonRequest=new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
         {
@@ -244,6 +237,11 @@ public class PedidosMesaFragment extends Fragment
             {error.printStackTrace ();
             }
         });
+        int socketTimeout = 0;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonRequest.setRetryPolicy (policy);
         requestQueue.add(jsonRequest);
     }
 
@@ -262,25 +260,28 @@ public class PedidosMesaFragment extends Fragment
             {
                 try
                 {
-                    listaMesas.setAdapter(adaptadorListaMesa);
-                    JSONArray datos = response.getJSONArray ("datos");
-                    for (int i = 0; i < datos.length(); i++)
+                    if (response!=null)
                     {
-                        JSONObject mesa = datos.getJSONObject(i);
-                        int id=mesa.getInt ("idmesas");
-                        String numero=mesa.getString("numero");
-                        String codigoQR=mesa.getString("codigoQR");
-                        String estado=mesa.getString("estado");
-                        Mesa m=new Mesa( id,  numero,  codigoQR, estado);
-                        mesasAux.add(m);
-                    }
-                    if (mesasAux.size()!=cantMesas)
-                    {
-                        mesas.clear();
-                        String numero = mesasAux.get (mesasAux.size () - 1).getNumero ();
-                      //  Toast.makeText(getContext (),"Mesa "+numero+" ha sido ocupada", Toast.LENGTH_SHORT).show();
-                        mesas.addAll(mesasAux);
-                        cantMesas=mesas.size ();
+                        listaMesas.setAdapter(adaptadorListaMesa);
+                        JSONArray datos = response.getJSONArray ("datos");
+                        for (int i = 0; i < datos.length(); i++)
+                        {
+                            JSONObject mesa = datos.getJSONObject(i);
+                            int id=mesa.getInt ("idmesas");
+                            String numero=mesa.getString("numero");
+                            String codigoQR=mesa.getString("codigoQR");
+                            String estado=mesa.getString("estado");
+                            Mesa m=new Mesa( id,  numero,  codigoQR, estado);
+                            mesasAux.add(m);
+                        }
+                        if (mesasAux.size()!=cantMesas)
+                        {
+                            mesas.clear();
+                            String numero = mesasAux.get (mesasAux.size () - 1).getNumero ();
+                            //  Toast.makeText(getContext (),"Mesa "+numero+" ha sido ocupada", Toast.LENGTH_SHORT).show();
+                            mesas.addAll(mesasAux);
+                            cantMesas=mesas.size ();
+                        }
                     }
                 } catch (JSONException e)
                 {
@@ -291,7 +292,8 @@ public class PedidosMesaFragment extends Fragment
         {
             @Override
             public void onErrorResponse(VolleyError error)
-            {error.printStackTrace ();
+            {
+                error.printStackTrace ();
             }
         });
         requestQueue.add(jsonRequest);

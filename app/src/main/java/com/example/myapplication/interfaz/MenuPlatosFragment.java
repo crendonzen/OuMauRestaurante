@@ -116,7 +116,6 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
         this.listaPlatos = v.findViewById(R.id.listaPlatosMesas);
         this.listaPedidos = v.findViewById(R.id.listaPlatos);
 
-
         this.requestQueue =  VolleySingleton.getInstance(getContext ()).getRequestQueue();
         this.platosMenu = new ArrayList<Plato>();
         this.adaptadorListaPlatos = new AdaptadorListaPlatos (getContext (),this.platosMenu);
@@ -126,7 +125,6 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
         this.listaPlatos.setAdapter(this.adaptadorListaPlatos);
         this.listaPedidos.setLayoutManager(new GridLayoutManager(getContext(),4));
         this.listaPedidos.setAdapter(this.adaptadorListaPedidos);
-
 
         this.buscarPlato.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
         {
@@ -245,7 +243,8 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
                                     usuarios_telefono,
                                     usuarios_cargo);
                             pedidoFactura.limpiarLista ();
-                            for (int i = 0; i < datos.length (); i++) {
+                            for (int i = 0; i < datos.length (); i++)
+                            {
                                 JSONObject plato = datos.getJSONObject (i);
                                 String platos_imagen = plato.getString ("platos_imagen");
                                 double platos_precio = plato.getDouble ("platos_precio");
@@ -253,8 +252,6 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
                                 String platos_nombre = plato.getString ("platos_nombre");
                                 String platos_categoria = plato.getString ("platos_categoria");
                                 int platos_idplatos = plato.getInt ("platos_idplatos");
-                                Toast.makeText (getContext (), plato.getString ("mesas_numero"), Toast.LENGTH_SHORT).show ();
-
                                 Plato platoDatos = new Plato (
                                         platos_idplatos,
                                         platos_categoria,
@@ -284,7 +281,6 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
             requestQueue.add(jsonRequest);
         }
         this.listaPlatos.setOnDragListener(this);
-
         this.listaPedidos.setOnDragListener(this);
 
         return v;
@@ -304,24 +300,24 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
             case DragEvent.ACTION_DRAG_STARTED:
                 break;
             case DragEvent.ACTION_DRAG_ENTERED:
-               // v.setBackgroundColor(Color.LTGRAY);
+                v.setBackgroundColor(Color.LTGRAY);
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
-                //v.setBackgroundColor(Color.YELLOW);
+               v.setBackgroundColor(Color.YELLOW);
                 break;
             case DragEvent.ACTION_DROP:
-                isDropped = true;
                 int positionFuente = -1;
                 View viewSource = (View) event.getLocalState();
                 positionFuente = (int) viewSource.getTag();
                 Plato customList = (Plato) adaptadorListaPlatos.getList ().get(positionFuente);
+
                 Toast.makeText(getContext (), customList.getNombre (), Toast.LENGTH_SHORT).show();
                 pedidoFactura.agregarPlato (customList);
                 listaPedidos.setAdapter(adaptadorListaPedidos);
                 v.setVisibility(View.VISIBLE);
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
-                //v.setBackgroundColor(0);
+                v.setBackgroundColor(0);
                 break;
             default:
                 break;
