@@ -126,17 +126,17 @@ public class PedidosMesaFragment extends Fragment
         mesasDesocupadas.setAdapter(adaptadorListaMesaDesocupada);
         this.listaMesas.setLayoutManager(new GridLayoutManager(getContext(),3));
 
-        new Timer ().scheduleAtFixedRate(new TimerTask ()
+       /* new Timer ().scheduleAtFixedRate(new TimerTask ()
         {
             @Override
             public void run()
             {
-                buscarlista ();
-                buscarMesaDesocupada();
+
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1,5000);
-
+        },1,5000);*/
+        buscarlista ();
+        buscarMesaDesocupada();
         this.buscarMesa.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
         {
             @Override
@@ -169,7 +169,7 @@ public class PedidosMesaFragment extends Fragment
             public void onClick(View v)
             {
 
-                String numeroMesa = mesas.get(listaMesas.getChildAdapterPosition(v)).getNumero();
+                /*String numeroMesa = mesas.get(listaMesas.getChildAdapterPosition(v)).getNumero();
 
 
                 //enviar mediante la interface el objeto seleccionado al detalle
@@ -177,7 +177,13 @@ public class PedidosMesaFragment extends Fragment
                 //se utiliza la interface como puente para enviar el objeto seleccionado
                 interfazFragamen.enviarMesa(mesas.get(listaMesas.getChildAdapterPosition(v)));
                 //luego en el mainactivity se hace la implementacion de la interface para implementar el metodo enviarpersona
+*/
 
+                Mesa mesa= mesas.get(listaMesas.getChildAdapterPosition(v));
+                Bundle bundleEnvio = new Bundle();
+                bundleEnvio.putSerializable("mesa", mesa);
+             //  Toast.makeText(getContext (),mesa.getNumero(), Toast.LENGTH_SHORT).show();
+                getParentFragmentManager().setFragmentResult("key", bundleEnvio);
 
             }
         });
@@ -305,14 +311,14 @@ public class PedidosMesaFragment extends Fragment
     }
 
 
-    @Override
-    public void onAttach(Context context)
+
+   public void onAttach(Context context)
     {
         super.onAttach(context);
         if (context instanceof Activity)
         {
             this.actividad = (Activity) context;
-            this.interfazFragamen = (InterfazFragamen) this.actividad;
+           // this.interfazFragamen = (InterfazFragamen) this.actividad;
         }
     }
 

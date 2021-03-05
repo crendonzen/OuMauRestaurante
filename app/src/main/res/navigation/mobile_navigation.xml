@@ -14,13 +14,10 @@
             android:id="@+id/action_nav_home_to_nav_slideshow"
             app:destination="@id/nav_slideshow" />
         <action
-            android:id="@+id/action_nav_home_to_nav_gallery"
-            app:destination="@id/nav_gallery" />
-        <action
             android:id="@+id/action_nav_home_to_platosFragment"
             app:destination="@id/platosFragment" />
         <action
-            android:id="@+id/action_nav_home_to_nav_gallery2"
+            android:id="@+id/action_nav_home_to_nav_gallery"
             app:destination="@id/nav_gallery" />
     </fragment>
 
@@ -30,17 +27,8 @@
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_pedidos" >
         <action
-            android:id="@+id/action_nav_gallery_to_nav_home"
-            app:destination="@id/nav_home" />
-        <action
-            android:id="@+id/action_nav_gallery_to_pedidosMesaFragment"
-            app:destination="@id/pedidosMesaFragment" />
-        <action
-            android:id="@+id/action_nav_gallery_to_menuPlatosFragment"
-            app:destination="@id/menuPlatosFragment" />
-        <action
-            android:id="@+id/action_nav_gallery_to_nav_home2"
-            app:destination="@id/nav_home" />
+            android:id="@+id/action_nav_gallery_to_platosMesaFragment3"
+            app:destination="@id/platosMesaFragment3" />
     </fragment>
 
     <fragment
@@ -60,9 +48,6 @@
         <action
             android:id="@+id/action_nav_slideshow_to_facturaDomicilioFragment"
             app:destination="@id/facturaDomicilioFragment" />
-        <action
-            android:id="@+id/action_nav_slideshow_to_menuPlatosFragment"
-            app:destination="@id/menuPlatosFragment" />
     </fragment>
     <fragment
         android:id="@+id/platosFragment"
@@ -124,14 +109,14 @@
         android:label="fragment_pedidos_mesa"
         tools:layout="@layout/fragment_pedidos_mesa" >
         <action
-            android:id="@+id/action_pedidosMesaFragment_to_nav_gallery"
-            app:destination="@id/nav_gallery" />
-        <action
             android:id="@+id/action_pedidosMesaFragment_to_listaMenuFragment"
             app:destination="@id/listaMenuFragment" />
         <action
             android:id="@+id/action_pedidosMesaFragment_to_listaMesasDesocupadasFragment"
             app:destination="@id/listaMesasDesocupadasFragment" />
+        <action
+            android:id="@+id/action_pedidosMesaFragment_to_platosMesaFragment3"
+            app:destination="@id/platosMesaFragment3" />
     </fragment>
     <fragment
         android:id="@+id/menuPlatosFragment"
@@ -139,17 +124,11 @@
         android:label="fragment_menu_platos"
         tools:layout="@layout/fragment_menu_platos" >
         <action
-            android:id="@+id/action_menuPlatosFragment_to_nav_gallery"
-            app:destination="@id/nav_gallery" />
-        <action
             android:id="@+id/action_menuPlatosFragment_to_listaMenuPlatosFragment"
             app:destination="@id/listaMenuPlatosFragment" />
         <action
-            android:id="@+id/action_menuPlatosFragment_to_nav_slideshow"
-            app:destination="@id/nav_slideshow" />
-        <action
-            android:id="@+id/action_menuPlatosFragment_to_listaPedidosPlatosFragment"
-            app:destination="@id/listaPedidosPlatosFragment" />
+            android:id="@+id/action_menuPlatosFragment_to_platosMesaFragment3"
+            app:destination="@id/platosMesaFragment3" />
     </fragment>
     <fragment
         android:id="@+id/listaPedidosPlatosFragment"
@@ -157,8 +136,8 @@
         android:label="fragment_lista_pedidos_platos"
         tools:layout="@layout/fragment_lista_pedidos_platos" >
         <action
-            android:id="@+id/action_listaPedidosPlatosFragment_to_menuPlatosFragment"
-            app:destination="@id/menuPlatosFragment" />
+            android:id="@+id/action_listaPedidosPlatosFragment_to_platosMesaFragment3"
+            app:destination="@id/platosMesaFragment3" />
     </fragment>
     <fragment
         android:id="@+id/listaMenuPlatosFragment"
@@ -251,6 +230,21 @@
         tools:layout="@layout/fragment_lista_mesas_desocupadas" >
         <action
             android:id="@+id/action_listaMesasDesocupadasFragment_to_pedidosMesaFragment"
+            app:destination="@id/pedidosMesaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/platosMesaFragment3"
+        android:name="com.example.myapplication.interfaz.PlatosMesaFragment"
+        android:label="fragment_platos_mesa"
+        tools:layout="@layout/fragment_platos_mesa" >
+        <action
+            android:id="@+id/action_platosMesaFragment3_to_menuPlatosFragment"
+            app:destination="@id/menuPlatosFragment" />
+        <action
+            android:id="@+id/action_platosMesaFragment3_to_listaPedidosPlatosFragment"
+            app:destination="@id/listaPedidosPlatosFragment" />
+        <action
+            android:id="@+id/action_platosMesaFragment3_to_pedidosMesaFragment"
             app:destination="@id/pedidosMesaFragment" />
     </fragment>
 </navigation>
