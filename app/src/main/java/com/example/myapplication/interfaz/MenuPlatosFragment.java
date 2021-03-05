@@ -306,15 +306,21 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
                v.setBackgroundColor(Color.YELLOW);
                 break;
             case DragEvent.ACTION_DROP:
-                int positionFuente = -1;
-                View viewSource = (View) event.getLocalState();
-                positionFuente = (int) viewSource.getTag();
-                Plato customList = (Plato) adaptadorListaPlatos.getList ().get(positionFuente);
+                if (pedidoFactura.getMesas_idmesas () !=0)
+                {
+                    int positionFuente = -1;
+                    View viewSource = (View) event.getLocalState();
+                    positionFuente = (int) viewSource.getTag();
+                    Plato customList = (Plato) adaptadorListaPlatos.getList ().get(positionFuente);
 
-                Toast.makeText(getContext (), customList.getNombre (), Toast.LENGTH_SHORT).show();
-                pedidoFactura.agregarPlato (customList);
-                listaPedidos.setAdapter(adaptadorListaPedidos);
-                v.setVisibility(View.VISIBLE);
+                    Toast.makeText(getContext (), customList.getNombre (), Toast.LENGTH_SHORT).show();
+                    pedidoFactura.agregarPlato (customList);
+                    listaPedidos.setAdapter(adaptadorListaPedidos);
+                    v.setVisibility(View.VISIBLE);
+                }else
+                {
+                    Toast.makeText(getContext (), "Por favor selecciona una mesa", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
                 v.setBackgroundColor(0);

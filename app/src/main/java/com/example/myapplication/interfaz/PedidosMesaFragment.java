@@ -127,7 +127,7 @@ public class PedidosMesaFragment extends Fragment
         this.adaptadorListaMesaDesocupada = new AdaptadorListaMesaDesocupada(getContext (),this.mesasDes);
         mesasDesocupadas.setAdapter(adaptadorListaMesaDesocupada);
         this.listaMesas.setLayoutManager(new GridLayoutManager(getContext(),3));
-
+/*
         new Timer ().scheduleAtFixedRate(new TimerTask ()
         {
             @Override
@@ -137,8 +137,9 @@ public class PedidosMesaFragment extends Fragment
                 buscarMesaDesocupada();
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1000,5000);
-
+        },1000,5000);*/
+        buscarlista ();
+        buscarMesaDesocupada();
         this.buscarMesa.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
         {
             @Override
