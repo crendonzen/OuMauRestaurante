@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.Abtract.InterfazFragamen;
 import com.example.myapplication.R;
@@ -29,7 +30,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InterfazFragamen {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     Button cerrarSesion;
     private AppBarConfiguration mAppBarConfiguration;
     FragmentManager fragmentManager;
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -173,22 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @Override
-    public void enviarMesa(Mesa mesa)
-    {
-        platosMesaFragment = new PlatosMesaFragment();
-        Bundle bundleEnvio = new Bundle();
-        bundleEnvio.putSerializable("mesa", mesa);
-        platosMesaFragment.setArguments(bundleEnvio);
 
-
-        //CArgar fragment en el activity
-       fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment, platosMesaFragment);
-
-        fragmentTransaction.commit();
-    }
 
 
     public void enviarPlato(Plato plato)

@@ -63,15 +63,12 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
     protected JsonRequest jsonRequest;
     private SearchView buscarPlato;
     private RecyclerView listaPlatos;
-    private RecyclerView listaPedidos;
 
     private AdaptadorListaPlatos adaptadorListaPlatos;
     private AdaptadorListaPedidos adaptadorListaPedidos;
     private ArrayList<Plato> platosMenu;
     private Factura pedidoFactura;
     private boolean isDropped = false;
-    private Listener mListener;
-    TextView numeroMesa;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -85,7 +82,6 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
     {
 
     }
-
     public static MenuPlatosFragment newInstance(String param1, String param2)
     {
         MenuPlatosFragment fragment = new MenuPlatosFragment ();
@@ -114,7 +110,6 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
         this.pedidoFactura=new Factura ();
         this.buscarPlato = v.findViewById(R.id.searchBuscarPlato);
         this.listaPlatos = v.findViewById(R.id.listaPlatosMesas);
-        //this.listaPedidos = v.findViewById(R.id.listaPlatos);
 
         this.requestQueue =  VolleySingleton.getInstance(getContext ()).getRequestQueue();
         this.platosMenu = new ArrayList<Plato>();
@@ -123,8 +118,7 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
 
         this.listaPlatos.setLayoutManager(new GridLayoutManager(getContext(),5));
         this.listaPlatos.setAdapter(this.adaptadorListaPlatos);
-      //  this.listaPedidos.setLayoutManager(new GridLayoutManager(getContext(),5));
-       // this.listaPedidos.setAdapter(this.adaptadorListaPedidos);
+        this.listaPlatos.setOnDragListener(this);
 
         this.buscarPlato.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
         {
@@ -172,119 +166,13 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
                         public void onErrorResponse(VolleyError error)
                         {
                             error.printStackTrace ();
-//                            Toast.makeText(getContext (), "El usuario no esta registrado o contraseña incorrecta", Toast.LENGTH_SHORT).show();
                         }
                     });
-
                     requestQueue.add(jsonRequest);
                 }
                 return false;
             }
         });
-
-
-     /*   numeroMesa= v.findViewById(R.id.numeroMesa);
-        Bundle objetoPlato = getArguments();
-        Mesa mesa = null;
-        if(objetoPlato !=null)
-        {
-            mesa = (Mesa) objetoPlato.getSerializable("mesa");
-            numeroMesa.setText(mesa.getNumero());
-            int idmesa = mesa.getIdmesa ();
-            Map<String,String> params= new HashMap<String, String>();
-            Toast.makeText(getContext (), ""+idmesa, Toast.LENGTH_SHORT).show();
-            params.put("buscarPlatoMesa",idmesa+"");
-            JSONObject parameters = new JSONObject(params);
-            String url="http://openm.co/consultas/pedidos.php";
-            jsonRequest=new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
-            {
-                @Override
-                public void onResponse(JSONObject response)
-                {
-                    try
-                    {
-                        listaPedidos.setAdapter(adaptadorListaPedidos);
-                        SimpleDateFormat format=new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
-                        JSONArray datos = response.getJSONArray ("datos");
-                        if (datos.length ()>-1)
-                        {
-                            JSONObject pedido = datos.getJSONObject (0);
-                            int mesas_idmesas = pedido.getInt ("mesas_idmesas");
-                            String mesas_numero = pedido.getString ("mesas_numero");
-                            String estado = pedido.getString ("estado");
-                            double factura_pagado = pedido.getDouble ("factura_pagado");
-                            double factura_IVA = pedido.getDouble ("factura_IVA");
-                            String factura_fecha = pedido.getString ("factura_fecha");
-                            int factura_idfacturas = pedido.getInt ("factura_idfacturas");
-                            String pedidos_observacion = pedido.getString ("pedidos_observacion");
-                            int pedidos_cantidad = pedido.getInt ("pedidos_cantidad");
-                            int pedidos_idpedidos = pedido.getInt ("pedidos_idpedidos");
-                            int usuarios_idempleado = pedido.getInt ("usuarios_idempleado");
-                            String usuarios_identificacion = pedido.getString ("usuarios_identificacion");
-                            String usuarios_nombres = pedido.getString ("usuarios_nombres");
-                            String usuarios_apellidos = pedido.getString ("usuarios_apellidos");
-                            String usuarios_telefono = pedido.getString ("usuarios_telefono");
-                            String usuarios_cargo = pedido.getString ("usuarios_cargo");
-
-                            pedidoFactura.inicializarPedidos (mesas_idmesas,
-                                    mesas_numero,
-                                    estado,
-                                    factura_pagado,
-                                    factura_IVA,
-                                    format.parse (factura_fecha),
-                                    factura_idfacturas,
-                                    pedidos_observacion,
-                                    pedidos_cantidad,
-                                    pedidos_idpedidos,
-                                    usuarios_idempleado,
-                                    usuarios_identificacion,
-                                    usuarios_nombres,
-                                    usuarios_apellidos,
-                                    usuarios_telefono,
-                                    usuarios_cargo);
-                            pedidoFactura.limpiarLista ();
-                            for (int i = 0; i < datos.length (); i++)
-                            {
-                                JSONObject plato = datos.getJSONObject (i);
-                                String platos_imagen = plato.getString ("platos_imagen");
-                                double platos_precio = plato.getDouble ("platos_precio");
-                                String platos_descripcion = plato.getString ("platos_descripcion");
-                                String platos_nombre = plato.getString ("platos_nombre");
-                                String platos_categoria = plato.getString ("platos_categoria");
-                                int platos_idplatos = plato.getInt ("platos_idplatos");
-                                Plato platoDatos = new Plato (
-                                        platos_idplatos,
-                                        platos_categoria,
-                                        platos_nombre,
-                                        platos_descripcion,
-                                        platos_precio,
-                                        platos_imagen
-
-                                );
-                                pedidoFactura.agregarPlato (platoDatos);
-                            }
-                        }
-                    } catch (Exception e)
-                    {
-                        e.printStackTrace ();
-                    }
-                }
-
-            }, new Response.ErrorListener ()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
-                    error.printStackTrace ();
-                }
-            });
-            requestQueue.add(jsonRequest);
-        }*/
-        this.listaPlatos.setOnDragListener(this);
-       // this.listaPedidos.setOnDragListener(this);
-
-     //   this.listaPedidos.setOnDragListener(this);
-
         return v;
     }
 
@@ -308,22 +196,7 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
                v.setBackgroundColor(Color.YELLOW);
                 break;
             case DragEvent.ACTION_DROP:
-                if (pedidoFactura.getMesas_idmesas () !=0)
-                {
-                    int positionFuente = -1;
-                    View viewSource = (View) event.getLocalState();
-                    positionFuente = (int) viewSource.getTag();
-                    Plato customList = (Plato) adaptadorListaPlatos.getList ().get(positionFuente);
 
-                    Toast.makeText(getContext (), customList.getNombre (), Toast.LENGTH_SHORT).show();
-                    pedidoFactura.agregarPlato (customList);
-                    listaPedidos.setAdapter(adaptadorListaPedidos);
-                    v.setVisibility(View.VISIBLE);
-                }else
-                {
-                    Toast.makeText(getContext (), "Por favor selecciona una mesa", Toast.LENGTH_SHORT).show();
-                }
-                break;
             case DragEvent.ACTION_DRAG_ENDED:
                 v.setBackgroundColor(0);
                 break;

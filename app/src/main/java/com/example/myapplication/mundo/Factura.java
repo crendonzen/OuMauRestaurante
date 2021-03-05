@@ -5,6 +5,8 @@
  */
 package com.example.myapplication.mundo;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,7 +20,6 @@ public class Factura
     private Date factura_fecha;
     private int factura_idfacturas;
     private String pedidos_observacion;
-    private int pedidos_cantidad;
     private int pedidos_idpedidos;
     private int usuarios_idempleado;
     private String usuarios_identificacion;
@@ -33,7 +34,23 @@ public class Factura
         this.platos=new ArrayList<> ();
     }
 
-    public void inicializarPedidos(int mesas_idmesas, String mesas_numero, String estado, double factura_pagado, double factura_IVA, Date factura_fecha, int factura_idfacturas, String pedidos_observacion, int pedidos_cantidad, int pedidos_idpedidos, int usuarios_idempleado, String usuarios_identificacion, String usuarios_nombres, String usuarios_apellidos, String usuarios_telefono, String usuarios_cargo)
+    public void inicializarPedidos(
+        int mesas_idmesas,
+        String mesas_numero,
+        String estado,
+        double factura_pagado,
+        double factura_IVA,
+        Date factura_fecha,
+        int factura_idfacturas,
+        String pedidos_observacion,
+        int pedidos_idpedidos,
+        int usuarios_idempleado,
+        String usuarios_identificacion,
+        String usuarios_nombres,
+        String usuarios_apellidos,
+        String usuarios_telefono,
+        String usuarios_cargo
+    )
     {
         this.mesas_idmesas = mesas_idmesas;
         this.mesas_numero = mesas_numero;
@@ -43,7 +60,6 @@ public class Factura
         this.factura_fecha = factura_fecha;
         this.factura_idfacturas = factura_idfacturas;
         this.pedidos_observacion = pedidos_observacion;
-        this.pedidos_cantidad = pedidos_cantidad;
         this.pedidos_idpedidos = pedidos_idpedidos;
         this.usuarios_idempleado = usuarios_idempleado;
         this.usuarios_identificacion = usuarios_identificacion;
@@ -137,16 +153,6 @@ public class Factura
         this.pedidos_observacion = pedidos_observacion;
     }
 
-    public int getPedidos_cantidad()
-    {
-        return pedidos_cantidad;
-    }
-
-    public void setPedidos_cantidad(int pedidos_cantidad)
-    {
-        this.pedidos_cantidad = pedidos_cantidad;
-    }
-
     public int getPedidos_idpedidos()
     {
         return pedidos_idpedidos;
@@ -225,5 +231,19 @@ public class Factura
     public void limpiarLista()
     {
         this.platos.clear ();
+    }
+
+    public Plato buscarPlato(int idplato)
+    {
+        Plato miPlato=null;
+        for (Plato plato: this.platos)
+        {
+            if (plato.getIdplato ()== idplato)
+            {
+                miPlato=plato;
+                break;
+            }
+        }
+        return miPlato;
     }
 }

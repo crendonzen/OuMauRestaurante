@@ -26,7 +26,8 @@ public class Plato implements Serializable
 
 
 
-    
+    private int cantidad;
+
     public Plato(int idPlato, String categoria, String nombre, String descripcion, double precio, String  image)
     {
         this.idPlato = idPlato;
@@ -37,6 +38,16 @@ public class Plato implements Serializable
         this.image = image;
     }
 
+    public Plato(int idPlato, String categoria, String nombre, String descripcion, double precio, String  image, int cantidad)
+    {
+        this.idPlato = idPlato;
+        this.categoria = categoria;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.image = image;
+        this.cantidad=cantidad;
+    }
     public Plato(String categoria, String nombre, String descripcion, double precio, String  image)
     {
         this.categoria = categoria;
@@ -106,5 +117,13 @@ public class Plato implements Serializable
         this.image = image;
     }
 
+    public int getCantidad()
+    {
+        return cantidad;
+    }
 
+    public void setCantidad(int cantidad)
+    {
+        this.cantidad = cantidad;
+    }
 }

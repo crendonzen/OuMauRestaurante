@@ -7,17 +7,18 @@
     app:layoutDescription="@xml/fragment_platos_mesa_scene"
     tools:context=".interfaz.PedidosFragment">
 
+
     <fragment
         android:id="@+id/fragment2"
         android:name="com.example.myapplication.interfaz.MenuPlatosFragment"
-        android:layout_width="772dp"
-        android:layout_height="106dp"
+        android:layout_width="773dp"
+        android:layout_height="105dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="770dp"
+        android:layout_width="775dp"
         android:layout_height="696dp"
         android:background="#03881D1D"
         android:orientation="vertical"
@@ -31,8 +32,8 @@
 
             <ImageView
                 android:id="@+id/imageView14"
-                android:layout_width="773dp"
-                android:layout_height="698dp"
+                android:layout_width="779dp"
+                android:layout_height="697dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/fondoplatos"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +80,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
-                        android:id="@+id/imageButton3"
+                        android:id="@+id/btnActualizarPedido"
                         android:layout_width="59dp"
                         android:layout_height="72dp"
                         android:layout_marginEnd="12dp"

@@ -52,6 +52,7 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
         plato = this.list.get(position);
         holder.txtNombre.setText(list.get(position).getNombre ());
         holder.txtPrecio.setText(list.get(position).getPrecio ()+"");
+        holder.txtCantidadPlato.setText(list.get(position).getCantidad ()+"");
         Glide.with(inflater.getContext ())
                 .load(list.get(position).getImage ())
                 .into(holder.imgPlatos);
@@ -70,7 +71,7 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView txtNombre,txtPrecio,txtCategoria,txtObservacion;
+        TextView txtNombre,txtPrecio,txtCategoria,txtObservacion,txtCantidadPlato;
         Spinner spnCantidad;
         ImageView imgPlatos;
         public ViewHolder(@NonNull View itemView)
@@ -78,6 +79,7 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
             super(itemView);
             txtNombre=(TextView) itemView.findViewById(R.id.txtNombrePlato);
             txtPrecio=(TextView) itemView.findViewById(R.id.txtPrecio);
+            txtCantidadPlato=(TextView) itemView.findViewById(R.id.txtCantidadPlato);
             spnCantidad=(Spinner) itemView.findViewById(R.id.spnCantidad);
             imgPlatos=(ImageView) itemView.findViewById(R.id.imgPlatos);
         }
