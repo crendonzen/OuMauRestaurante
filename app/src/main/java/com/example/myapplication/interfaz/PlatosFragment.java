@@ -203,7 +203,7 @@ public class PlatosFragment extends Fragment {
 
 
 
-        recyclerView = v.findViewById(R.id.listaPlatos);
+       // recyclerView = v.findViewById(R.id.listaPlatos);
 
         platoslist = new ArrayList<>();
 

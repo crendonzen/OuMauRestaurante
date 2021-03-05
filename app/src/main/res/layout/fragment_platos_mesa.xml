@@ -1,103 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layoutDescription="@xml/fragment_platos_mesa_scene"
     tools:context=".interfaz.PedidosFragment">
+
+    <fragment
+        android:id="@+id/fragment2"
+        android:name="com.example.myapplication.interfaz.MenuPlatosFragment"
+        android:layout_width="772dp"
+        android:layout_height="106dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="773dp"
-        android:layout_height="432dp"
+        android:layout_width="770dp"
+        android:layout_height="696dp"
         android:background="#03881D1D"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:background="#038A2222">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="418dp"
-                android:background="#038A2222">
+            <ImageView
+                android:id="@+id/imageView14"
+                android:layout_width="773dp"
+                android:layout_height="698dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/fondoplatos"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/imageView14"
-                    android:layout_width="1029dp"
-                    android:layout_height="489dp"
-                    android:src="@mipmap/fondoplatos"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <ScrollView
+                android:layout_width="737dp"
+                android:layout_height="304dp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageView14">
 
-                <ScrollView
-                    android:layout_width="737dp"
-                    android:layout_height="304dp"
-                    app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/imageView14">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lista_pedidos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </ScrollView>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/listaPlatosMesas"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </ScrollView>
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="769dp"
+                android:layout_height="67dp"
+                android:background="#8B706E6E"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-                <LinearLayout
-                    android:id="@+id/linearLayout4"
-                    android:layout_width="769dp"
-                    android:layout_height="67dp"
-                    android:background="#8B706E6E"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/numero_Mesa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Número de mesa"
+                        android:textColor="#FAF8F8"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/textView16"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="28dp"
-                            android:layout_marginTop="24dp"
-                            android:text="Número de mesa"
-                            android:textColor="#FAF8F8"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                    <ImageButton
+                        android:id="@+id/imageButton3"
+                        android:layout_width="59dp"
+                        android:layout_height="72dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@mipmap/botonact"
+                        app:layout_constraintEnd_toStartOf="@+id/imageButton6"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageButton
-                            android:id="@+id/imageButton3"
-                            android:layout_width="59dp"
-                            android:layout_height="72dp"
-                            android:layout_marginEnd="12dp"
-                            android:src="@mipmap/botonact"
-                            app:layout_constraintEnd_toStartOf="@+id/imageButton6"
-                            app:layout_constraintTop_toTopOf="parent" />
+                    <ImageButton
+                        android:id="@+id/imageButton6"
+                        android:layout_width="69dp"
+                        android:layout_height="67dp"
+                        android:layout_marginEnd="16dp"
+                        android:src="@mipmap/botonfactura"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
-                        <ImageButton
-                            android:id="@+id/imageButton6"
-                            android:layout_width="69dp"
-                            android:layout_height="67dp"
-                            android:layout_marginEnd="16dp"
-                            android:src="@mipmap/botonfactura"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.0" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>

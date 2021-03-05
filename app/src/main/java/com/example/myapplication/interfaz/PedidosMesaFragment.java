@@ -115,7 +115,7 @@ public class PedidosMesaFragment extends Fragment
         this.buscarMesa = v.findViewById(R.id.searchBuscarPlato);
         this.listaMesas = v.findViewById(R.id.listaPlatosMesas);
         this.mesasDesocupadas= v.findViewById(R.id.listaMesasDesocupadas);
-        numeroMesa=v.findViewById(R.id.numeroMesa);
+       // numeroMesa=v.findViewById(R.id.numeroMesa);
         this.requestQueue = Volley.newRequestQueue(getContext());
         this.mesasDes = new ArrayList<Mesa>();
         this.mesasDesAux=new ArrayList<Mesa>();

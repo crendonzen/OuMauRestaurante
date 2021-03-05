@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView nombreUsuario;
     ImageButton menu,agregarPedido,pedidos;
 
-    private MenuPlatosFragment menuPlatosFragment;
+    private PlatosMesaFragment platosMesaFragment;
     private DetallePlatoFragment detallePlatoFragment;
 
 
@@ -176,16 +176,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void enviarMesa(Mesa mesa)
     {
-        menuPlatosFragment = new MenuPlatosFragment();
+        platosMesaFragment = new PlatosMesaFragment();
         Bundle bundleEnvio = new Bundle();
         bundleEnvio.putSerializable("mesa", mesa);
-        menuPlatosFragment.setArguments(bundleEnvio);
+        platosMesaFragment.setArguments(bundleEnvio);
 
 
         //CArgar fragment en el activity
        fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment, menuPlatosFragment);
+        fragmentTransaction.replace(R.id.nav_host_fragment, platosMesaFragment);
 
         fragmentTransaction.commit();
     }
