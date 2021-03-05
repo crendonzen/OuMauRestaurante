@@ -114,7 +114,7 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
         this.pedidoFactura=new Factura ();
         this.buscarPlato = v.findViewById(R.id.searchBuscarPlato);
         this.listaPlatos = v.findViewById(R.id.listaPlatosMesas);
-        this.listaPedidos = v.findViewById(R.id.listaPlatos);
+        //this.listaPedidos = v.findViewById(R.id.listaPlatos);
 
 
         this.requestQueue =  VolleySingleton.getInstance(getContext ()).getRequestQueue();
@@ -124,8 +124,8 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
 
         this.listaPlatos.setLayoutManager(new GridLayoutManager(getContext(),5));
         this.listaPlatos.setAdapter(this.adaptadorListaPlatos);
-        this.listaPedidos.setLayoutManager(new GridLayoutManager(getContext(),5));
-        this.listaPedidos.setAdapter(this.adaptadorListaPedidos);
+      //  this.listaPedidos.setLayoutManager(new GridLayoutManager(getContext(),5));
+       // this.listaPedidos.setAdapter(this.adaptadorListaPedidos);
 
 
         this.buscarPlato.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
@@ -185,7 +185,7 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
         });
 
 
-        numeroMesa= v.findViewById(R.id.numeroMesa);
+     /*   numeroMesa= v.findViewById(R.id.numeroMesa);
         Bundle objetoPlato = getArguments();
         Mesa mesa = null;
         if(objetoPlato !=null)
@@ -282,10 +282,10 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
                 }
             });
             requestQueue.add(jsonRequest);
-        }
+        }*/
         this.listaPlatos.setOnDragListener(this);
 
-        this.listaPedidos.setOnDragListener(this);
+     //   this.listaPedidos.setOnDragListener(this);
 
         return v;
     }

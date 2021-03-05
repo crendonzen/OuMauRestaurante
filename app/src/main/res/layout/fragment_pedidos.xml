@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/fragment3"
-        android:name="com.example.myapplication.interfaz.MenuPlatosFragment"
+        android:name="com.example.myapplication.interfaz.PlatosMesaFragment"
         android:layout_width="760dp"
         android:layout_height="802dp"
         app:layout_constraintEnd_toEndOf="parent"
