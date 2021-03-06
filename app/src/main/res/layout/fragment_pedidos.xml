@@ -18,8 +18,8 @@
     <fragment
         android:id="@+id/fragment9"
         android:name="com.example.myapplication.interfaz.PlatosMesaFragment"
-        android:layout_width="756dp"
-        android:layout_height="802dp"
+        android:layout_width="759dp"
+        android:layout_height="800dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
