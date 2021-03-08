@@ -24,6 +24,7 @@ import androidx.navigation.Navigation;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -109,6 +112,7 @@ public class AgregarPlatoFragment extends Fragment
     {
         View view= inflater.inflate(R.layout.fragment_agregar_plato, container, false);
         this.imagenPlato =(ImageView) view.findViewById(R.id.imgPlato);
+
         this.imagenPlato.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v)
@@ -176,30 +180,31 @@ public class AgregarPlatoFragment extends Fragment
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
-    {
-        super.onViewCreated (view, savedInstanceState);
-
-    }
 
     public void cargarImagen()
     {
         Intent intent=new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.createChooser(intent,"Seleccione la Aplicación");
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent,COD_SELECCIONA);
     }
 
     public void agregarPlato()
     {
         String rutaImg="";
+        double precio=0;
         String nombre=this.nombrePlato.getText().toString ();
-        double precio= Double.parseDouble(precioPlato.getText().toString());
+        try
+        {
+            precio= Double.parseDouble(precioPlato.getText().toString());
+        }catch (Exception e)
+        {
+            Toast.makeText(getContext(), "Escriba un precio de plato valida",Toast.LENGTH_SHORT).show();
+        }
+
         Object select = this.categoriaPalto.getSelectedItem ();
         String descripcion = this.descripcionPlato.getText ().toString ();
-        if (rutaImg.isEmpty ())
+        if (bitmap==null)
         {
             Toast.makeText(getContext(), "Seleccione una imagen valida",Toast.LENGTH_SHORT).show();
         }else if ((select instanceof  String))
@@ -216,12 +221,11 @@ public class AgregarPlatoFragment extends Fragment
             Toast.makeText(getContext(), "Escriba una descripcon del plato valida",Toast.LENGTH_SHORT).show();
         }else
         {
-            String URL="http://192.168.56.1//restaurante/platos/ingreso.php?nombre="+nombre+"&precio="+precio+"";
+            String url="http://openm.co/consultas/platos.php";
             RequestQueue servicio= Volley.newRequestQueue(getContext());
             Map<String,String> params= new HashMap<String, String> ();
-
+            rutaImg=convertirImageToString (bitmap);
             params.put("imagen",rutaImg);
-            params.put("nombreImagen",rutaImg);
             params.put("categoria",select.toString());
             params.put("nombre",nombre);
             params.put("precio",precio+"");
@@ -235,11 +239,11 @@ public class AgregarPlatoFragment extends Fragment
                 @Override
                 public void onResponse(JSONObject response)
                 {
-                    if (response!=null)
-                    {
-                        Toast.makeText(getContext(), "Plato registrado con existo",Toast.LENGTH_SHORT).show();
-                        limpiar();
-                    }
+            if (response!=null)
+            {
+                Toast.makeText(getContext(), "Plato registrado con existo",Toast.LENGTH_SHORT).show();
+                limpiar();
+            }
                 }
             }, new Response.ErrorListener ()
             {
@@ -248,6 +252,14 @@ public class AgregarPlatoFragment extends Fragment
             });
             servicio.add(jsonRequest);
         }
+    }
+    private String convertirImageToString(Bitmap bitmap)
+    {
+        ByteArrayOutputStream array=new ByteArrayOutputStream();
+        bitmap.compress (Bitmap.CompressFormat.PNG, 100, array);
+        byte[] imagenByte=array.toByteArray ();
+        String imagenString= Base64.encodeToString (imagenByte, Base64.DEFAULT);
+        return imagenString;
     }
 
 
@@ -285,8 +297,6 @@ public class AgregarPlatoFragment extends Fragment
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagen));
         }
         startActivityForResult(intent,COD_FOTO);
-
-        ////
     }
 
     @Override
@@ -298,16 +308,16 @@ public class AgregarPlatoFragment extends Fragment
             switch (requestCode)
             {
                 case COD_SELECCIONA:
-/*
-                    Bundle bundle = data.getExtras();
-                    Bitmap bitma = bundle.getParcelable("data");
-                    imagenPlato.setImageBitmap(bitma);
-*/
                     miPath=data.getData();
-                    selectedImagePath = getPath(miPath);
-                    System.out.println (selectedImagePath+" URL");
-                    System.out.println (miPath+" URL");
                     imagenPlato.setImageURI (miPath);
+                    try
+                    {
+                        bitmap=MediaStore.Images.Media.getBitmap (getContext ().getContentResolver (),miPath);
+                        imagenPlato.setImageBitmap(bitmap);
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace ();
+                    }
                     break;
                 case COD_FOTO:
                     MediaScannerConnection.scanFile(getContext (), new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener()
