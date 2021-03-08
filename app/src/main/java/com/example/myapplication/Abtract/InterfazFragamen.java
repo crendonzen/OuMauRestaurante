@@ -5,7 +5,7 @@ import com.example.myapplication.mundo.Plato;
 
 public interface InterfazFragamen
 {
-    public void enviarMesa(Mesa mesa); //se transportara un objeto de tipo persona
+
     public void enviarPlato(Plato plato);
 
 }

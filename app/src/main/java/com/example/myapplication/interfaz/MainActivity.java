@@ -30,7 +30,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InterfazFragamen {
     Button cerrarSesion;
     private AppBarConfiguration mAppBarConfiguration;
     FragmentManager fragmentManager;
@@ -175,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return false;
     }
-
 
 
 

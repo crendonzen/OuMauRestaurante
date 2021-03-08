@@ -61,8 +61,8 @@
             android:id="@+id/action_platosFragment_to_agregarPlatoFragment2"
             app:destination="@id/agregarPlatoFragment" />
         <action
-            android:id="@+id/action_platosFragment_to_listaPlatosFragment"
-            app:destination="@id/listaPlatosFragment" />
+            android:id="@+id/action_platosFragment_to_detallePlatoFragment"
+            app:destination="@id/detallePlatoFragment" />
     </fragment>
     <fragment
         android:id="@+id/agregarPlatoFragment"
@@ -79,9 +79,6 @@
         android:label="fragment_lista_platos"
         tools:layout="@layout/fragment_lista_platos" >
         <action
-            android:id="@+id/action_listaPlatosFragment_to_platosFragment"
-            app:destination="@id/platosFragment" />
-        <action
             android:id="@+id/action_listaPlatosFragment_to_detallePlatoFragment"
             app:destination="@id/detallePlatoFragment" />
     </fragment>
@@ -93,6 +90,9 @@
         <action
             android:id="@+id/action_detallePlatoFragment_to_listaPlatosFragment"
             app:destination="@id/listaPlatosFragment" />
+        <action
+            android:id="@+id/action_detallePlatoFragment_to_platosFragment2"
+            app:destination="@id/platosFragment" />
     </fragment>
     <fragment
         android:id="@+id/listaMenuFragment"

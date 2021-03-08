@@ -34,6 +34,46 @@
             motion:touchAnchorId="@+id/imageView3"
             motion:touchAnchorSide="bottom" />
         <OnSwipe motion:touchAnchorId="@+id/AgregarPedido" />
+        <OnSwipe
+            motion:touchAnchorId="@+id/AgregarPedido"
+            motion:touchAnchorSide="bottom" />
+        <OnSwipe
+            motion:touchAnchorId="@+id/AgregarPedido"
+            motion:dragDirection="dragDown"
+            motion:touchAnchorSide="bottom" />
+        <OnSwipe
+            motion:touchAnchorId="@+id/AgregarPedido"
+            motion:touchAnchorSide="bottom" />
+        <OnSwipe
+            motion:touchAnchorId="@+id/AgregarPedido"
+            motion:dragDirection="dragDown"
+            motion:touchAnchorSide="bottom" />
+        <OnSwipe
+            motion:touchAnchorId="@+id/AgregarPedido"
+            motion:dragDirection="dragDown"
+            motion:touchAnchorSide="bottom" />
+        <OnSwipe
+            motion:touchAnchorId="@+id/AgregarPedido"
+            motion:touchAnchorSide="bottom" />
+        <OnSwipe
+            motion:touchAnchorId="@+id/AgregarPedido"
+            motion:dragDirection="dragDown"
+            motion:touchAnchorSide="bottom" />
+        <OnSwipe
+            motion:touchAnchorId="@+id/AgregarPedido"
+            motion:dragDirection="dragDown"
+            motion:touchAnchorSide="bottom" />
+        <OnSwipe
+            motion:touchAnchorId="@+id/AgregarPedido"
+            motion:touchAnchorSide="bottom" />
+        <OnSwipe motion:touchAnchorId="@+id/AgregarPedido" />
+        <OnSwipe
+            motion:touchAnchorId="@+id/AgregarPedido"
+            motion:dragDirection="dragDown"
+            motion:touchAnchorSide="bottom" />
+        <OnSwipe
+            motion:touchAnchorId="@+id/AgregarPedido"
+            motion:touchAnchorSide="bottom" />
 
 
     </Transition>
@@ -60,8 +100,8 @@
         <Constraint
             android:id="@+id/scrollView3"
             motion:layout_constraintEnd_toEndOf="@+id/linearLayout"
-            android:layout_width="500dp"
-            android:layout_height="524dp"
+            android:layout_width="512dp"
+            android:layout_height="504dp"
             android:layout_marginEnd="37dp"
             motion:layout_constraintTop_toBottomOf="@+id/searchBuscarPlato"
             android:layout_marginStart="16dp"
@@ -79,14 +119,13 @@
             android:alpha="1" />
         <Constraint
             android:id="@+id/AgregarPedido"
-            android:layout_width="534dp"
-            android:layout_height="169dp"
+            android:layout_width="533dp"
+            android:layout_height="149dp"
             android:alpha="1"
             android:layout_marginEnd="57dp"
             motion:layout_constraintEnd_toEndOf="@+id/linearLayout"
-            android:layout_marginTop="105dp"
             motion:layout_constraintTop_toBottomOf="@+id/scrollView3"
-            motion:layout_editor_absoluteY="772dp" />
+            android:layout_marginTop="13dp" />
         <Constraint
             android:id="@+id/imageView3"
             android:layout_width="518dp"
@@ -101,11 +140,11 @@
             android:id="@+id/imageView13"
             motion:layout_editor_absoluteY="803dp" />
         <Constraint
-            android:layout_width="537dp"
-            android:layout_height="957dp"
+            android:layout_width="539dp"
+            android:layout_height="724dp"
             android:id="@+id/imageView2"
             motion:layout_constraintTop_toTopOf="parent"
-            motion:layout_editor_absoluteY="8dp" />
+            motion:layout_editor_absoluteY="0dp" />
         <Constraint
             motion:layout_editor_absoluteX="32dp"
             android:id="@+id/imageView15"
@@ -159,26 +198,26 @@
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintVertical_bias="0.0"
             motion:layout_constraintBottom_toTopOf="@+id/scrollView2"
-            android:layout_marginTop="32dp" />
+            android:layout_marginTop="1702dp" />
         <Constraint
             android:id="@+id/scrollView2"
-            android:layout_width="509dp"
-            android:layout_height="595dp"
+            android:layout_width="497dp"
+            android:layout_height="617dp"
             motion:layout_constraintStart_toStartOf="parent"
             android:alpha="1"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             motion:layout_constraintBottom_toBottomOf="@+id/imageView13"
-            motion:layout_editor_absoluteY="205dp" />
+            motion:layout_editor_absoluteY="103dp" />
         <Constraint
-            android:layout_width="509dp"
-            android:layout_height="595dp"
+            android:layout_width="497dp"
+            android:layout_height="617dp"
             motion:layout_constraintStart_toStartOf="parent"
             android:id="@+id/scrollView2"
             motion:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            motion:layout_editor_absoluteY="205dp"
+            motion:layout_editor_absoluteY="103dp"
             motion:layout_constraintTop_toTopOf="@+id/AgregarPedido"
             android:layout_marginTop="205dp" />
         <Constraint

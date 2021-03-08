@@ -29,28 +29,28 @@
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent" />
         <Constraint
-            android:layout_height="763dp"
+            android:layout_height="589dp"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="776dp"
+            android:layout_width="777dp"
             android:id="@+id/imageView14"
             motion:layout_constraintTop_toBottomOf="@+id/fragment10"
-            motion:layout_editor_absoluteY="78dp"
+            motion:layout_editor_absoluteY="31dp"
             motion:layout_editor_absoluteX="582dp" />
         <Constraint
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="776dp"
-            android:layout_height="763dp"
+            android:layout_width="777dp"
+            android:layout_height="589dp"
             motion:layout_constraintTop_toBottomOf="@+id/fragment10"
             android:id="@+id/imageView14"
             android:layout_marginTop="0dp"
-            motion:layout_editor_absoluteY="78dp"
+            motion:layout_editor_absoluteY="31dp"
             motion:layout_editor_absoluteX="582dp" />
         <Constraint
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="769dp"
             android:layout_height="67dp"
             motion:layout_constraintBottom_toBottomOf="@+id/imageView14"
-            android:layout_marginBottom="78dp"
+            android:layout_marginBottom="0dp"
             android:id="@+id/linearLayout4" />
     </ConstraintSet>
 
@@ -65,29 +65,31 @@
         <Constraint
             android:id="@+id/imageView14"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="771dp"
-            android:layout_height="694dp"
+            android:layout_width="781dp"
+            android:layout_height="391dp"
             android:alpha="1"
-            motion:layout_constraintTop_toBottomOf="@+id/fragment10" />
+            motion:layout_constraintTop_toBottomOf="@+id/fragment10"
+            motion:layout_editor_absoluteY="573dp" />
         <Constraint
             android:id="@+id/imageView14"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="771dp"
-            android:layout_height="694dp"
+            android:layout_width="781dp"
+            android:layout_height="391dp"
             android:alpha="1"
-            motion:layout_constraintTop_toBottomOf="@+id/fragment10" />
+            motion:layout_constraintTop_toBottomOf="@+id/fragment10"
+            motion:layout_editor_absoluteY="573dp" />
         <Constraint
             android:id="@+id/scrollView5"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="729dp"
-            android:layout_height="297dp"
+            android:layout_width="733dp"
+            android:layout_height="215dp"
             motion:layout_constraintBottom_toTopOf="@+id/linearLayout4"
             android:layout_marginEnd="28dp"
             android:alpha="1"
             android:layout_marginBottom="8dp"
             android:layout_marginRight="28dp"
             motion:layout_editor_absoluteX="504dp"
-            motion:layout_editor_absoluteY="389dp" />
+            motion:layout_editor_absoluteY="325dp" />
         <Constraint
             motion:layout_editor_absoluteY="696dp"
             android:layout_height="67dp"
@@ -97,8 +99,8 @@
         <Constraint
             android:id="@+id/fragment10"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="773dp"
-            android:layout_height="335dp"
+            android:layout_width="768dp"
+            android:layout_height="270dp"
             motion:layout_constraintTop_toTopOf="parent"
             android:alpha="1" />
     </ConstraintSet>
