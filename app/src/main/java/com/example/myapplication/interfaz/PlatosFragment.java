@@ -111,7 +111,7 @@ public class PlatosFragment extends Fragment {
         this.platosMenu = new ArrayList<Plato>();
         this.adaptadorListaPlatosMenu = new AdaptadorListaPlatosMenu (getContext (),this.platosMenu);
         listaPlatos.setAdapter(adaptadorListaPlatosMenu);
-        this.listaPlatos.setLayoutManager(new GridLayoutManager(getContext(),2));
+        this.listaPlatos.setLayoutManager(new GridLayoutManager(getContext(),4));
 
 
       this.buscarPlato.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
