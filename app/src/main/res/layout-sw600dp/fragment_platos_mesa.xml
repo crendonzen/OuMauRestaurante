@@ -18,20 +18,19 @@
 
     <ImageView
         android:id="@+id/imageView14"
-        android:layout_width="774dp"
-        android:layout_height="592dp"
+        android:layout_width="697dp"
+        android:layout_height="578dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/fondoplatos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment10" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment10"
+        tools:layout_editor_absoluteX="506dp" />
 
     <ScrollView
         android:id="@+id/scrollView5"
-        android:layout_width="753dp"
-        android:layout_height="452dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="691dp"
+        android:layout_height="495dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="@+id/imageView14">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -52,12 +51,12 @@
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="769dp"
-        android:layout_height="67dp"
+        android:layout_width="700dp"
+        android:layout_height="72dp"
         android:background="#8B706E6E"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/imageView14"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintStart_toStartOf="@+id/imageView14">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -78,22 +77,20 @@
                 android:id="@+id/btnActualizarPedido"
                 android:layout_width="59dp"
                 android:layout_height="72dp"
-                android:layout_marginEnd="12dp"
                 android:src="@mipmap/botonact"
-                app:layout_constraintEnd_toStartOf="@+id/imageButton6"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/imageButton6"
-                android:layout_width="69dp"
-                android:layout_height="67dp"
-                android:layout_marginEnd="16dp"
-                android:src="@mipmap/botonfactura"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout8"
+        android:layout_width="85dp"
+        android:layout_height="575dp"
+        android:background="#650404"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment10"></LinearLayout>
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
