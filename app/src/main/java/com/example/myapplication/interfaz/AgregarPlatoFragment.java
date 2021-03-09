@@ -166,16 +166,15 @@ public class AgregarPlatoFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                agregarPlato();
-                limpiar();
-                Navigation.findNavController(v).navigate(R.id.action_agregarPlatoFragment_to_platosFragment);
+                agregarPlato(v);
             }
         });
         if(validaPermisos())
         {
             buscarImage.setEnabled(true);
-        }else{
-            //buscarImage.setEnabled(false);
+        }else
+        {
+            buscarImage.setEnabled(false);
         }
         return view;
     }
@@ -189,70 +188,71 @@ public class AgregarPlatoFragment extends Fragment
         startActivityForResult(intent,COD_SELECCIONA);
     }
 
-    public void agregarPlato()
+    public void agregarPlato(final View v)
     {
-        String rutaImg="";
-        double precio=0;
-        String nombre=this.nombrePlato.getText().toString ();
         try
         {
-            precio= Double.parseDouble(precioPlato.getText().toString());
+            String rutaImg="";
+            String nombre=this.nombrePlato.getText().toString ();
+            double precio= Double.parseDouble(precioPlato.getText().toString());
+            Object select = this.categoriaPalto.getSelectedItem ();
+            String descripcion = this.descripcionPlato.getText ().toString ();
+            if (bitmap==null)
+            {
+                Toast.makeText(getContext(), "Seleccione una imagen valida",Toast.LENGTH_SHORT).show();
+            }else if (!(select instanceof  Object))
+            {
+                Toast.makeText(getContext(), "Seleccione una categoria valida",Toast.LENGTH_SHORT).show();
+            }else if (nombre.isEmpty ())
+            {
+                Toast.makeText(getContext(), "Escriba un nombre de plato valida",Toast.LENGTH_SHORT).show();
+            }else if (precio<0)
+            {
+                Toast.makeText(getContext(), "Escriba un precio de plato valida ",Toast.LENGTH_SHORT).show();
+            }else if (descripcion.isEmpty ())
+            {
+                Toast.makeText(getContext(), "Escriba una descripcon del plato valida",Toast.LENGTH_SHORT).show();
+            }else
+            {
+                String URL="https://openm.co/consultas/platos.php";
+
+                RequestQueue servicio= Volley.newRequestQueue(getContext());
+                Map<String,String> params= new HashMap<String, String> ();
+                rutaImg=convertirImageToString (bitmap);
+                params.put("imagen",rutaImg);
+                params.put("categoria",select.toString());
+                params.put("nombre",nombre);
+                params.put("precio",precio+"");
+                params.put("descripcion",descripcion);
+                params.put("agregarPlato","true");
+
+                JSONObject parameters = new JSONObject(params);
+
+                JsonRequest jsonRequest=new JsonObjectRequest (Request.Method.POST, URL, parameters, new Response.Listener<JSONObject> ()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        if (response!=null)
+                        {
+                            Toast.makeText(getContext(), "Plato registrado con existo",Toast.LENGTH_SHORT).show();
+                            limpiar();
+                            Navigation.findNavController(v).navigate(R.id.action_agregarPlatoFragment_to_platosFragment);
+                        }
+                    }
+                }, new Response.ErrorListener ()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error){error.printStackTrace (); }
+                });
+                servicio.add(jsonRequest);
+            }
         }catch (Exception e)
         {
             Toast.makeText(getContext(), "Escriba un precio de plato valida",Toast.LENGTH_SHORT).show();
         }
-
-        Object select = this.categoriaPalto.getSelectedItem ();
-        String descripcion = this.descripcionPlato.getText ().toString ();
-        if (bitmap==null)
-        {
-            Toast.makeText(getContext(), "Seleccione una imagen valida",Toast.LENGTH_SHORT).show();
-        }else if ((select instanceof  String))
-        {
-            Toast.makeText(getContext(), "Seleccione una categoria valida",Toast.LENGTH_SHORT).show();
-        }else if (!nombre.isEmpty ())
-        {
-            Toast.makeText(getContext(), "Escriba un nombre de plato valida",Toast.LENGTH_SHORT).show();
-        }else if (precio<0)
-        {
-            Toast.makeText(getContext(), "Escriba un precio de plato valida",Toast.LENGTH_SHORT).show();
-        }else if (descripcion.isEmpty ())
-        {
-            Toast.makeText(getContext(), "Escriba una descripcon del plato valida",Toast.LENGTH_SHORT).show();
-        }else
-        {
-            String url="http://openm.co/consultas/platos.php";
-            RequestQueue servicio= Volley.newRequestQueue(getContext());
-            Map<String,String> params= new HashMap<String, String> ();
-            rutaImg=convertirImageToString (bitmap);
-            params.put("imagen",rutaImg);
-            params.put("categoria",select.toString());
-            params.put("nombre",nombre);
-            params.put("precio",precio+"");
-            params.put("descripcion",descripcion);
-            params.put("agregarPlato","true");
-
-            JSONObject parameters = new JSONObject(params);
-
-            JsonRequest jsonRequest=new JsonObjectRequest (Request.Method.POST, URL, parameters, new Response.Listener<JSONObject> ()
-            {
-                @Override
-                public void onResponse(JSONObject response)
-                {
-            if (response!=null)
-            {
-                Toast.makeText(getContext(), "Plato registrado con existo",Toast.LENGTH_SHORT).show();
-                limpiar();
-            }
-                }
-            }, new Response.ErrorListener ()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error){error.printStackTrace (); }
-            });
-            servicio.add(jsonRequest);
-        }
     }
+
     private String convertirImageToString(Bitmap bitmap)
     {
         ByteArrayOutputStream array=new ByteArrayOutputStream();
@@ -261,8 +261,6 @@ public class AgregarPlatoFragment extends Fragment
         String imagenString= Base64.encodeToString (imagenByte, Base64.DEFAULT);
         return imagenString;
     }
-
-
 
     private void tomarFotografia()
     {
@@ -328,7 +326,7 @@ public class AgregarPlatoFragment extends Fragment
                             Log.i("Ruta de almacenamiento","Path: "+path);
                         }
                     });
-                    Bitmap bitmap= BitmapFactory.decodeFile(path);
+                    bitmap= BitmapFactory.decodeFile(path);
                     imagenPlato.setImageBitmap(bitmap);
                     break;
             }
@@ -456,26 +454,4 @@ public class AgregarPlatoFragment extends Fragment
         nombrePlato.setText("");
         precioPlato.setText("");
     }
-
-/*
-    @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
-        // Save the image bitmap into outState
-       Bitmap bitmap = ((BitmapDrawable)imagenPlato.getDrawable()).getBitmap();
-      outState.putParcelable("bitmap", bitmap);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
-        super.onActivityCreated(savedInstanceState);
-        // Read the bitmap from the savedInstanceState and set it to the ImageView
-        if (savedInstanceState != null)
-        {
-            Bitmap bitmap = (Bitmap) savedInstanceState.getParcelable("bitmap");
-            imagenPlato.setImageBitmap(bitmap);
-        }
-    }*/
 }
