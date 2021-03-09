@@ -120,6 +120,7 @@ public class PedidosMesaFragment extends Fragment
         this.mesasDesocupadas.setLayoutManager (new LinearLayoutManager (getContext ()));
         this.adaptadorListaMesaDesocupada = new AdaptadorListaMesaDesocupada (getContext (), this.mesasDes);
         this.mesasDesocupadas.setAdapter (adaptadorListaMesaDesocupada);
+        listaMesas.setAdapter(adaptadorListaMesa);
         this.listaMesas.setLayoutManager (new GridLayoutManager (getContext (), 3));
 
 /*
@@ -201,7 +202,7 @@ public class PedidosMesaFragment extends Fragment
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    mesasDesocupadas.setAdapter (adaptadorListaMesaDesocupada);
+
                     JSONArray datos = response.getJSONArray ("datos");
                     for (int i = 0; i < datos.length (); i++) {
                         JSONObject mesa = datos.getJSONObject (i);
@@ -217,10 +218,10 @@ public class PedidosMesaFragment extends Fragment
                     if (mesasDesAux.size () != cantMesas) {
                         mesasDes.clear ();
                         String numero = mesasDesAux.get (mesasDesAux.size () - 1).getNumero ();
-                        //  Toast.makeText(getContext (),"Mesa "+numero+" ha sido ocupada", Toast.LENGTH_SHORT).show();
                         mesasDes.addAll (mesasDesAux);
                         cantMesas = mesasDes.size ();
                     }
+                    adaptadorListaMesaDesocupada.notifyDataSetChanged ();
 
                 } catch (JSONException e) {
                     e.printStackTrace ();
@@ -256,7 +257,6 @@ public class PedidosMesaFragment extends Fragment
                 {
                     if (response!=null)
                     {
-                        listaMesas.setAdapter(adaptadorListaMesa);
                         JSONArray datos = response.getJSONArray ("datos");
                         for (int i = 0; i < datos.length(); i++)
                         {
@@ -276,6 +276,7 @@ public class PedidosMesaFragment extends Fragment
                             mesas.addAll(mesasAux);
                             cantMesas=mesas.size ();
                         }
+                        adaptadorListaMesa.notifyDataSetChanged ();
                     }
                 } catch (JSONException e)
                 {

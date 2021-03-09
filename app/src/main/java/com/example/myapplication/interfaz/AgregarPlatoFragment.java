@@ -170,8 +170,6 @@ public class AgregarPlatoFragment extends Fragment
     {
         try
         {
-            final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando plato...","Espere por favor...",false,false);
-
             String rutaImg="";
             String nombre=this.nombrePlato.getText().toString ();
             double precio= Double.parseDouble(precioPlato.getText().toString());
@@ -194,6 +192,8 @@ public class AgregarPlatoFragment extends Fragment
                 Toast.makeText(getContext(), "Escriba una descripcon del plato valida",Toast.LENGTH_SHORT).show();
             }else
             {
+                final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando plato...","Espere por favor...",false,false);
+
                 String URL="https://openm.co/consultas/platos.php";
 
                 RequestQueue servicio= Volley.newRequestQueue(getContext());
