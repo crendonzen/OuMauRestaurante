@@ -18,19 +18,19 @@
 
     <ImageView
         android:id="@+id/imageView14"
-        android:layout_width="697dp"
-        android:layout_height="578dp"
+        android:layout_width="773dp"
+        android:layout_height="584dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/fondoplatos"
         app:layout_constraintTop_toBottomOf="@+id/fragment10"
-        tools:layout_editor_absoluteX="506dp" />
+        tools:layout_editor_absoluteX="507dp" />
 
     <ScrollView
         android:id="@+id/scrollView5"
         android:layout_width="691dp"
         android:layout_height="495dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintEnd_toEndOf="@+id/imageView14">
+        app:layout_constraintStart_toStartOf="@+id/imageView14">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -38,11 +38,11 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/lista_pedidos"
-                android:layout_width="723dp"
-                android:layout_height="546dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="528dp"
+                android:layout_height="460dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.098"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,11 +51,12 @@
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="700dp"
-        android:layout_height="72dp"
+        android:layout_width="783dp"
+        android:layout_height="73dp"
         android:background="#8B706E6E"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/imageView14"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageView14">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -85,12 +86,38 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout8"
-        android:layout_width="85dp"
-        android:layout_height="575dp"
-        android:background="#650404"
+        android:id="@+id/linearLayout9"
+        android:layout_width="180dp"
+        android:layout_height="574dp"
+        android:background="#FDFCFC"
         android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@+id/imageView14"
+        app:layout_constraintTop_toBottomOf="@+id/fragment10">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F52C2B2B">
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="270dp"
+                android:layout_height="586dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ffactura"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="73dp"
+        android:layout_height="81dp"
+        android:background="#00FFFFFF"
+        android:src="@mipmap/botonfactura"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment10"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/fragment10" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
