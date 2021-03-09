@@ -2,6 +2,7 @@ package com.example.myapplication.interfaz;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,18 +10,15 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -31,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -42,18 +39,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.example.myapplication.Abtract.InterfazFragamen;
 import com.example.myapplication.R;
-import com.example.myapplication.mundo.Mesa;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -64,16 +54,10 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class AgregarPlatoFragment extends Fragment
 {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
-
     private final String CARPETA_RAIZ = "misImagenesPrueba/";
     private final String RUTA_IMAGEN = CARPETA_RAIZ + "misFotos";
-
-    final int COD_SELECCIONA = 10;
-    final int COD_FOTO = 20;
+    private final int COD_SELECCIONA = 10;
+    private final int COD_FOTO = 20;
 
     private ImageView imagenPlato;
     private EditText nombrePlato;
@@ -89,8 +73,6 @@ public class AgregarPlatoFragment extends Fragment
     private Activity actividad;
     private InterfazFragamen interfazFragamen;
 
-
-
     public AgregarPlatoFragment()
     {
         // Required empty public constructor
@@ -100,11 +82,6 @@ public class AgregarPlatoFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-        {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -192,6 +169,8 @@ public class AgregarPlatoFragment extends Fragment
     {
         try
         {
+            final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando plato...","Espere por favor...",false,false);
+
             String rutaImg="";
             String nombre=this.nombrePlato.getText().toString ();
             double precio= Double.parseDouble(precioPlato.getText().toString());
@@ -233,6 +212,7 @@ public class AgregarPlatoFragment extends Fragment
                     @Override
                     public void onResponse(JSONObject response)
                     {
+                        loading.dismiss ();
                         if (response!=null)
                         {
                             Toast.makeText(getContext(), "Plato registrado con existo",Toast.LENGTH_SHORT).show();
@@ -243,7 +223,7 @@ public class AgregarPlatoFragment extends Fragment
                 }, new Response.ErrorListener ()
                 {
                     @Override
-                    public void onErrorResponse(VolleyError error){error.printStackTrace (); }
+                    public void onErrorResponse(VolleyError error){error.printStackTrace (); loading.dismiss ();}
                 });
                 servicio.add(jsonRequest);
             }
@@ -447,7 +427,6 @@ public class AgregarPlatoFragment extends Fragment
         });
         dialogo.show();
     }
-
 
     public void limpiar()
     {

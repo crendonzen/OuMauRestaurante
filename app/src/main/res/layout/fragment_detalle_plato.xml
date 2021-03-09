@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/imgModPlato"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -48,16 +48,17 @@
             android:layout_height="match_parent">
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/spnModCategoria"
                 android:layout_width="480dp"
                 android:layout_height="44dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:entries="@android:array/emailAddressTypes"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/txtnombre_Plato"
+                android:id="@+id/txtModnombrePlato"
                 android:layout_width="480dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="8dp"
@@ -65,46 +66,46 @@
                 android:hint="Nombre del plato"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+                app:layout_constraintTop_toBottomOf="@+id/spnModCategoria" />
 
             <EditText
-                android:id="@+id/editTextNumberDecimal"
+                android:id="@+id/txtModPrecionPlato"
                 android:layout_width="480dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:ems="10"
                 android:inputType="numberDecimal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtnombre_Plato" />
+                app:layout_constraintTop_toBottomOf="@+id/txtModnombrePlato" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName7"
+                android:id="@+id/txtModDescripcion"
                 android:layout_width="482dp"
                 android:layout_height="89dp"
                 android:layout_marginStart="8dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal" />
+                app:layout_constraintTop_toBottomOf="@+id/txtModPrecionPlato" />
 
             <Button
-                android:id="@+id/button8"
+                android:id="@+id/btnModificar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Button"
+                android:text="Modificar plato"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName7" />
+                app:layout_constraintTop_toBottomOf="@+id/txtModDescripcion" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
     <Button
-        android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="348dp"
-        android:layout_marginTop="48dp"
-        android:text="Button"
+        android:id="@+id/btnModBuscarImagen"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="288dp"
+        android:layout_marginTop="44dp"
+        android:text="ELEGIR IMAGEN"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
