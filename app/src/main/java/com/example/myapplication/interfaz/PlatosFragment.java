@@ -1,3 +1,4 @@
+
 package com.example.myapplication.interfaz;
 
 import android.app.Activity;
@@ -113,82 +114,26 @@ public class PlatosFragment extends Fragment {
         listaPlatos.setAdapter(adaptadorListaPlatosMenu);
         this.listaPlatos.setLayoutManager(new GridLayoutManager(getContext(),4));
 
+        adaptadorListaPlatosMenu.setOnclickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                String numeroMesa = platosMenu.get(listaPlatos.getChildAdapterPosition(v)).getNombre();
+                Toast.makeText(getContext (), "El usuario no esta registrado o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                interfazFragamen.enviarPlato(platosMenu.get(listaPlatos.getChildAdapterPosition(v)));
+            }
+        });
 
-      this.buscarPlato.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
+
+        this.buscarPlato.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
         {
             @Override
             public boolean onQueryTextSubmit(String query) { return false;  }
             @Override
-            public boolean onQueryTextChange(final String newText)
+            public boolean onQueryTextChange(final String platoNombre)
             {
-                if(!newText.isEmpty())
-                {
-                    Map<String,String> params= new HashMap<String, String>();
-                    params.put("buscarPlatos",newText);
-                    JSONObject parameters = new JSONObject(params);
-                    String url="http://openm.co/consultas/pedidos.php";
-                    jsonRequest=new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
-                    {
-                        @Override
-                        public void onResponse(JSONObject response)
-                        {
-                            platosMenu.clear();
-                            try
-                            {
-
-                                listaPlatos.setAdapter(adaptadorListaPlatosMenu);
-                                JSONArray datos = response.getJSONArray ("datos");
-                                for (int i = 0; i < datos.length(); i++)
-                                {
-                                    JSONObject plato = datos.getJSONObject(i);
-                                    int idPlato=plato.getInt ("idplatos");
-                                    String categoria=plato.getString("categoria");
-                                    String nombre=plato.getString("nombre");
-                                    String descripcion=plato.getString("descripcion");
-                                    Double precio=plato.getDouble("precio");
-                                    String image=plato.getString ("imagen");
-                                    Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image);
-                                    platosMenu.add (m);
-                                }
-
-                                adaptadorListaPlatosMenu = new AdaptadorListaPlatosMenu (getContext (),platosMenu);
-                                listaPlatos.setAdapter(adaptadorListaPlatosMenu);
-                                adaptadorListaPlatosMenu.setOnclickListener(new View.OnClickListener()
-                                {
-                                    @Override
-                                    public void onClick(View v)
-                                    {
-
-                                        String numeroMesa = platosMenu.get(listaPlatos.getChildAdapterPosition(v)).getNombre();
-                                        Toast.makeText(getContext (), "El usuario no esta registrado o contraseña incorrecta", Toast.LENGTH_SHORT).show();
-
-                                        //enviar mediante la interface el objeto seleccionado al detalle
-                                        //se envia el objeto completo
-                                        //se utiliza la interface como puente para enviar el objeto seleccionado
-                                        interfazFragamen.enviarPlato(platosMenu.get(listaPlatos.getChildAdapterPosition(v)));
-                                        //luego en el mainactivity se hace la implementacion de la interface para implementar el metodo enviarpersona
-
-
-                                    }
-                                });
-
-                            } catch (JSONException e)
-                            {
-                                e.printStackTrace ();
-                            }
-                        }
-                    }, new Response.ErrorListener ()
-                    {
-                        @Override
-                        public void onErrorResponse(VolleyError error)
-                        {
-                            error.printStackTrace ();
-//                            Toast.makeText(getContext (), "El usuario no esta registrado o contraseña incorrecta", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    requestQueue.add(jsonRequest);
-                }
+                cargarPlatos(platoNombre);
                 return false;
             }
         });
@@ -202,98 +147,59 @@ public class PlatosFragment extends Fragment {
         });
 
 
-
-       // recyclerView = v.findViewById(R.id.listaPlatos);
-
         platoslist = new ArrayList<>();
 
-      //  cargarPlatos();
+        cargarPlatos("");
 
 
         return v;
     }
 
 
-  /*  public void cargarPlatos() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+    public void cargarPlatos(String platoNombre)
+    {
+        Map<String,String> params= new HashMap<String, String>();
+        params.put("buscarPlatos",platoNombre);
+        JSONObject parameters = new JSONObject(params);
+        String url="http://openm.co/consultas/platos.php";
+        jsonRequest=new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
+        {
             @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray array = new JSONArray(response);
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject plato = array.getJSONObject(i);
-
-                        platoslist.add(new Platos(
-                                plato.getString("nombre"),
-                                plato.getDouble("precio")
-                        ));
-
-                        adaptadorPlato = new AdaptadorPlato(getContext(), platoslist);
-                        recyclerView.setAdapter(adaptadorPlato);
-                        adaptadorPlato.setOnclickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String nombre = platoslist.get(recyclerView.getChildAdapterPosition(v)).getNombrePlato();
-
-                                Toast.makeText(getContext(), "Seleccionó: " + platoslist.get(recyclerView.getChildAdapterPosition(v)).getNombrePlato(), Toast.LENGTH_SHORT).show();
-                                //enviar mediante la interface el objeto seleccionado al detalle
-                                //se envia el objeto completo
-                                //se utiliza la interface como puente para enviar el objeto seleccionado
-                                interfaceComunicaFragments.enviarPlato(platoslist.get(recyclerView.getChildAdapterPosition(v)));
-                                //luego en el mainactivity se hace la implementacion de la interface para implementar el metodo enviarpersona
-
-                            }
-                        });
-
+            public void onResponse(JSONObject response)
+            {
+                platosMenu.clear();
+                try
+                {
+                    listaPlatos.setAdapter(adaptadorListaPlatosMenu);
+                    JSONArray datos = response.getJSONArray ("datos");
+                    for (int i = 0; i < datos.length(); i++)
+                    {
+                        JSONObject plato = datos.getJSONObject(i);
+                        int idPlato=plato.getInt ("idplatos");
+                        String categoria=plato.getString("categoria");
+                        String nombre=plato.getString("nombre");
+                        String descripcion=plato.getString("descripcion");
+                        Double precio=plato.getDouble("precio");
+                        String image=plato.getString ("imagen");
+                        Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image);
+                        platosMenu.add (m);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    listaPlatos.setAdapter(adaptadorListaPlatosMenu);
+                } catch (JSONException e)
+                {
+                    e.printStackTrace ();
                 }
             }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(stringRequest);
-
-
-
+        }, new Response.ErrorListener ()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                error.printStackTrace ();
+            }
+        });
+        requestQueue.add(jsonRequest);
     }
-
-    private void mostrarData() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adaptadorPlato = new AdaptadorPlato(getContext(), platoslist);
-        recyclerView.setAdapter(adaptadorPlato);
-
-    }*/
-
-
-    /*@Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof Activity) {
-            //voy a decirle a mi actividad que sea igual a dicho contesto. castin correspondiente:
-            this.actividad = (Activity) context;
-            ////que la interface icomunicafragments sea igual ese contexto de la actividad:
-            interfaceComunicaFragments = (iComunicaPlatosFragments) this.actividad;
-            //esto es necesario para establecer la comunicacion entre la lista y el detalle
-        }
-
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }*/
-
 
     @Override
     public void onAttach(Context context)
