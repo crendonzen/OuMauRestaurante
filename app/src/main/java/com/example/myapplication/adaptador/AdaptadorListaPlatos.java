@@ -48,7 +48,8 @@ public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    {
         plato = this.list.get(position);
         holder.txtNombrePlato.setText(list.get(position).getNombre ());
 
@@ -68,7 +69,6 @@ public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPl
                 return true;
             }
         });
-
     }
     public ArrayList<Plato> getList()
     {

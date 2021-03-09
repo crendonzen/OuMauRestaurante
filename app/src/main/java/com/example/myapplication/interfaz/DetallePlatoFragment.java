@@ -39,12 +39,14 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Abtract.InterfazFragamen;
 import com.example.myapplication.R;
+import com.example.myapplication.adaptador.VolleySingleton;
 import com.example.myapplication.mundo.Plato;
 
 import org.json.JSONObject;
@@ -52,6 +54,9 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -163,13 +168,29 @@ public class DetallePlatoFragment extends Fragment
         Bundle objetoPlato = getArguments();
         if(objetoPlato !=null)
         {
-            this.platos = (Plato) objetoPlato.getSerializable("plato");
-            this.nombrePlato.setText(platos.getNombre ());
-            this.precioPlato.setText (platos.getPrecio ()+"");
-            this.descripcionPlato.setText (platos.getPrecio ()+"");
-            Glide.with(inflater.getContext ())
-                    .load(platos.getImage ())
-                    .into(imagenPlato);
+            this.platos = (Plato) objetoPlato.getSerializable ("plato");
+            this.nombrePlato.setText (platos.getNombre ());
+            this.precioPlato.setText (platos.getPrecio () + "");
+            this.descripcionPlato.setText (platos.getPrecio () + "");
+            final ProgressDialog loading = ProgressDialog.show(getContext (),"Cargando imagen...","Espere por favor...",false,false);
+
+            RequestQueue requestQueue =  VolleySingleton.getInstance(getContext ()).getRequestQueue();
+            ImageRequest imgRequest = new ImageRequest(platos.getImage (), new Response.Listener<Bitmap>()
+            {
+                @Override
+                public void onResponse(Bitmap response)
+                {
+                    loading.dismiss ();
+                    bitmap = response;
+                    imagenPlato.setImageBitmap (bitmap);
+                }
+            }, 0, 0, ImageView.ScaleType.CENTER_CROP, Bitmap.Config.ARGB_8888,
+            new Response.ErrorListener()
+               {@Override
+                public void onErrorResponse(VolleyError error) { error.printStackTrace ();loading.dismiss ();}
+            });
+            requestQueue.add (imgRequest);
+
         }
        return view;
     }
@@ -186,8 +207,6 @@ public class DetallePlatoFragment extends Fragment
     {
         try
         {
-            final ProgressDialog loading = ProgressDialog.show(getContext (),"Actualizando cambios...","Espere por favor...",false,false);
-
             String rutaImg="";
             String nombre=this.nombrePlato.getText().toString ();
             double precio= Double.parseDouble(precioPlato.getText().toString());
@@ -210,6 +229,8 @@ public class DetallePlatoFragment extends Fragment
                 Toast.makeText(getContext(), "Escriba una descripcon del plato valida",Toast.LENGTH_SHORT).show();
             }else
             {
+                final ProgressDialog loading = ProgressDialog.show(getContext (),"Actualizando cambios...","Espere por favor...",false,false);
+
                 String URL="https://openm.co/consultas/platos.php";
 
                 RequestQueue servicio= Volley.newRequestQueue(getContext());

@@ -119,8 +119,8 @@ public class PlatosFragment extends Fragment {
             @Override
             public void onClick(View v)
             {
-                String numeroMesa = platosMenu.get(listaPlatos.getChildAdapterPosition(v)).getNombre();
-                Toast.makeText(getContext (), "El usuario no esta registrado o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                String numeroMesa = platosMenu.get(listaPlatos.getChildAdapterPosition(v)).getImage ();
+                Toast.makeText(getContext (), numeroMesa, Toast.LENGTH_SHORT).show();
                 interfazFragamen.enviarPlato(platosMenu.get(listaPlatos.getChildAdapterPosition(v)));
             }
         });
@@ -170,7 +170,6 @@ public class PlatosFragment extends Fragment {
                 platosMenu.clear();
                 try
                 {
-                    listaPlatos.setAdapter(adaptadorListaPlatosMenu);
                     JSONArray datos = response.getJSONArray ("datos");
                     for (int i = 0; i < datos.length(); i++)
                     {
@@ -184,7 +183,7 @@ public class PlatosFragment extends Fragment {
                         Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image);
                         platosMenu.add (m);
                     }
-                    listaPlatos.setAdapter(adaptadorListaPlatosMenu);
+                    adaptadorListaPlatosMenu.notifyDataSetChanged ();
                 } catch (JSONException e)
                 {
                     e.printStackTrace ();
