@@ -81,7 +81,7 @@ public class AgregarPlatoFragment extends Fragment
     private Spinner categoriaPalto;
     private EditText descripcionPlato;
     private Button buscarImage;
-    private Button agreagrUnPlato;
+    private ImageButton agreagrUnPlato;
     private Bitmap bitmap;
     private String path;
     private Uri miPath;
@@ -131,7 +131,7 @@ public class AgregarPlatoFragment extends Fragment
         this.descripcionPlato = (EditText) view.findViewById(R.id.txtDescripcion);
         this.categoriaPalto = (Spinner) view.findViewById(R.id.spnCategoria);
         this.buscarImage =(Button) view.findViewById(R.id.btnBuscarImagen);
-        this.agreagrUnPlato =(Button) view.findViewById(R.id.btnAgregar);
+        this.agreagrUnPlato =(ImageButton) view.findViewById(R.id.btnAgregar);
 
         this.buscarImage.setOnClickListener (new View.OnClickListener ()
         {
