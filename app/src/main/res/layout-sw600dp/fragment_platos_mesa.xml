@@ -21,7 +21,7 @@
         android:layout_width="775dp"
         android:layout_height="632dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/fondoplatos"
+        android:src="@mipmap/fmm"
         app:layout_constraintTop_toBottomOf="@+id/fragment10"
         tools:layout_editor_absoluteX="507dp" />
 
@@ -169,5 +169,14 @@
         android:src="@mipmap/botonfactura"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment10" />
+
+    <ImageView
+        android:id="@+id/imageView18"
+        android:layout_width="75dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="4dp"
+        android:src="@mipmap/btnmenu"
+        app:layout_constraintStart_toStartOf="@+id/imageView14"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

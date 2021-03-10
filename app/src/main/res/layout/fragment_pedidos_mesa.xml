@@ -12,7 +12,7 @@
         android:layout_width="525dp"
         android:layout_height="721dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/soccer" />
+        android:src="@mipmap/fm" />
 
 
     <SearchView

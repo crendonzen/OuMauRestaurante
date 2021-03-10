@@ -21,7 +21,7 @@
         android:layout_width="781dp"
         android:layout_height="788dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/fondoplatos"
+        android:src="@mipmap/fmm"
         app:layout_constraintTop_toBottomOf="@+id/fragment10"
         tools:layout_editor_absoluteX="576dp" />
 
