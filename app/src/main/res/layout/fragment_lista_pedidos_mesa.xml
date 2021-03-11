@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Número de mesa"
+            android:textColor="#FDFBFB"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.507"
@@ -33,7 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/mesa" />
+            app:srcCompat="@mipmap/fbalon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

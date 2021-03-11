@@ -140,8 +140,8 @@
             android:id="@+id/imageView13"
             motion:layout_editor_absoluteY="803dp" />
         <Constraint
-            android:layout_width="539dp"
-            android:layout_height="724dp"
+            android:layout_width="530dp"
+            android:layout_height="578dp"
             android:id="@+id/imageView2"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_editor_absoluteY="0dp" />

@@ -9,10 +9,10 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="525dp"
-        android:layout_height="721dp"
+        android:layout_width="470dp"
+        android:layout_height="550dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/fm" />
+        android:src="@mipmap/fnn" />
 
 
     <SearchView

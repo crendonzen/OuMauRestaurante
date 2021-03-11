@@ -24,7 +24,7 @@
                 android:layout_height="351dp"
                 android:layout_marginTop="1dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/fondome"
+                android:src="@mipmap/fb"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
