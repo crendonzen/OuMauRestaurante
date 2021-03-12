@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -75,110 +76,95 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        View v=inflater.inflate(R.layout.fragment_platos_mesa, container, false);
-        this.pedidoFactura=new Factura ();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_platos_mesa, container, false);
+        this.pedidoFactura = new Factura();
         this.listaPedidos = v.findViewById(R.id.lista_pedidos);
-        this.factura= v.findViewById(R.id.imagenFactura);
-        this.requestQueue =  VolleySingleton.getInstance(getContext ()).getRequestQueue();
-        this.adaptadorListaPedidos = new AdaptadorListaPedidos (getContext (),this.pedidoFactura.getPlatos());
-        this.listaPedidos.setLayoutManager(new GridLayoutManager(getContext(),5));
+        this.factura = v.findViewById(R.id.imagenFactura);
+        this.requestQueue = VolleySingleton.getInstance(getContext()).getRequestQueue();
+        this.adaptadorListaPedidos = new AdaptadorListaPedidos(getContext(), this.pedidoFactura.getPlatos());
+        this.listaPedidos.setLayoutManager(new GridLayoutManager(getContext(), 5));
         this.listaPedidos.setAdapter(this.adaptadorListaPedidos);
-        this.btnActualizarPedido=v.findViewById(R.id.btnActualizarPedido);
+        this.btnActualizarPedido = v.findViewById(R.id.btnActualizarPedido);
 
-        this.btnActualizarPedido.setOnClickListener (new View.OnClickListener ()
-        {
+        this.btnActualizarPedido.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                String data = new Gson ().toJson(pedidoFactura.getPlatos ());
+            public void onClick(View v) {
+                String data = new Gson().toJson(pedidoFactura.getPlatos());
 
-                HashMap<String, String> params= new HashMap<String, String>();
-                params.put("modidificarListaPedido",data);
-                params.put("idfactura",pedidoFactura.getFactura_idfacturas ()+"");
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("modidificarListaPedido", data);
+                params.put("idfactura", pedidoFactura.getFactura_idfacturas() + "");
                 JSONObject parameters = new JSONObject(params);
 
-                String url="http://openm.co/consultas/pedidos.php";
+                String url = "http://openm.co/consultas/pedidos.php";
 
-                jsonRequest=new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
-                {
+                jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        try
-                        {
+                    public void onResponse(JSONObject response) {
+                        try {
 
-                            JSONArray datos = response.getJSONArray ("datos");
-                            Toast.makeText (getContext (), datos.toString (), Toast.LENGTH_SHORT).show ();
-                        }catch (JSONException e)
-                        {
-                            e.printStackTrace ();
+                            JSONArray datos = response.getJSONArray("datos");
+                            Toast.makeText(getContext(), datos.toString(), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     }
-                }, new Response.ErrorListener ()
-                {
+                }, new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        error.printStackTrace ();
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
                     }
                 });
                 requestQueue.add(jsonRequest);
             }
         });
 
-        numeroMesa= v.findViewById(R.id.numero_Mesa);
-        getParentFragmentManager().setFragmentResultListener("key", this, new FragmentResultListener()
-        {
+        numeroMesa = v.findViewById(R.id.numero_Mesa);
+        getParentFragmentManager().setFragmentResultListener("key", this, new FragmentResultListener() {
             @Override
-            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle)
-            {
+            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
                 Mesa mesa = (Mesa) bundle.getSerializable("mesa");
                 numeroMesa.setText(mesa.getNumero());
-                int idmesa = mesa.getIdmesa ();
-                Map<String,String> params= new HashMap<String, String>();
-                Toast.makeText(getContext (), ""+idmesa, Toast.LENGTH_SHORT).show();
-                params.put("buscarPlatoMesa",idmesa+"");
+                int idmesa = mesa.getIdmesa();
+                Map<String, String> params = new HashMap<String, String>();
+                Toast.makeText(getContext(), "" + idmesa, Toast.LENGTH_SHORT).show();
+                params.put("buscarPlatoMesa", idmesa + "");
                 JSONObject parameters = new JSONObject(params);
-                String url="http://openm.co/consultas/pedidos.php";
+                String url = "http://openm.co/consultas/pedidos.php";
 
-                jsonRequest=new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
-                {
+                jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        try
-                        {
+                    public void onResponse(JSONObject response) {
+                        try {
                             listaPedidos.setAdapter(adaptadorListaPedidos);
-                            pedidoFactura.limpiarLista ();
-                            SimpleDateFormat format=new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
-                            JSONArray datos = response.getJSONArray ("datos");
-                            if (datos.length ()>0)
-                            {
-                                JSONObject pedido = datos.getJSONObject (0);
-                                int mesas_idmesas = pedido.getInt ("mesas_idmesas");
-                                String mesas_numero = pedido.getString ("mesas_numero");
-                                String estado = pedido.getString ("estado");
-                                double factura_pagado = pedido.getDouble ("factura_pagado");
-                                double factura_IVA = pedido.getDouble ("factura_IVA");
-                                String factura_fecha = pedido.getString ("factura_fecha");
-                                int factura_idfacturas = pedido.getInt ("factura_idfacturas");
-                                String pedidos_observacion = pedido.getString ("pedidos_observacion");
-                                int pedidos_idpedidos = pedido.getInt ("pedidos_idpedidos");
-                                int usuarios_idempleado = pedido.getInt ("usuarios_idempleado");
-                                String usuarios_identificacion = pedido.getString ("usuarios_identificacion");
-                                String usuarios_nombres = pedido.getString ("usuarios_nombres");
-                                String usuarios_apellidos = pedido.getString ("usuarios_apellidos");
-                                String usuarios_telefono = pedido.getString ("usuarios_telefono");
-                                String usuarios_cargo = pedido.getString ("usuarios_cargo");
+                            pedidoFactura.limpiarLista();
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            JSONArray datos = response.getJSONArray("datos");
+                            if (datos.length() > 0) {
+                                JSONObject pedido = datos.getJSONObject(0);
+                                int mesas_idmesas = pedido.getInt("mesas_idmesas");
+                                String mesas_numero = pedido.getString("mesas_numero");
+                                String estado = pedido.getString("estado");
+                                double factura_pagado = pedido.getDouble("factura_pagado");
+                                double factura_IVA = pedido.getDouble("factura_IVA");
+                                String factura_fecha = pedido.getString("factura_fecha");
+                                int factura_idfacturas = pedido.getInt("factura_idfacturas");
+                                String pedidos_observacion = pedido.getString("pedidos_observacion");
+                                int pedidos_idpedidos = pedido.getInt("pedidos_idpedidos");
+                                int usuarios_idempleado = pedido.getInt("usuarios_idempleado");
+                                String usuarios_identificacion = pedido.getString("usuarios_identificacion");
+                                String usuarios_nombres = pedido.getString("usuarios_nombres");
+                                String usuarios_apellidos = pedido.getString("usuarios_apellidos");
+                                String usuarios_telefono = pedido.getString("usuarios_telefono");
+                                String usuarios_cargo = pedido.getString("usuarios_cargo");
 
-                                pedidoFactura.inicializarPedidos (mesas_idmesas,
+                                pedidoFactura.inicializarPedidos(mesas_idmesas,
                                         mesas_numero,
                                         estado,
                                         factura_pagado,
                                         factura_IVA,
-                                        format.parse (factura_fecha),
+                                        format.parse(factura_fecha),
                                         factura_idfacturas,
                                         pedidos_observacion,
                                         pedidos_idpedidos,
@@ -189,41 +175,37 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                         usuarios_telefono,
                                         usuarios_cargo);
 
-                                for (int i = 0; i < datos.length (); i++)
-                                {
-                                    JSONObject plato = datos.getJSONObject (i);
-                                    int pedidos_cantidad = plato.getInt ("pedidos_cantidad");
-                                    String platos_imagen = plato.getString ("platos_imagen");
-                                    double platos_precio = plato.getDouble ("platos_precio");
-                                    String platos_descripcion = plato.getString ("platos_descripcion");
-                                    String platos_nombre = plato.getString ("platos_nombre");
-                                    String platos_categoria = plato.getString ("platos_categoria");
-                                    int platos_idplatos = plato.getInt ("platos_idplatos");
-                                    Toast.makeText (getContext (), plato.getString ("mesas_numero"), Toast.LENGTH_SHORT).show ();
+                                for (int i = 0; i < datos.length(); i++) {
+                                    JSONObject plato = datos.getJSONObject(i);
+                                    int pedidos_cantidad = plato.getInt("pedidos_cantidad");
+                                    String platos_imagen = plato.getString("platos_imagen");
+                                    double platos_precio = plato.getDouble("platos_precio");
+                                    String platos_descripcion = plato.getString("platos_descripcion");
+                                    String platos_nombre = plato.getString("platos_nombre");
+                                    String platos_categoria = plato.getString("platos_categoria");
+                                    int platos_idplatos = plato.getInt("platos_idplatos");
+                                    Toast.makeText(getContext(), plato.getString("mesas_numero"), Toast.LENGTH_SHORT).show();
 
-                                    Plato platoDatos = new Plato (
-                                        platos_idplatos,
-                                        platos_categoria,
-                                        platos_nombre,
-                                        platos_descripcion,
-                                        platos_precio,
-                                        platos_imagen,
-                                        pedidos_cantidad
+                                    Plato platoDatos = new Plato(
+                                            platos_idplatos,
+                                            platos_categoria,
+                                            platos_nombre,
+                                            platos_descripcion,
+                                            platos_precio,
+                                            platos_imagen,
+                                            pedidos_cantidad
                                     );
-                                    pedidoFactura.agregarPlato (platoDatos);
+                                    pedidoFactura.agregarPlato(platoDatos);
                                 }
                             }
-                        } catch (Exception e)
-                        {
-                            e.printStackTrace ();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
-                }, new Response.ErrorListener ()
-                {
+                }, new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        error.printStackTrace ();
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
                     }
                 });
                 requestQueue.add(jsonRequest);
@@ -232,16 +214,14 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
 
         this.listaPedidos.setOnDragListener(this);
 
-        factura.setOnClickListener (new View.OnClickListener () {
+        factura.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                mostrarVentana (v);
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.facturaMesaFragment);
             }
         });
-        mDialog = new Dialog (getContext ());
-        return v;
 
+    return v;
 
     }
 

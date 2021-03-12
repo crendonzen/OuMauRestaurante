@@ -246,5 +246,17 @@
         <action
             android:id="@+id/action_platosMesaFragment3_to_pedidosMesaFragment"
             app:destination="@id/pedidosMesaFragment" />
+        <action
+            android:id="@+id/action_platosMesaFragment3_to_facturaMesaFragment"
+            app:destination="@id/facturaMesaFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/facturaMesaFragment"
+        android:name="com.example.myapplication.interfaz.FacturaMesaFragment"
+        android:label="fragment_factura_mesa"
+        tools:layout="@layout/fragment_factura_mesa" >
+        <action
+            android:id="@+id/action_facturaMesaFragment_to_platosMesaFragment3"
+            app:destination="@id/platosMesaFragment3" />
+    </dialog>
 </navigation>
