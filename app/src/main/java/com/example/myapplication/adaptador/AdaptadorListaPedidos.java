@@ -1,5 +1,6 @@
 package com.example.myapplication.adaptador;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,27 +11,28 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.interfaz.MenuPlatosFragment;
 import com.example.myapplication.mundo.Factura;
+import com.example.myapplication.mundo.Pedido;
 import com.example.myapplication.mundo.Plato;
 
 import java.util.ArrayList;
 
-public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaPedidos.ViewHolder>
+public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaPedidos.ViewHolder>  implements View.OnClickListener
 {
-
     private Plato plato;
-    private ArrayList<Plato> list;
+    private ArrayList<Pedido> list;
     private MenuPlatosFragment buscarPlato;
     private Context contexto;
     private static LayoutInflater  inflater = null;
+    private View.OnClickListener listener;
 
-
-    public AdaptadorListaPedidos(Context conexto, ArrayList<Plato> lista)
+    public AdaptadorListaPedidos(Context conexto, ArrayList<Pedido> lista)
     {
         this.list=lista;
         inflater = (LayoutInflater ) conexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,8 +43,8 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-
         View view = inflater.inflate(R.layout.fragment_lista_pedidos_platos, null);
+        view.setOnClickListener(this);
         return new AdaptadorListaPedidos.ViewHolder(view);
     }
 
@@ -50,12 +52,26 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
         plato = this.list.get(position);
+
         holder.txtNombre.setText(list.get(position).getNombre ());
         holder.txtPrecio.setText(list.get(position).getPrecio ()+"");
         holder.txtCantidadPlato.setText(list.get(position).getCantidad ()+"");
         Glide.with(inflater.getContext ())
                 .load(list.get(position).getImage ())
                 .into(holder.imgPlatos);
+        holder.item.setTag (position);
+        holder.item.setOnLongClickListener (new View.OnLongClickListener ()
+        {
+            @Override
+            public boolean onLongClick(View view)
+            {
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                view.startDrag(data, shadowBuilder, view, 0);
+                view.setVisibility(View.INVISIBLE);
+                return true;
+            }
+        });
 
     }
 
@@ -68,9 +84,22 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
         this.buscarPlato=buscarPlato;
     }
 
+    @Override
+    public void onClick(View v)
+    {
+        if(listener!=null)
+        {
+            listener.onClick(v);
+        }
+    }
+    public void setOnclickListener(View.OnClickListener listener)
+    {
+        this.listener = listener;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
+        ConstraintLayout item;
         TextView txtNombre,txtPrecio,txtCategoria,txtObservacion,txtCantidadPlato;
         Spinner spnCantidad;
         ImageView imgPlatos;
@@ -82,12 +111,13 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
             txtCantidadPlato=(TextView) itemView.findViewById(R.id.txtCantidadPlato);
             spnCantidad=(Spinner) itemView.findViewById(R.id.spnCantidad);
             imgPlatos=(ImageView) itemView.findViewById(R.id.imgPlatos);
+            item=(ConstraintLayout) itemView.findViewById (R.id.itemPlatoPedido);
         }
     }
 
 
 
-    public ArrayList<Plato> getList()
+    public ArrayList<Pedido> getList()
     {
         return this.list;
     }

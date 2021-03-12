@@ -76,7 +76,8 @@ public class PedidosMesaFragment extends Fragment
     private String mParam1;
     private String mParam2;
 
-    public PedidosMesaFragment() {
+    public PedidosMesaFragment()
+    {
         // Required empty public constructor
     }
 
@@ -120,7 +121,7 @@ public class PedidosMesaFragment extends Fragment
         this.mesasDesocupadas.setLayoutManager (new LinearLayoutManager (getContext ()));
         this.adaptadorListaMesaDesocupada = new AdaptadorListaMesaDesocupada (getContext (), this.mesasDes);
         this.mesasDesocupadas.setAdapter (adaptadorListaMesaDesocupada);
-        listaMesas.setAdapter(adaptadorListaMesa);
+        this.listaMesas.setAdapter(adaptadorListaMesa);
         this.listaMesas.setLayoutManager (new GridLayoutManager (getContext (), 3));
 
 /*

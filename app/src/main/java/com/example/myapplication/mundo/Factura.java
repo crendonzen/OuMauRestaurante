@@ -19,19 +19,17 @@ public class Factura
     private double factura_IVA;
     private Date factura_fecha;
     private int factura_idfacturas;
-    private String pedidos_observacion;
-    private int pedidos_idpedidos;
     private int usuarios_idempleado;
     private String usuarios_identificacion;
     private String usuarios_nombres;
     private String usuarios_apellidos;
     private String usuarios_telefono;
     private String usuarios_cargo;
-    private ArrayList<Plato> platos;
+    private ArrayList<Pedido> pedidos;
 
     public Factura()
     {
-        this.platos=new ArrayList<> ();
+        this.pedidos=new ArrayList<> ();
     }
 
     public void inicializarPedidos(
@@ -42,8 +40,6 @@ public class Factura
         double factura_IVA,
         Date factura_fecha,
         int factura_idfacturas,
-        String pedidos_observacion,
-        int pedidos_idpedidos,
         int usuarios_idempleado,
         String usuarios_identificacion,
         String usuarios_nombres,
@@ -59,8 +55,6 @@ public class Factura
         this.factura_IVA = factura_IVA;
         this.factura_fecha = factura_fecha;
         this.factura_idfacturas = factura_idfacturas;
-        this.pedidos_observacion = pedidos_observacion;
-        this.pedidos_idpedidos = pedidos_idpedidos;
         this.usuarios_idempleado = usuarios_idempleado;
         this.usuarios_identificacion = usuarios_identificacion;
         this.usuarios_nombres = usuarios_nombres;
@@ -68,9 +62,9 @@ public class Factura
         this.usuarios_telefono = usuarios_telefono;
         this.usuarios_cargo = usuarios_cargo;
     }
-    public void agregarPlato(Plato plato)
+    public void agregarPedido(Pedido pedido)
     {
-        this.platos.add (plato);
+        this.pedidos.add (pedido);
     }
 
     public int getMesas_idmesas()
@@ -142,27 +136,6 @@ public class Factura
     {
         this.factura_idfacturas = factura_idfacturas;
     }
-
-    public String getPedidos_observacion()
-    {
-        return pedidos_observacion;
-    }
-
-    public void setPedidos_observacion(String pedidos_observacion)
-    {
-        this.pedidos_observacion = pedidos_observacion;
-    }
-
-    public int getPedidos_idpedidos()
-    {
-        return pedidos_idpedidos;
-    }
-
-    public void setPedidos_idpedidos(int pedidos_idpedidos)
-    {
-        this.pedidos_idpedidos = pedidos_idpedidos;
-    }
-
     public int getUsuarios_idempleado()
     {
         return usuarios_idempleado;
@@ -223,27 +196,27 @@ public class Factura
         this.usuarios_cargo = usuarios_cargo;
     }
 
-    public ArrayList getPlatos()
+    public ArrayList<Pedido> getPlatos()
     {
-        return  this.platos;
+        return  this.pedidos;
     }
 
     public void limpiarLista()
     {
-        this.platos.clear ();
+        this.pedidos.clear ();
     }
 
-    public Plato buscarPlato(int idplato)
+    public Pedido buscarPedido(int idplato)
     {
-        Plato miPlato=null;
-        for (Plato plato: this.platos)
+        Pedido miPedido=null;
+        for (Pedido plato: this.pedidos)
         {
             if (plato.getIdplato ()== idplato)
             {
-                miPlato=plato;
+                miPedido=plato;
                 break;
             }
         }
-        return miPlato;
+        return miPedido;
     }
 }

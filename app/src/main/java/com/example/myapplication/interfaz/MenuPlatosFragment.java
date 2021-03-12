@@ -90,6 +90,7 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+
     }
 
     @Override
@@ -110,7 +111,6 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
         this.pedidoFactura=new Factura ();
         this.buscarPlato = v.findViewById(R.id.searchBuscarPlato);
         this.listaPlatos = v.findViewById(R.id.listaPlatosMesas);
-
         this.requestQueue =  VolleySingleton.getInstance(getContext ()).getRequestQueue();
         this.platosMenu = new ArrayList<Plato>();
         this.adaptadorListaPlatos = new AdaptadorListaPlatos (getContext (),this.platosMenu);

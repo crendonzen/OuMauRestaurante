@@ -1,12 +1,16 @@
 package com.example.myapplication.interfaz;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +34,7 @@ import com.example.myapplication.adaptador.AdaptadorListaPlatos;
 import com.example.myapplication.adaptador.VolleySingleton;
 import com.example.myapplication.mundo.Factura;
 import com.example.myapplication.mundo.Mesa;
+import com.example.myapplication.mundo.Pedido;
 import com.example.myapplication.mundo.Plato;
 import com.google.gson.Gson;
 
@@ -76,7 +81,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View v = inflater.inflate(R.layout.fragment_platos_mesa, container, false);
         this.pedidoFactura = new Factura();
         this.listaPedidos = v.findViewById(R.id.lista_pedidos);
@@ -86,37 +92,23 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         this.listaPedidos.setLayoutManager(new GridLayoutManager(getContext(), 5));
         this.listaPedidos.setAdapter(this.adaptadorListaPedidos);
         this.btnActualizarPedido = v.findViewById(R.id.btnActualizarPedido);
-
+/*
         this.btnActualizarPedido.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String data = new Gson().toJson(pedidoFactura.getPlatos());
+            public void onClick(View v)
+            {
 
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("modidificarListaPedido", data);
-                params.put("idfactura", pedidoFactura.getFactura_idfacturas() + "");
-                JSONObject parameters = new JSONObject(params);
+            }
+        });*/
+        this.adaptadorListaPedidos.setOnclickListener (new View.OnClickListener ()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Plato plato= pedidoFactura.getPlatos().get (listaPedidos.getChildAdapterPosition (v));
 
-                String url = "http://openm.co/consultas/pedidos.php";
+                crearObservacion((Pedido) plato);
 
-                jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-
-                            JSONArray datos = response.getJSONArray("datos");
-                            Toast.makeText(getContext(), datos.toString(), Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                });
-                requestQueue.add(jsonRequest);
             }
         });
 
@@ -141,7 +133,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                             pedidoFactura.limpiarLista();
                             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             JSONArray datos = response.getJSONArray("datos");
-                            if (datos.length() > 0) {
+                            if (datos.length() > 0)
+                            {
                                 JSONObject pedido = datos.getJSONObject(0);
                                 int mesas_idmesas = pedido.getInt("mesas_idmesas");
                                 String mesas_numero = pedido.getString("mesas_numero");
@@ -150,8 +143,6 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                 double factura_IVA = pedido.getDouble("factura_IVA");
                                 String factura_fecha = pedido.getString("factura_fecha");
                                 int factura_idfacturas = pedido.getInt("factura_idfacturas");
-                                String pedidos_observacion = pedido.getString("pedidos_observacion");
-                                int pedidos_idpedidos = pedido.getInt("pedidos_idpedidos");
                                 int usuarios_idempleado = pedido.getInt("usuarios_idempleado");
                                 String usuarios_identificacion = pedido.getString("usuarios_identificacion");
                                 String usuarios_nombres = pedido.getString("usuarios_nombres");
@@ -166,8 +157,6 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                         factura_IVA,
                                         format.parse(factura_fecha),
                                         factura_idfacturas,
-                                        pedidos_observacion,
-                                        pedidos_idpedidos,
                                         usuarios_idempleado,
                                         usuarios_identificacion,
                                         usuarios_nombres,
@@ -175,7 +164,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                         usuarios_telefono,
                                         usuarios_cargo);
 
-                                for (int i = 0; i < datos.length(); i++) {
+                                for (int i = 0; i < datos.length(); i++)
+                                {
                                     JSONObject plato = datos.getJSONObject(i);
                                     int pedidos_cantidad = plato.getInt("pedidos_cantidad");
                                     String platos_imagen = plato.getString("platos_imagen");
@@ -184,9 +174,11 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                     String platos_nombre = plato.getString("platos_nombre");
                                     String platos_categoria = plato.getString("platos_categoria");
                                     int platos_idplatos = plato.getInt("platos_idplatos");
+                                    String pedidos_observacion = plato.getString("pedidos_observacion");
+
                                     Toast.makeText(getContext(), plato.getString("mesas_numero"), Toast.LENGTH_SHORT).show();
 
-                                    Plato platoDatos = new Plato(
+                                    Pedido pedidoDatos = new Pedido (
                                             platos_idplatos,
                                             platos_categoria,
                                             platos_nombre,
@@ -195,10 +187,12 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                             platos_imagen,
                                             pedidos_cantidad
                                     );
-                                    pedidoFactura.agregarPlato(platoDatos);
+                                    pedidoDatos.setObsevacion (pedidos_observacion);
+                                    pedidoFactura.agregarPedido (pedidoDatos);
                                 }
                             }
-                        } catch (Exception e) {
+                        } catch (Exception e)
+                        {
                             e.printStackTrace();
                         }
                     }
@@ -213,7 +207,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         });
 
         this.listaPedidos.setOnDragListener(this);
-
+        this.btnActualizarPedido.setOnDragListener(this);
         factura.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -243,26 +237,97 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 if (pedidoFactura.getMesas_idmesas () !=0)
                 {
                     int positionFuente = -1;
-                    View viewSource = (View) event.getLocalState();
-                    RecyclerView RecyclerView = (RecyclerView) viewSource.getParent();
-                    AdaptadorListaPlatos adaptadorListaPlatos = (AdaptadorListaPlatos) RecyclerView.getAdapter();
-                    positionFuente = (int) viewSource.getTag();
-                    Plato plato = (Plato) adaptadorListaPlatos.getList ().get(positionFuente);
-                    Plato miPlato = pedidoFactura.buscarPlato (plato.getIdplato ());
-                    if (miPlato instanceof  Plato)
+                    View viewSource = (View) event.getLocalState ();
+                    RecyclerView RecyclerView = (RecyclerView) viewSource.getParent ();
+                    positionFuente = (int) viewSource.getTag ();
+                    if (RecyclerView.getAdapter () instanceof AdaptadorListaPlatos)
                     {
-                        miPlato.setCantidad (miPlato.getCantidad ()+1);
-                    }else
-                    {
-                        plato.setCantidad (1);
-                        pedidoFactura.agregarPlato (plato);
-                    }
+                        AdaptadorListaPlatos adaptadorListaPlatos = (AdaptadorListaPlatos) RecyclerView.getAdapter ();
+                        Plato plato = adaptadorListaPlatos.getList ().get (positionFuente);
+                        Plato miPlato = pedidoFactura.buscarPedido (plato.getIdplato ());
 
-                    listaPedidos.setAdapter(adaptadorListaPedidos);
-                    v.setVisibility(View.VISIBLE);
-                }else
-                {
-                    Toast.makeText(getContext (), "Por favor selecciona una mesa", Toast.LENGTH_SHORT).show();
+                        if (miPlato instanceof Plato)
+                        {
+                            crearObservacion((Pedido) miPlato);
+                            miPlato.setCantidad (miPlato.getCantidad () + 1);
+                        } else
+                        {
+                            plato.setCantidad (1);
+                            crearObservacion((Pedido) plato);
+                            pedidoFactura.agregarPedido ((Pedido) plato);
+                        }
+                        v.setVisibility (View.VISIBLE);
+                    } else if ((RecyclerView.getAdapter () instanceof AdaptadorListaPedidos))
+                    {
+                        final AdaptadorListaPedidos adaptadorListaPedidos = (AdaptadorListaPedidos) RecyclerView.getAdapter ();
+
+                        Plato plato = (Plato) adaptadorListaPedidos.getList ().get (positionFuente);
+
+                        HashMap<String, String> params = new HashMap<String, String> ();
+                        params.put ("eliminarUnPlatoPedido", "true");
+                        params.put ("idplato", plato.getIdplato ()+"");
+                        params.put ("idfactura", pedidoFactura.getFactura_idfacturas () + "");
+                        JSONObject parameters = new JSONObject (params);
+                        String url = "http://openm.co/consultas/pedidos.php";
+
+                        jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
+                        {
+                            @Override
+                            public void onResponse(JSONObject response)
+                            {
+                                try
+                                {
+                                    pedidoFactura.limpiarLista ();
+                                    JSONArray datos = response.getJSONArray("datos");
+                                    if (datos.length() > 0)
+                                    {
+                                        for (int i = 0; i < datos.length(); i++)
+                                        {
+                                            JSONObject plato = datos.getJSONObject(i);
+                                            int pedidos_cantidad = plato.getInt("pedidos_cantidad");
+                                            String platos_imagen = plato.getString("platos_imagen");
+                                            double platos_precio = plato.getDouble("platos_precio");
+                                            String platos_descripcion = plato.getString("platos_descripcion");
+                                            String platos_nombre = plato.getString("platos_nombre");
+                                            String platos_categoria = plato.getString("platos_categoria");
+                                            int platos_idplatos = plato.getInt("platos_idplatos");
+                                            String pedidos_observacion = plato.getString("pedidos_observacion");
+
+                                            Toast.makeText(getContext(), plato.getString("mesas_numero"), Toast.LENGTH_SHORT).show();
+
+                                            Pedido platoDatos = new Pedido (
+                                                    platos_idplatos,
+                                                    platos_categoria,
+                                                    platos_nombre,
+                                                    platos_descripcion,
+                                                    platos_precio,
+                                                    platos_imagen,
+                                                    pedidos_cantidad
+                                            );
+                                            pedidoFactura.agregarPedido (platoDatos);
+                                            adaptadorListaPedidos.notifyDataSetChanged ();
+                                        }
+                                    }
+                                } catch (JSONException e)
+                                {
+                                    e.printStackTrace ();
+                                }
+                            }
+                        }, new Response.ErrorListener ()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error)
+                            {
+                                error.printStackTrace ();
+                            }
+                        });
+                        requestQueue.add (jsonRequest);
+                        adaptadorListaPedidos.notifyDataSetChanged ();
+                        v.setVisibility (View.VISIBLE);
+                        Toast.makeText (getContext (), "Estas eliminando", Toast.LENGTH_SHORT).show ();
+                    }
+                }else {
+                    Toast.makeText (getContext (), "Por favor selecciona una mesa", Toast.LENGTH_SHORT).show ();
                 }
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
@@ -279,6 +344,74 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         }
 
         return true;
+    }
+
+    private void crearObservacion(final Pedido miPlato)
+    {
+        final String[] miObservacion = {""};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext ());
+        builder.setTitle("Title");
+
+        final EditText input = new EditText(getContext ());
+        input.setText (miPlato.getObsevacion ().isEmpty ()?"":miPlato.getObsevacion ());
+        input.setInputType(InputType.TYPE_CLASS_TEXT );
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                miObservacion[0] = input.getText().toString();
+                miPlato.setObsevacion ( miObservacion[0]);
+                actuiizarPedido();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.cancel();
+                actuiizarPedido();
+            }
+        });
+
+        builder.show ();
+    }
+
+    private void actuiizarPedido()
+    {
+        String data = new Gson ().toJson (pedidoFactura.getPlatos ());
+
+        HashMap<String, String> params = new HashMap<String, String> ();
+        params.put ("modidificarListaPedido", data);
+        params.put ("idfactura", pedidoFactura.getFactura_idfacturas () + "");
+        JSONObject parameters = new JSONObject (params);
+
+        String url = "http://openm.co/consultas/pedidos.php";
+
+        jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
+        {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONArray datos = response.getJSONArray ("datos");
+                    Toast.makeText (getContext (), datos.toString (), Toast.LENGTH_SHORT).show ();
+                } catch (JSONException e) {
+                    e.printStackTrace ();
+                }
+            }
+        }, new Response.ErrorListener () {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace ();
+            }
+        });
+        Toast.makeText (getContext (), "Estas agregando", Toast.LENGTH_SHORT).show ();
+        requestQueue.add (jsonRequest);
+        adaptadorListaPedidos.notifyDataSetChanged ();
     }
 
 
