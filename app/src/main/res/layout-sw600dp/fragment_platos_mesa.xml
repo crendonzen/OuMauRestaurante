@@ -162,7 +162,7 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/imagenFactura"
         android:layout_width="73dp"
         android:layout_height="81dp"
         android:background="#00FFFFFF"
@@ -175,7 +175,7 @@
         android:layout_width="75dp"
         android:layout_height="73dp"
         android:layout_marginStart="4dp"
-        android:src="@mipmap/btnmenu"
+        android:src="@mipmap/menup"
         app:layout_constraintStart_toStartOf="@+id/imageView14"
         app:layout_constraintTop_toTopOf="parent" />
 

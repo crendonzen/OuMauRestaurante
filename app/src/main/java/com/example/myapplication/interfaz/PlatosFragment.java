@@ -142,7 +142,7 @@ public class PlatosFragment extends Fragment {
         agregarPlato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_platosFragment_to_agregarPlatoFragment2);
+                Navigation.findNavController(v).navigate(R.id.agregarPlatoFragment);
             }
         });
 

@@ -1,23 +1,21 @@
 package com.example.myapplication.interfaz;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.DragEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.DragEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,7 +36,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,7 +57,9 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
     private boolean isDropped = false;
     private MenuPlatosFragment.Listener mListener;
     private TextView numeroMesa;
-    private ImageButton btnActualizarPedido;
+    private ImageButton btnActualizarPedido,factura;
+    Dialog mDialog;
+
 
     public PlatosMesaFragment()
     {
@@ -81,6 +80,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         View v=inflater.inflate(R.layout.fragment_platos_mesa, container, false);
         this.pedidoFactura=new Factura ();
         this.listaPedidos = v.findViewById(R.id.lista_pedidos);
+        this.factura= v.findViewById(R.id.imagenFactura);
         this.requestQueue =  VolleySingleton.getInstance(getContext ()).getRequestQueue();
         this.adaptadorListaPedidos = new AdaptadorListaPedidos (getContext (),this.pedidoFactura.getPlatos());
         this.listaPedidos.setLayoutManager(new GridLayoutManager(getContext(),5));
@@ -232,7 +232,17 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
 
         this.listaPedidos.setOnDragListener(this);
 
+        factura.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick(View v)
+            {
+                mostrarVentana (v);
+            }
+        });
+        mDialog = new Dialog (getContext ());
         return v;
+
+
     }
 
     @Override
@@ -289,6 +299,13 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         }
 
         return true;
+    }
+
+
+    public void mostrarVentana(View v)
+    {
+        mDialog.setContentView(R.layout.ventana_factura);
+        mDialog.show();
     }
 
 }
