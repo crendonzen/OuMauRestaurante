@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_nav_gallery_to_platosMesaFragment3"
             app:destination="@id/platosMesaFragment3" />
+        <action
+            android:id="@+id/action_nav_gallery_to_pedidosMesaFragment"
+            app:destination="@id/pedidosMesaFragment" />
     </fragment>
 
     <fragment

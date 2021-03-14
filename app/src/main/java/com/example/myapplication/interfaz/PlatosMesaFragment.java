@@ -36,6 +36,7 @@ import com.example.myapplication.mundo.Factura;
 import com.example.myapplication.mundo.Mesa;
 import com.example.myapplication.mundo.Pedido;
 import com.example.myapplication.mundo.Plato;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -211,7 +212,11 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         factura.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.facturaMesaFragment);
+               // Navigation.findNavController(v).navigate(R.id.facturaMesaFragment);
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
+                bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog);
+                bottomSheetDialog.setCanceledOnTouchOutside(false);
+                bottomSheetDialog.show();
             }
         });
 
