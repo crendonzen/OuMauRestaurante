@@ -12,14 +12,25 @@ package com.example.myapplication.mundo;
 public class Pedido extends Plato
 {
 
-    private String obsevacion;
+    private String obsevacion="";
+    private int cantidad;
 
     public Pedido(int idPlato, String categoria, String nombre, String descripcion, double precio, String image, int cantidad)
     {
         super (idPlato, categoria, nombre, descripcion, precio, image);
+        this.cantidad=cantidad;
+
     }
 
+    public int getCantidad()
+    {
+        return cantidad;
+    }
 
+    public void setCantidad(int cantidad)
+    {
+        this.cantidad = cantidad;
+    }
     public String getObsevacion()
     {
         return obsevacion;
