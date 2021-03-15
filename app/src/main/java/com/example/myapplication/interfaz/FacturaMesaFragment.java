@@ -95,7 +95,7 @@ public class FacturaMesaFragment extends BottomSheetDialogFragment
             Document document=new Document ();
             PdfWriter.getInstance (document, new FileOutputStream (path));
             document.open ();
-            document.setPageSize (PageSize.A4);
+            document.setPageSize (PageSize.NOTE);
             document.addCreationDate ();
             document.addAuthor ("Open");
             document.addAuthor ("user");
@@ -125,6 +125,18 @@ public class FacturaMesaFragment extends BottomSheetDialogFragment
             addItem (document,"Detalle producto",Element.ALIGN_LEFT,titulo);
             agregarLinea(document);
 
+            addItemleft (document,"pizza 25","(0.0%)",titulo,numeroValorOrden);
+            addItemleft (document,"12*1000","12000",titulo,numeroValorOrden);
+            agregarLinea(document);
+            addItemleft (document,"pizza 25","(0.0%)",titulo,numeroValorOrden);
+            addItemleft (document,"12*1000","12000",titulo,numeroValorOrden);
+            agregarLinea(document);
+            addItemleft (document,"pizza 25","(0.0%)",titulo,numeroValorOrden);
+            addItemleft (document,"12*1000","12000",titulo,numeroValorOrden);
+            agregarLinea(document);
+            addItemleft (document,"pizza 25","(0.0%)",titulo,numeroValorOrden);
+            addItemleft (document,"12*1000","12000",titulo,numeroValorOrden);
+            agregarLinea(document);
             addItemleft (document,"pizza 25","(0.0%)",titulo,numeroValorOrden);
             addItemleft (document,"12*1000","12000",titulo,numeroValorOrden);
             agregarLinea(document);
