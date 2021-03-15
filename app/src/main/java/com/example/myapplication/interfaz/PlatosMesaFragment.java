@@ -1,11 +1,16 @@
 package com.example.myapplication.interfaz;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintManager;
 import android.text.InputType;
 import android.view.DragEvent;
 import android.view.Gravity;
@@ -34,22 +39,47 @@ import com.android.volley.toolbox.JsonRequest;
 import com.example.myapplication.R;
 import com.example.myapplication.adaptador.AdaptadorListaPedidos;
 import com.example.myapplication.adaptador.AdaptadorListaPlatos;
+import com.example.myapplication.adaptador.PDFAdapter;
 import com.example.myapplication.adaptador.VolleySingleton;
+import com.example.myapplication.adaptador.common;
 import com.example.myapplication.mundo.Factura;
 import com.example.myapplication.mundo.Mesa;
 import com.example.myapplication.mundo.Pedido;
 import com.example.myapplication.mundo.Plato;
 import com.google.gson.Gson;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.pdf.draw.VerticalPositionMark;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -68,8 +98,9 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
     private boolean isDropped = false;
     private MenuPlatosFragment.Listener mListener;
     private TextView numeroMesa;
-    private ImageButton btnActualizarPedido,factura;
-    Dialog mDialog;
+    private ImageButton btnActualizarPedido;
+    private ImageButton factura;
+    private Dialog mDialog;
 
 
     public PlatosMesaFragment()
@@ -215,15 +246,138 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
 
         this.listaPedidos.setOnDragListener(this);
         this.btnActualizarPedido.setOnDragListener(this);
-        factura.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.facturaMesaFragment);
-            }
-        });
 
+        Dexter.withActivity(getActivity ()).withPermission (Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new PermissionListener ()
+        {
+            @Override
+            public void onPermissionGranted(PermissionGrantedResponse response)
+            {
+                factura.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        crearPDF(common.getRutaRaiz(getContext ())+"ticket.pdf");
+                    }
+                });
+            }
+            @Override
+            public void onPermissionDenied(PermissionDeniedResponse response){}
+            @Override
+            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token){}
+        }).check ();
     return v;
 
+    }
+    private void crearPDF(String path)
+    {
+        if (new File (path).exists ())
+        {
+            new File (path).delete ();
+        }
+        try
+        {
+            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
+            SimpleDateFormat format=new SimpleDateFormat ("dd/MM/yyyy");
+            Document document=new Document ();
+            PdfWriter.getInstance (document, new FileOutputStream (path));
+            document.open ();
+            document.setPageSize (PageSize.NOTE);
+            document.addCreationDate ();
+            document.addAuthor ("Open");
+            document.addAuthor ("user");
+            BaseColor color=new BaseColor (0,153,204,255);
+            float fontSize=20.0f;
+            float valueFontSize=20.0f;
+            double total=0;
+            BaseFont fontName= BaseFont.createFont ("assets/fonts/Brandon_medium.otf","UTF-8",BaseFont.EMBEDDED);
+            Font titulo=new Font (fontName,36.0f,Font.NORMAL,BaseColor.BLACK);
+            addItem(document,"Orden pedido", Element.ALIGN_CENTER,titulo);
+
+            Font numeroOrden=new Font (fontName,fontSize,Font.NORMAL,color);
+            addItem(document,"Pedido no.", Element.ALIGN_LEFT,numeroOrden);
+
+            Font numeroValorOrden=new Font (fontName,valueFontSize,Font.NORMAL,BaseColor.BLACK);
+            addItem(document,"#"+this.pedidoFactura.getFactura_idfacturas (), Element.ALIGN_LEFT,numeroValorOrden);
+            agregarLinea(document);
+
+            addItem(document,"Fecha de pedido", Element.ALIGN_LEFT,numeroOrden);
+            addItem(document,format.format (pedidoFactura.getFactura_fecha ()), Element.ALIGN_LEFT,numeroValorOrden);
+            agregarLinea(document);
+
+            addItem(document,"Nombre de la cuenta", Element.ALIGN_LEFT,numeroOrden);
+            addItem(document,"User", Element.ALIGN_LEFT,numeroValorOrden);
+            agregarLinea(document);
+            agregarEspacio (document);
+            addItem (document,"Detalle de los plato",Element.ALIGN_LEFT,titulo);
+            agregarLinea(document);
+            for (Pedido pedido: pedidoFactura.getPlatos ())
+            {
+                addItemleft (document,pedido.getNombre (),"",titulo,numeroValorOrden);
+                total+=pedido.getTotal();
+                addItemleft (document,pedido.getCantidad ()+"*"+nf.format(pedido.getPrecio ()),nf.format(pedido.getTotal())+"",titulo,numeroValorOrden);
+                agregarLinea(document);
+            }
+
+            agregarLinea(document);
+            agregarEspacio (document);
+            addItemleft (document,"Total",nf.format(total)+"",titulo,numeroValorOrden);
+            document.close ();
+            imprimiPDF();
+
+        }catch (FileNotFoundException e)
+        {
+            e.printStackTrace ();
+        } catch (DocumentException e)
+        {
+            e.printStackTrace ();
+        } catch (IOException e)
+        {
+            e.printStackTrace ();
+        }
+    }
+
+    private void imprimiPDF()
+    {
+        PrintManager printManager=(PrintManager)getContext ().getSystemService (Context.PRINT_SERVICE);
+        try{
+            PrintDocumentAdapter adapter=new PDFAdapter (getContext (),common.getRutaRaiz(getContext ())+"ticket.pdf");
+            printManager.print ("Document",adapter, new PrintAttributes.Builder ().build ());
+        }catch (Exception exception)
+        {
+            exception.printStackTrace ();
+        }
+    }
+
+    private void addItemleft(Document document, String textLeft, String textRight, Font left, Font right) throws DocumentException
+    {
+        Chunk chunkLeft=new Chunk (textLeft,left);
+        Chunk chunkRight=new Chunk (textRight ,right);
+        Paragraph paragraph=new Paragraph (chunkLeft);
+        paragraph.add (new Chunk ( new VerticalPositionMark ()));
+        paragraph.add (chunkRight);
+        document.add(paragraph);
+    }
+
+    private void agregarLinea(Document document) throws DocumentException
+    {
+        LineSeparator separator=new LineSeparator ();
+        separator.setLineColor (new BaseColor (0,0,0,68));
+        agregarEspacio(document);
+        document.add (new Chunk (separator));
+        agregarEspacio(document);
+    }
+
+    private void agregarEspacio(Document document) throws DocumentException
+    {
+        document.add (new Paragraph (""));
+    }
+
+    private void addItem(Document document, String oreden_detalle, int alignCenter, Font titulo) throws DocumentException {
+        Chunk chunk=new Chunk (oreden_detalle,titulo);
+        Paragraph paragraph=new Paragraph (chunk);
+        paragraph.setAlignment (alignCenter);
+        document.add(paragraph);
     }
 
     @Override

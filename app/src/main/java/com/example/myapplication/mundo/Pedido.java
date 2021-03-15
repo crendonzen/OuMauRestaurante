@@ -41,4 +41,8 @@ public class Pedido extends Plato
         this.obsevacion = obsevacion;
     }
 
+    public double getTotal()
+    {
+        return this.cantidad*this.getPrecio ();
+    }
 }
