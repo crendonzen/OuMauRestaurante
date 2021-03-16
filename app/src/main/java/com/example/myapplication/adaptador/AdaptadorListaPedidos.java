@@ -101,7 +101,7 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
     {
         ConstraintLayout item;
         TextView txtNombre,txtPrecio,txtCategoria,txtObservacion,txtCantidadPlato;
-        Spinner spnCantidad;
+
         ImageView imgPlatos;
         public ViewHolder(@NonNull View itemView)
         {
@@ -109,7 +109,6 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
             txtNombre=(TextView) itemView.findViewById(R.id.txtNombrePlato);
             txtPrecio=(TextView) itemView.findViewById(R.id.txtPrecio);
             txtCantidadPlato=(TextView) itemView.findViewById(R.id.txtCantidadPlato);
-            spnCantidad=(Spinner) itemView.findViewById(R.id.spnCantidad);
             imgPlatos=(ImageView) itemView.findViewById(R.id.imgPlatos);
             item=(ConstraintLayout) itemView.findViewById (R.id.itemPlatoPedido);
         }

@@ -33,47 +33,7 @@
         <OnSwipe
             motion:touchAnchorId="@+id/imageView3"
             motion:touchAnchorSide="bottom" />
-        <OnSwipe motion:touchAnchorId="@+id/AgregarPedido" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/AgregarPedido"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/AgregarPedido"
-            motion:dragDirection="dragDown"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/AgregarPedido"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/AgregarPedido"
-            motion:dragDirection="dragDown"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/AgregarPedido"
-            motion:dragDirection="dragDown"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/AgregarPedido"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/AgregarPedido"
-            motion:dragDirection="dragDown"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/AgregarPedido"
-            motion:dragDirection="dragDown"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/AgregarPedido"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe motion:touchAnchorId="@+id/AgregarPedido" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/AgregarPedido"
-            motion:dragDirection="dragDown"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/AgregarPedido"
-            motion:touchAnchorSide="bottom" />
+
 
 
     </Transition>

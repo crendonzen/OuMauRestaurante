@@ -5,13 +5,17 @@
     android:id="@+id/itemPlatoPedido"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+
+    android:background="#85FFFFFF"
     tools:context=".interfaz.PresentacionActivity">
+
 
     <LinearLayout
         android:layout_width="131dp"
         android:layout_height="102dp"
         android:layout_marginTop="16dp"
-        android:background="#00807E7E"
+        android:background="@drawable/ventana_factura_background"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,12 +23,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#70878585">
+            android:background="@drawable/ventana_factura_background">
 
             <ImageView
                 android:id="@+id/imgPlatos"
                 android:layout_width="131dp"
                 android:layout_height="102dp"
+                android:background="@drawable/ventana_factura_background"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/tacos"
                 app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +40,7 @@
                 android:id="@+id/linearLayout5"
                 android:layout_width="131dp"
                 android:layout_height="19dp"
-                android:background="#A95C5B5B"
+                android:background="#A99A0303"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -54,30 +59,21 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/txtCantidadPlato"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="30dp"
-                        android:text="5"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/txtNombrePlato"
-                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="131dp"
                 android:layout_height="22dp"
-                android:background="#BC555454"
+                android:background="#20A10404"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="#9EA80202">
 
                     <TextView
                         android:id="@+id/txtPrecio"
@@ -86,14 +82,6 @@
                         android:text="Precio"
                         android:textColor="#FBF9F9"
                         app:layout_constraintStart_toEndOf="@+id/textView7"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <Spinner
-                        android:id="@+id/spnCantidad"
-                        android:layout_width="23dp"
-                        android:layout_height="16dp"
-                        android:layout_marginEnd="5dp"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
@@ -105,6 +93,26 @@
                         android:textColor="#4CAF50"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txtCantidadPlato"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="5"
+                        android:textColor="#FDFCFC"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="27dp"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintEnd_toStartOf="@+id/txtCantidadPlato"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@mipmap/platob" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 

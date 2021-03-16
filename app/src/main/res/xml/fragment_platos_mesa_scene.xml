@@ -18,11 +18,8 @@
             motion:dragDirection="dragDown" />
         <OnSwipe
             motion:touchAnchorId="@+id/imageView14"
-            motion:dragDirection="dragDown"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/imageView14"
             motion:dragDirection="dragDown" />
+
 
     </Transition>
 
@@ -79,20 +76,15 @@
             android:layout_marginRight="12dp"
             android:layout_marginTop="32dp" />
         <Constraint
-            android:layout_width="691dp"
-            android:layout_height="495dp"
+            android:layout_width="760dp"
+            android:layout_height="512dp"
             motion:layout_constraintBottom_toTopOf="@+id/linearLayout4"
             motion:layout_constraintStart_toStartOf="@+id/imageView14"
             android:id="@+id/scrollView5"
-            android:layout_marginStart="32dp" />
-        <Constraint
-            android:id="@+id/linearLayout9"
-            motion:layout_constraintStart_toEndOf="@+id/imageView14"
-            android:layout_width="175dp"
-            android:layout_height="643dp"
-            motion:layout_constraintTop_toBottomOf="@+id/fragment10"
-            android:alpha="1"
-            motion:layout_editor_absoluteX="1287dp" />
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_editor_absoluteX="222dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="22dp" />
         <Constraint
             motion:layout_constraintStart_toStartOf="@+id/imageView14"
             android:id="@+id/navigationView2" />
@@ -127,19 +119,20 @@
         <Constraint
             android:id="@+id/scrollView5"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="733dp"
-            android:layout_height="215dp"
+            android:layout_width="711dp"
+            android:layout_height="283dp"
             motion:layout_constraintBottom_toTopOf="@+id/linearLayout4"
             android:layout_marginEnd="28dp"
             android:alpha="1"
             android:layout_marginBottom="8dp"
             android:layout_marginRight="28dp"
-            motion:layout_editor_absoluteX="504dp"
-            motion:layout_editor_absoluteY="325dp" />
+            motion:layout_constraintStart_toStartOf="@+id/imageView14"
+            motion:layout_editor_absoluteX="282dp"
+            motion:layout_editor_absoluteY="287dp" />
         <Constraint
-            android:layout_height="71dp"
+            android:layout_height="72dp"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="766dp"
+            android:layout_width="805dp"
             android:id="@+id/linearLayout4"
             android:layout_marginEnd="0dp"
             motion:layout_constraintBottom_toBottomOf="@+id/imageView14"
@@ -153,57 +146,5 @@
             motion:layout_constraintTop_toTopOf="parent"
             android:alpha="1" />
     </ConstraintSet>
-    <ConstraintSet android:id="@+id/uno" >
-        <Constraint
-            android:id="@+id/imageButton"
-            android:layout_width="73dp"
-            android:layout_height="81dp"
-            motion:layout_editor_absoluteY="135dp"
-            android:alpha="1"
-            motion:layout_constraintEnd_toEndOf="@+id/scrollView5"
-            motion:layout_constraintStart_toEndOf="@+id/scrollView5"
-            android:layout_marginEnd="85dp" />
-        <Constraint
-            android:id="@+id/scrollView5"
-            android:layout_width="520dp"
-            android:layout_height="504dp"
-            motion:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-            android:alpha="1"
-            motion:layout_editor_absoluteX="503dp"
-            android:layout_marginStart="4dp" />
-        <Constraint
-            android:id="@+id/linearLayout9"
-            android:layout_width="261dp"
-            android:layout_height="630dp"
-            motion:layout_constraintTop_toBottomOf="@+id/fragment10"
 
-            motion:layout_constraintStart_toEndOf="@+id/scrollView5"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_editor_absoluteY="76dp"
-            motion:layout_editor_absoluteX="1038dp" />
-        <Constraint
-            android:layout_width="533dp"
-            android:layout_height="74dp"
-            motion:layout_constraintBottom_toBottomOf="@+id/imageView14"
-            motion:layout_constraintStart_toStartOf="@+id/imageView14"
-            android:id="@+id/linearLayout4"
-            motion:layout_editor_absoluteY="560dp" />
-    </ConstraintSet>
-    <Transition
-        motion:constraintSetStart="@+id/start"
-        motion:constraintSetEnd="@+id/uno" >
-
-        <OnSwipe
-            motion:touchAnchorId="@+id/imageButton"
-            motion:dragDirection="dragLeft"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/imageButton"
-            motion:dragDirection="dragLeft"
-            motion:touchAnchorSide="bottom" />
-        <OnSwipe
-            motion:touchAnchorId="@+id/imageButton"
-            motion:dragDirection="dragLeft"
-            motion:touchAnchorSide="bottom" />
-    </Transition>
 </MotionScene>

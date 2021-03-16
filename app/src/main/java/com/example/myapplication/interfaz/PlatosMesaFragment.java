@@ -46,7 +46,6 @@ import com.example.myapplication.mundo.Factura;
 import com.example.myapplication.mundo.Mesa;
 import com.example.myapplication.mundo.Pedido;
 import com.example.myapplication.mundo.Plato;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -251,14 +250,6 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         Dexter.withActivity(getActivity ()).withPermission (Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new PermissionListener ()
         {
             @Override
-
-            public void onClick(View v) {
-               // Navigation.findNavController(v).navigate(R.id.facturaMesaFragment);
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
-                bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog);
-                bottomSheetDialog.setCanceledOnTouchOutside(false);
-                bottomSheetDialog.show();
-
             public void onPermissionGranted(PermissionGrantedResponse response)
             {
                 factura.setOnClickListener(new View.OnClickListener()
@@ -269,14 +260,13 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                         crearPDF(common.getRutaRaiz(getContext ())+"ticket.pdf");
                     }
                 });
-
             }
             @Override
             public void onPermissionDenied(PermissionDeniedResponse response){}
             @Override
             public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token){}
         }).check ();
-    return v;
+        return v;
 
     }
     private void crearPDF(String path)
@@ -434,23 +424,23 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                         final AdaptadorListaPedidos adaptadorListaPedidos = (AdaptadorListaPedidos) RecyclerView.getAdapter ();
                         final Pedido plato =  adaptadorListaPedidos.getList ().get (positionFuente);
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext ());
-                        final EditText input = new EditText(getContext ());
-                        final TextView titulo = new TextView(getContext ());
-                        final TextView titulo1 = new TextView(getContext ());
+
+                       // GridLayout gridLayout=new GridLayout (getContext ());
+                        LayoutInflater inflater= getLayoutInflater();
+                        View view = inflater.inflate(R.layout.dialog_eliminar_plato,null);
+                        builder.setView(view);
+                        AlertDialog dialog = builder.create();
+                        dialog.show ();
+
+                       final EditText input =view.findViewById(R.id.editTextCantPlatos);
+                       TextView titulo = view.findViewById(R.id.textTitulo);
+                         TextView titulo1 = view.findViewById(R.id.textTitulo1);
+
                         input.setInputType(InputType.TYPE_CLASS_NUMBER);
                         titulo.setText ("¿Seguro que quieres retirar estos platos?");
                         titulo1.setText ("Ingrese la cantidad de platos de "+plato.getNombre ()+" a eliminar.");
-
                         input.setText (plato.getCantidad ()+"");
-                        input.setGravity(Gravity.CENTER);
-                        GridLayout gridLayout=new GridLayout (getContext ());
-                        gridLayout.setColumnCount(1);
-                        gridLayout.setRowCount(3);
 
-                        gridLayout.addView (titulo1);
-                        gridLayout.addView (input);
-                        gridLayout.addView (titulo);
-                        builder.setView(gridLayout);
                         builder.setPositiveButton("Si", new DialogInterface.OnClickListener()
                         {
                             @Override
@@ -540,7 +530,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                 dialog.cancel();
                             }
                         });
-                        builder.show ();
+                        dialog.show ();
                         v.setVisibility (View.VISIBLE);
                     }
                 }else
@@ -639,3 +629,6 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
     }
 
 }
+
+
+
