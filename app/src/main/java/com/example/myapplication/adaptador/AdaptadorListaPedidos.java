@@ -54,7 +54,7 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
         plato = this.list.get(position);
 
         holder.txtNombre.setText(list.get(position).getNombre ());
-        holder.txtPrecio.setText(list.get(position).getPrecio ()+"");
+       // holder.txtPrecio.setText(list.get(position).getPrecio ()+"");
         holder.txtCantidadPlato.setText(list.get(position).getCantidad ()+"");
         Glide.with(inflater.getContext ())
                 .load(list.get(position).getImage ())

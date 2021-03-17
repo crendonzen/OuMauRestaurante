@@ -67,6 +67,7 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
     private AdaptadorListaPlatos adaptadorListaPlatos;
     private AdaptadorListaPedidos adaptadorListaPedidos;
     private ArrayList<Plato> platosMenu;
+    ArrayList<Plato> platoslist;
     private Factura pedidoFactura;
     private boolean isDropped = false;
 
@@ -116,7 +117,7 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
         this.adaptadorListaPlatos = new AdaptadorListaPlatos (getContext (),this.platosMenu);
         this.adaptadorListaPedidos = new AdaptadorListaPedidos (getContext (),this.pedidoFactura.getPlatos ());
 
-        this.listaPlatos.setLayoutManager(new GridLayoutManager(getContext(),5));
+        this.listaPlatos.setLayoutManager(new GridLayoutManager(getContext(),6));
         this.listaPlatos.setAdapter(this.adaptadorListaPlatos);
         this.listaPlatos.setOnDragListener(this);
 
@@ -125,57 +126,62 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
             @Override
             public boolean onQueryTextSubmit(String query) { return false;  }
             @Override
-            public boolean onQueryTextChange(final String newText)
+            public boolean onQueryTextChange(final String platoNombre)
             {
-                if(!newText.isEmpty())
-                {
-                    Map<String,String> params= new HashMap<String, String>();
-                    params.put("buscarPlatos",newText);
-                    JSONObject parameters = new JSONObject(params);
-                    String url="http://openm.co/consultas/pedidos.php";
-                    jsonRequest=new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
-                    {
-                        @Override
-                        public void onResponse(JSONObject response)
-                        {
-                            platosMenu.clear();
-                            try
-                            {
-                                listaPlatos.setAdapter(adaptadorListaPlatos);
-                                JSONArray datos = response.getJSONArray ("datos");
-                                for (int i = 0; i < datos.length(); i++)
-                                {
-                                    JSONObject plato = datos.getJSONObject(i);
-                                    int idPlato=plato.getInt ("idplatos");
-                                    String categoria=plato.getString("categoria");
-                                    String nombre=plato.getString("nombre");
-                                    String descripcion=plato.getString("descripcion");
-                                    Double precio=plato.getDouble("precio");
-                                    String image=plato.getString ("imagen");
-                                    Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image);
-                                    platosMenu.add (m);
-                                }
-                            } catch (JSONException e)
-                            {
-                                e.printStackTrace ();
-                            }
-                        }
-                    }, new Response.ErrorListener ()
-                    {
-                        @Override
-                        public void onErrorResponse(VolleyError error)
-                        {
-                            error.printStackTrace ();
-                        }
-                    });
-                    requestQueue.add(jsonRequest);
-                }
+                cargarPlatos(platoNombre);
                 return false;
             }
         });
-        return v;
-    }
 
+        platoslist = new ArrayList<>();
+        cargarPlatos("");
+
+        return v;
+
+    }
+    public void cargarPlatos(String platoNombre)
+    {
+        Map<String,String> params= new HashMap<String, String>();
+        params.put("buscarPlatos",platoNombre);
+        JSONObject parameters = new JSONObject(params);
+        String url="http://openm.co/consultas/platos.php";
+        jsonRequest=new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
+        {
+            @Override
+            public void onResponse(JSONObject response)
+            {
+                platosMenu.clear();
+                try
+                {
+                    JSONArray datos = response.getJSONArray ("datos");
+                    for (int i = 0; i < datos.length(); i++)
+                    {
+                        JSONObject plato = datos.getJSONObject(i);
+                        int idPlato=plato.getInt ("idplatos");
+                        String categoria=plato.getString("categoria");
+                        String nombre=plato.getString("nombre");
+                        String descripcion=plato.getString("descripcion");
+                        Double precio=plato.getDouble("precio");
+                        String image=plato.getString ("imagen");
+                        Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image);
+                        platosMenu.add (m);
+                    }
+                    adaptadorListaPlatos.notifyDataSetChanged ();
+                } catch (JSONException e)
+                {
+                    e.printStackTrace ();
+                }
+            }
+        }, new Response.ErrorListener ()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                error.printStackTrace ();
+            }
+        });
+        requestQueue.add(jsonRequest);
+    }
     public interface Listener
     {
         void setEmptyList(boolean visibility);
@@ -190,10 +196,10 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
             case DragEvent.ACTION_DRAG_STARTED:
                 break;
             case DragEvent.ACTION_DRAG_ENTERED:
-                v.setBackgroundColor(Color.LTGRAY);
+              //  v.setBackgroundColor(Color.LTGRAY);
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
-               v.setBackgroundColor(Color.YELLOW);
+           //    v.setBackgroundColor(Color.YELLOW);
                 break;
             case DragEvent.ACTION_DROP:
 

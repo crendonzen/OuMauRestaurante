@@ -7,46 +7,88 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="481dp"
-        android:layout_height="88dp"
+        android:layout_width="554dp"
+        android:layout_height="143dp"
         android:background="#AA0303"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="481dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView22"
+                android:layout_width="554dp"
+                android:layout_height="142dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/estadio" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#75555454"
+                android:orientation="vertical"/>
 
             <TextView
                 android:id="@+id/textTitulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="212dp"
-                android:layout_marginTop="4dp"
                 android:text="TextView"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextCantPlatos" />
 
             <EditText
                 android:id="@+id/editTextCantPlatos"
-                android:layout_width="137dp"
-                android:layout_height="41dp"
-                android:layout_marginEnd="172dp"
+                android:layout_width="46dp"
+                android:layout_height="45dp"
+                android:backgroundTint="#FFFFFF"
                 android:ems="10"
                 android:inputType="number"
+                android:textColor="#F8F5F5"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textTitulo" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textTitulo1" />
 
             <TextView
                 android:id="@+id/textTitulo1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="220dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:text="TextView"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextCantPlatos" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonSi"
+                android:layout_width="68dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="120dp"
+                android:layout_marginTop="8dp"
+                android:background="#B80303"
+                android:text="Si"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textTitulo" />
+
+            <Button
+                android:id="@+id/buttonNO"
+                android:layout_width="76dp"
+                android:layout_height="31dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="120dp"
+                android:background="#2196F3"
+                android:text="No"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textTitulo" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

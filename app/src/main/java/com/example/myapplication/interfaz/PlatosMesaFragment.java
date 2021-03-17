@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
@@ -101,6 +102,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
     private ImageButton btnActualizarPedido;
     private ImageButton factura;
     private Dialog mDialog;
+
 
 
     public PlatosMesaFragment()
@@ -389,7 +391,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
             case DragEvent.ACTION_DRAG_STARTED:
                 break;
             case DragEvent.ACTION_DRAG_ENTERED:
-                v.setBackgroundColor(Color.LTGRAY);
+            //    v.setBackgroundColor(Color.LTGRAY);
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
                 v.setBackgroundColor(Color.YELLOW);
@@ -429,23 +431,23 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                         LayoutInflater inflater= getLayoutInflater();
                         View view = inflater.inflate(R.layout.dialog_eliminar_plato,null);
                         builder.setView(view);
-                        AlertDialog dialog = builder.create();
+                        final AlertDialog dialog = builder.create();
                         dialog.show ();
 
                        final EditText input =view.findViewById(R.id.editTextCantPlatos);
                        TextView titulo = view.findViewById(R.id.textTitulo);
-                         TextView titulo1 = view.findViewById(R.id.textTitulo1);
+                       TextView titulo1 = view.findViewById(R.id.textTitulo1);
+                       Button si = view.findViewById(R.id.buttonSi);
+                       Button no = view.findViewById(R.id.buttonNO);
 
                         input.setInputType(InputType.TYPE_CLASS_NUMBER);
                         titulo.setText ("¿Seguro que quieres retirar estos platos?");
                         titulo1.setText ("Ingrese la cantidad de platos de "+plato.getNombre ()+" a eliminar.");
                         input.setText (plato.getCantidad ()+"");
 
-                        builder.setPositiveButton("Si", new DialogInterface.OnClickListener()
-                        {
+                        si.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which)
-                            {
+                            public void onClick(View view) {
                                 try
                                 {
                                     int cantidad = Integer.parseInt(input.getText ().toString ());
@@ -502,6 +504,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                                     e.printStackTrace ();
                                                 }
                                                 Toast.makeText (getContext (), "Platos eliminados", Toast.LENGTH_SHORT).show ();
+                                                dialog.cancel();
                                             }
                                         }, new Response.ErrorListener ()
                                         {
@@ -522,14 +525,13 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                 }
                             }
                         });
-                        builder.setNegativeButton("No", new DialogInterface.OnClickListener()
-                        {
+                        no.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which)
-                            {
+                            public void onClick(View view) {
                                 dialog.cancel();
                             }
                         });
+
                         dialog.show ();
                         v.setVisibility (View.VISIBLE);
                     }
@@ -622,11 +624,6 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
     }
 
 
-    public void mostrarVentana(View v)
-    {
-        mDialog.setContentView(R.layout.ventana_factura);
-        mDialog.show();
-    }
 
 }
 

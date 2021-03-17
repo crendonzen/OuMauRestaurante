@@ -12,7 +12,7 @@
         android:layout_width="470dp"
         android:layout_height="550dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/fnn" />
+        android:src="@mipmap/fondomdeso" />
 
 
     <SearchView

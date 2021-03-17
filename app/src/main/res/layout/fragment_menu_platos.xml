@@ -24,16 +24,16 @@
                 android:layout_height="351dp"
                 android:layout_marginTop="1dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/fb"
+                android:src="@mipmap/fnn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <SearchView
                 android:id="@+id/searchBuscarPlato"
-                android:layout_width="422dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="64dp"
+                android:layout_width="264dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="36dp"
                 android:background="#70F80707"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -42,19 +42,44 @@
 
             <ScrollView
                 android:id="@+id/scrollView4"
-                android:layout_width="721dp"
-                android:layout_height="241dp"
+                android:layout_width="724dp"
+                android:layout_height="271dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/imageView16"
                 app:layout_constraintTop_toBottomOf="@+id/searchBuscarPlato">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/listaPlatosMesas"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp">
+                    android:layout_height="wrap_content">
 
-                </androidx.recyclerview.widget.RecyclerView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/listaPlatosMesas"
+                        android:layout_width="713dp"
+                        android:layout_height="270dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00FB0505"
+                android:text="MENU"
+                android:textColor="#F30808"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toStartOf="@+id/searchBuscarPlato"
+                app:layout_constraintHorizontal_bias="0.23"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#00810202"
     app:layoutDescription="@xml/fragment_platos_mesa_scene"
     tools:context=".interfaz.PedidosFragment">
 
@@ -18,12 +19,21 @@
 
     <ImageView
         android:id="@+id/imageView14"
-        android:layout_width="775dp"
-        android:layout_height="632dp"
+        android:layout_width="774dp"
+        android:layout_height="666dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/fnnn"
-        app:layout_constraintTop_toBottomOf="@+id/fragment10"
-        tools:layout_editor_absoluteX="507dp" />
+        android:src="@mipmap/fondofut"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment10" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout9"
+        android:layout_width="779dp"
+        android:layout_height="597dp"
+        android:background="#7A787878"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView5"
@@ -54,7 +64,7 @@
         android:id="@+id/linearLayout4"
         android:layout_width="783dp"
         android:layout_height="73dp"
-        android:background="#8B706E6E"
+        android:background="#B7850202"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/imageView14"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,6 +82,7 @@
                 android:layout_marginTop="24dp"
                 android:text="Número de mesa"
                 android:textColor="#FAF8F8"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,23 +90,26 @@
                 android:id="@+id/btnActualizarPedido"
                 android:layout_width="64dp"
                 android:layout_height="68dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="8dp"
                 android:background="#00FFFFFF"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/papelera"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageButton
+                android:id="@+id/imagenFactura"
+                android:layout_width="67dp"
+                android:layout_height="74dp"
+                android:layout_marginEnd="32dp"
+                android:background="#00FFFFFF"
+                android:src="@mipmap/botonfactura"
+                app:layout_constraintEnd_toStartOf="@+id/btnActualizarPedido"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/imagenFactura"
-        android:layout_width="73dp"
-        android:layout_height="81dp"
-        android:background="#00FFFFFF"
-        android:src="@mipmap/botonfactura"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment10" />
 
     <ImageView
         android:id="@+id/imageView18"
