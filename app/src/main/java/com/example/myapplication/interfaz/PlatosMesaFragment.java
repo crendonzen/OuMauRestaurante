@@ -227,6 +227,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                             platos_imagen,
                                             pedidos_cantidad
                                     );
+
                                     pedidoDatos.setObsevacion (pedidos_observacion);
                                     pedidoFactura.agregarPedido (pedidoDatos);
                                 }
