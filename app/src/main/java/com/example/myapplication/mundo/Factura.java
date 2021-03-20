@@ -196,7 +196,7 @@ public class Factura
         this.usuarios_cargo = usuarios_cargo;
     }
 
-    public ArrayList<Pedido> getPlatos()
+    public ArrayList<Pedido> getPedidos()
     {
         return  this.pedidos;
     }
@@ -218,5 +218,10 @@ public class Factura
             }
         }
         return miPedido;
+    }
+
+    public boolean hayPedidos()
+    {
+        return !this.pedidos.isEmpty ();
     }
 }

@@ -1,27 +1,17 @@
 package com.example.myapplication.interfaz;
 
-import android.content.ClipData;
-import android.content.ClipDescription;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,28 +19,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.myapplication.R;
 import com.example.myapplication.adaptador.AdaptadorListaPedidos;
 import com.example.myapplication.adaptador.AdaptadorListaPlatos;
 import com.example.myapplication.adaptador.VolleySingleton;
 import com.example.myapplication.mundo.Factura;
-import com.example.myapplication.mundo.Mesa;
 import com.example.myapplication.mundo.Plato;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.SimpleTimeZone;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -115,7 +97,7 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
         this.requestQueue =  VolleySingleton.getInstance(getContext ()).getRequestQueue();
         this.platosMenu = new ArrayList<Plato>();
         this.adaptadorListaPlatos = new AdaptadorListaPlatos (getContext (),this.platosMenu);
-        this.adaptadorListaPedidos = new AdaptadorListaPedidos (getContext (),this.pedidoFactura.getPlatos ());
+        this.adaptadorListaPedidos = new AdaptadorListaPedidos (getContext (),this.pedidoFactura.getPedidos ());
 
         this.listaPlatos.setLayoutManager(new GridLayoutManager(getContext(),6));
         this.listaPlatos.setAdapter(this.adaptadorListaPlatos);

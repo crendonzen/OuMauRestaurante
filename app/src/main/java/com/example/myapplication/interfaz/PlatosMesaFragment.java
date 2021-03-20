@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.print.PrintAttributes;
@@ -13,13 +12,11 @@ import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.text.InputType;
 import android.view.DragEvent;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +24,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -70,7 +66,6 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -100,7 +95,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
     private MenuPlatosFragment.Listener mListener;
     private TextView numeroMesa;
     private ImageButton btnActualizarPedido;
-    private ImageButton factura;
+    private ImageButton btnFactura;
+    private ImageButton btnCocina;
     private Dialog mDialog;
 
 
@@ -124,9 +120,10 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         View v = inflater.inflate(R.layout.fragment_platos_mesa, container, false);
         this.pedidoFactura = new Factura();
         this.listaPedidos = v.findViewById(R.id.lista_pedidos);
-        this.factura = v.findViewById(R.id.imagenFactura);
+        this.btnFactura = v.findViewById(R.id.imagenFactura);
+        this.btnCocina = v.findViewById(R.id.imagenCocina);
         this.requestQueue = VolleySingleton.getInstance(getContext()).getRequestQueue();
-        this.adaptadorListaPedidos = new AdaptadorListaPedidos(getContext(), this.pedidoFactura.getPlatos());
+        this.adaptadorListaPedidos = new AdaptadorListaPedidos(getContext(), this.pedidoFactura.getPedidos ());
         this.listaPedidos.setLayoutManager(new GridLayoutManager(getContext(), 5));
         this.listaPedidos.setAdapter(this.adaptadorListaPedidos);
         this.btnActualizarPedido = v.findViewById(R.id.btnActualizarPedido);
@@ -143,7 +140,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
             @Override
             public void onClick(View v)
             {
-                Plato plato= pedidoFactura.getPlatos().get (listaPedidos.getChildAdapterPosition (v));
+                Plato plato= pedidoFactura.getPedidos ().get (listaPedidos.getChildAdapterPosition (v));
 
                 crearObservacion((Pedido) plato);
 
@@ -255,12 +252,20 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
             @Override
             public void onPermissionGranted(PermissionGrantedResponse response)
             {
-                factura.setOnClickListener(new View.OnClickListener()
+                btnFactura.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
                     public void onClick(View v)
                     {
-                        crearPDF(common.getRutaRaiz(getContext ())+"ticket.pdf");
+                        crearPDFFactura (common.getRutaRaiz(getContext ())+"ticket.pdf");
+                    }
+                });
+                btnCocina.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        crearPDFCocina (common.getRutaRaiz(getContext ())+"ticket.pdf");
                     }
                 });
             }
@@ -272,7 +277,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         return v;
 
     }
-    private void crearPDF(String path)
+    private void crearPDFFactura(String path)
     {
         if (new File (path).exists ())
         {
@@ -280,53 +285,140 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         }
         try
         {
-            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
-            SimpleDateFormat format=new SimpleDateFormat ("dd/MM/yyyy");
-            Document document=new Document ();
-            PdfWriter.getInstance (document, new FileOutputStream (path));
-            document.open ();
-            document.setPageSize (PageSize.NOTE);
-            document.addCreationDate ();
-            document.addAuthor ("Open");
-            document.addAuthor ("user");
-            BaseColor color=new BaseColor (0,153,204,255);
-            float fontSize=20.0f;
-            float valueFontSize=20.0f;
-            double total=0;
-            BaseFont fontName= BaseFont.createFont ("assets/fonts/Brandon_medium.otf","UTF-8",BaseFont.EMBEDDED);
-            Font titulo=new Font (fontName,36.0f,Font.NORMAL,BaseColor.BLACK);
-            addItem(document,"Orden pedido", Element.ALIGN_CENTER,titulo);
-
-            Font numeroOrden=new Font (fontName,fontSize,Font.NORMAL,color);
-            addItem(document,"Pedido no.", Element.ALIGN_LEFT,numeroOrden);
-
-            Font numeroValorOrden=new Font (fontName,valueFontSize,Font.NORMAL,BaseColor.BLACK);
-            addItem(document,"#"+this.pedidoFactura.getFactura_idfacturas (), Element.ALIGN_LEFT,numeroValorOrden);
-            agregarLinea(document);
-
-            addItem(document,"Fecha de pedido", Element.ALIGN_LEFT,numeroOrden);
-            addItem(document,format.format (pedidoFactura.getFactura_fecha ()), Element.ALIGN_LEFT,numeroValorOrden);
-            agregarLinea(document);
-
-            addItem(document,"Nombre de la cuenta", Element.ALIGN_LEFT,numeroOrden);
-            addItem(document,"User", Element.ALIGN_LEFT,numeroValorOrden);
-            agregarLinea(document);
-            agregarEspacio (document);
-            addItem (document,"Detalle de los plato",Element.ALIGN_LEFT,titulo);
-            agregarLinea(document);
-            for (Pedido pedido: pedidoFactura.getPlatos ())
+            if (this.pedidoFactura.hayPedidos())
             {
-                addItemleft (document,pedido.getNombre (),"",titulo,numeroValorOrden);
-                total+=pedido.getTotal();
-                addItemleft (document,pedido.getCantidad ()+"*"+nf.format(pedido.getPrecio ()),nf.format(pedido.getTotal())+"",titulo,numeroValorOrden);
+                NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
+                SimpleDateFormat format=new SimpleDateFormat ("dd/MM/yyyy");
+                Document document=new Document ();
+                PdfWriter.getInstance (document, new FileOutputStream (path));
+                document.open ();
+                document.setPageSize (PageSize.NOTE);
+                document.addCreationDate ();
+                document.addAuthor ("Open");
+                document.addAuthor ("user");
+                BaseColor color=new BaseColor (0,153,204,255);
+                float fontSize=20.0f;
+                float valueFontSize=20.0f;
+                double total=0;
+                BaseFont fontName= BaseFont.createFont ("assets/fonts/Brandon_medium.otf","UTF-8",BaseFont.EMBEDDED);
+                Font titulo=new Font (fontName,36.0f,Font.NORMAL,BaseColor.BLACK);
+                addItem(document,"Orden pedido", Element.ALIGN_CENTER,titulo);
+
+                Font numeroOrden=new Font (fontName,fontSize,Font.NORMAL,color);
+                addItem(document,"Pedido no.", Element.ALIGN_LEFT,numeroOrden);
+
+                Font numeroValorOrden=new Font (fontName,valueFontSize,Font.NORMAL,BaseColor.BLACK);
+                addItem(document,"#"+this.pedidoFactura.getFactura_idfacturas (), Element.ALIGN_LEFT,numeroValorOrden);
                 agregarLinea(document);
+
+                addItem(document,"Fecha de pedido", Element.ALIGN_LEFT,numeroOrden);
+                addItem(document,format.format (pedidoFactura.getFactura_fecha ()), Element.ALIGN_LEFT,numeroValorOrden);
+                agregarLinea(document);
+
+                addItem(document,"Número de mesa", Element.ALIGN_LEFT,numeroOrden);
+                addItem(document,pedidoFactura.getMesas_numero (), Element.ALIGN_LEFT,numeroValorOrden);
+                agregarLinea(document);
+                agregarEspacio (document);
+                addItem (document,"Detalle de los platos",Element.ALIGN_LEFT,titulo);
+                agregarLinea(document);
+
+                for (Pedido pedido: pedidoFactura.getPedidos ())
+                {
+                    addItemleft (document,pedido.getNombre (),"",titulo,numeroValorOrden);
+                    total+=pedido.getTotal();
+                    addItemleft (document,pedido.getCantidad ()+"*"+nf.format(pedido.getPrecio ()),nf.format(pedido.getTotal())+"",titulo,numeroValorOrden);
+                }
+
+                agregarLinea(document);
+                agregarEspacio (document);
+                addItemleft (document,"Subtotal",nf.format(total)+"",titulo,numeroValorOrden);
+                addItemleft (document,"IVA",nf.format(total*0.19)+"",titulo,numeroValorOrden);
+                agregarLinea(document);
+                addItemleft (document,"Total",nf.format((total*0.19)+total)+"",titulo,numeroValorOrden);
+                document.close ();
+                imprimiPDF();
+            }else
+            {
+                Toast.makeText(getContext(), "No hay pedidos que imprimir", Toast.LENGTH_SHORT).show();
             }
 
-            agregarLinea(document);
-            agregarEspacio (document);
-            addItemleft (document,"Total",nf.format(total)+"",titulo,numeroValorOrden);
-            document.close ();
-            imprimiPDF();
+        }catch (FileNotFoundException e)
+        {
+            e.printStackTrace ();
+        } catch (DocumentException e)
+        {
+            e.printStackTrace ();
+        } catch (IOException e)
+        {
+            e.printStackTrace ();
+        }
+    }
+
+    private void crearPDFCocina(String path)
+    {
+        if (new File (path).exists ())
+        {
+            new File (path).delete ();
+        }
+        try
+        {
+            if (this.pedidoFactura.hayPedidos())
+            {
+                NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
+                SimpleDateFormat format=new SimpleDateFormat ("dd/MM/yyyy");
+                Document document=new Document ();
+                PdfWriter.getInstance (document, new FileOutputStream (path));
+                document.open ();
+                document.setPageSize (PageSize.NOTE);
+                document.addCreationDate ();
+                document.addAuthor ("Open");
+                document.addAuthor ("user");
+                BaseColor color=new BaseColor (0,153,204,255);
+                float fontSize=20.0f;
+                float valueFontSize=20.0f;
+                double total=0;
+                BaseFont fontName= BaseFont.createFont ("assets/fonts/Brandon_medium.otf","UTF-8",BaseFont.EMBEDDED);
+                Font titulo=new Font (fontName,36.0f,Font.NORMAL,BaseColor.BLACK);
+                addItem(document,"Orden pedido", Element.ALIGN_CENTER,titulo);
+
+                Font numeroOrden=new Font (fontName,fontSize,Font.NORMAL,color);
+                addItem(document,"Pedido no.", Element.ALIGN_LEFT,numeroOrden);
+
+                Font numeroValorOrden=new Font (fontName,valueFontSize,Font.NORMAL,BaseColor.BLACK);
+                addItem(document,"#"+this.pedidoFactura.getFactura_idfacturas (), Element.ALIGN_LEFT,numeroValorOrden);
+                agregarLinea(document);
+
+                addItem(document,"Fecha de pedido", Element.ALIGN_LEFT,numeroOrden);
+                addItem(document,format.format (pedidoFactura.getFactura_fecha ()), Element.ALIGN_LEFT,numeroValorOrden);
+                agregarLinea(document);
+
+                addItem(document,"Número de mesa", Element.ALIGN_LEFT,numeroOrden);
+                addItem(document,pedidoFactura.getMesas_numero (), Element.ALIGN_LEFT,numeroValorOrden);
+                agregarLinea(document);
+                agregarEspacio (document);
+                addItem (document,"Detalle de los platos",Element.ALIGN_LEFT,titulo);
+                agregarLinea(document);
+
+                for (Pedido pedido: pedidoFactura.getPedidos ())
+                {
+                    addItemleft (document,pedido.getNombre (),"",titulo,numeroValorOrden);
+                    total+=pedido.getTotal();
+                    addItemleft (document,pedido.getCantidad ()+"*"+nf.format(pedido.getPrecio ()),nf.format(pedido.getTotal())+"",titulo,numeroValorOrden);
+                    addItemleft (document,pedido.getObsevacion (),"",titulo,numeroValorOrden);
+                    agregarLinea(document);
+                }
+
+
+                agregarEspacio (document);
+                agregarEspacio (document);
+                addItemleft (document,"Total",nf.format(total)+"",titulo,numeroValorOrden);
+                document.close ();
+                imprimiPDF();
+            }else
+            {
+                Toast.makeText(getContext(), "No hay pedidos que imprimir", Toast.LENGTH_SHORT).show();
+            }
+
 
         }catch (FileNotFoundException e)
         {
@@ -593,7 +685,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
 
     private void actuiizarPedido()
     {
-        String data = new Gson ().toJson (pedidoFactura.getPlatos ());
+        String data = new Gson ().toJson (pedidoFactura.getPedidos ());
 
         HashMap<String, String> params = new HashMap<String, String> ();
         params.put ("modidificarListaPedido", data);
