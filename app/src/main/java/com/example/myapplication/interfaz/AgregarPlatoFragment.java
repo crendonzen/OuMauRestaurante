@@ -183,13 +183,13 @@ public class AgregarPlatoFragment extends Fragment
                 Toast.makeText(getContext(), "Seleccione una categoria valida",Toast.LENGTH_SHORT).show();
             }else if (nombre.isEmpty ())
             {
-                Toast.makeText(getContext(), "Escriba un nombre de plato valida",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Escriba un nombre de plato valido",Toast.LENGTH_SHORT).show();
             }else if (precio<0)
             {
                 Toast.makeText(getContext(), "Escriba un precio de plato valida ",Toast.LENGTH_SHORT).show();
             }else if (descripcion.isEmpty ())
             {
-                Toast.makeText(getContext(), "Escriba una descripcon del plato valida",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Escriba una descripción del plato valida",Toast.LENGTH_SHORT).show();
             }else
             {
                 final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando plato...","Espere por favor...",false,false);
@@ -216,7 +216,7 @@ public class AgregarPlatoFragment extends Fragment
                         loading.dismiss ();
                         if (response!=null)
                         {
-                            Toast.makeText(getContext(), "Plato registrado con existo",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Plato registrado con exito",Toast.LENGTH_SHORT).show();
                             limpiar();
                             Navigation.findNavController(v).navigate(R.id.action_agregarPlatoFragment_to_platosFragment);
                         }

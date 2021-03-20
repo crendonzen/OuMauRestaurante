@@ -124,12 +124,12 @@ public class PedidosMesaFragment extends Fragment
         this.listaMesas.setAdapter(adaptadorListaMesa);
         this.listaMesas.setLayoutManager (new GridLayoutManager (getContext (), 3));
 
-/*
-        new Timer ().scheduleAtFixedRate(new TimerTask ()
-=======
 
-       /* new Timer ().scheduleAtFixedRate(new TimerTask ()
->>>>>>> a12abf48ffb93f4cfe4ed5d230620ffc7a720460
+
+
+
+new Timer ().scheduleAtFixedRate(new TimerTask ()
+
         {
             @Override
             public void run()
@@ -137,7 +137,7 @@ public class PedidosMesaFragment extends Fragment
 
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1,5000);*/
+        },1,5000);
         buscarlista ();
         buscarMesaDesocupada ();
         this.buscarMesa.setOnQueryTextListener (new SearchView.OnQueryTextListener ()

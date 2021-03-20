@@ -203,8 +203,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                         usuarios_apellidos,
                                         usuarios_telefono,
                                         usuarios_cargo);
-
-                                for (int i = 0; i < datos.length(); i++)
+                                String nombrePlato=datos.getJSONObject(0).getString ("platos_nombre");
+                                for (int i = 0; i < datos.length() && !nombrePlato.equals ("null"); i++)
                                 {
                                     JSONObject plato = datos.getJSONObject(i);
                                     int pedidos_cantidad = plato.getInt("pedidos_cantidad");
