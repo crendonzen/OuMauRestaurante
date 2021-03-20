@@ -108,6 +108,16 @@
                 app:layout_constraintEnd_toStartOf="@+id/btnActualizarPedido"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageButton
+                android:id="@+id/imagenCocina"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="#00FFFFFF"
+                android:src="@mipmap/botonact"
+                app:layout_constraintEnd_toStartOf="@+id/imagenFactura"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
