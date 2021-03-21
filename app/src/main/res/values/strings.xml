@@ -21,4 +21,14 @@
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string-array name="Spinner_items">
+        <item> Hamburguesas</item>
+        <item> Pizza</item>
+        <item> Parrilla</item>
+        <item> Infantil</item>
+        <item> Bebidas</item>
+        <item> Extras</item>
+    </string-array>
 </resources>

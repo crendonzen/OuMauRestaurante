@@ -131,7 +131,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
         this.mesasAux = new ArrayList<Mesa> ();
         this.adaptadorListaMesa = new AdaptadorListaMesa (getContext (), this.mesas);
         this.listaMesas.setLayoutManager (new LinearLayoutManager (getContext ()));
-        this.mesasDesocupadas.setLayoutManager (new LinearLayoutManager (getContext ()));
+        this.mesasDesocupadas.setLayoutManager (new GridLayoutManager (getContext (), 3));
         this.adaptadorListaMesaDesocupada = new AdaptadorListaMesaDesocupada (getContext (), this.mesasDes);
         this.mesasDesocupadas.setAdapter (adaptadorListaMesaDesocupada);
         this.listaMesas.setAdapter(adaptadorListaMesa);
