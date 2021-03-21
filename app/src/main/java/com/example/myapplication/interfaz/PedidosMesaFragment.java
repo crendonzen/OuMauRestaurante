@@ -131,7 +131,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
         this.mesasAux = new ArrayList<Mesa> ();
         this.adaptadorListaMesa = new AdaptadorListaMesa (getContext (), this.mesas);
         this.listaMesas.setLayoutManager (new LinearLayoutManager (getContext ()));
-        this.mesasDesocupadas.setLayoutManager (new LinearLayoutManager (getContext ()));
+        this.mesasDesocupadas.setLayoutManager (new GridLayoutManager (getContext (), 3));
         this.adaptadorListaMesaDesocupada = new AdaptadorListaMesaDesocupada (getContext (), this.mesasDes);
         this.mesasDesocupadas.setAdapter (adaptadorListaMesaDesocupada);
         this.listaMesas.setAdapter(adaptadorListaMesa);
@@ -141,18 +141,18 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
 
 
 
-new Timer ().scheduleAtFixedRate(new TimerTask ()
+/*new Timer ().scheduleAtFixedRate(new TimerTask ()
 
         {
             @Override
             public void run()
             {
-                buscarlista ();
-                buscarMesaDesocupada ();
+
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1,6000);
-
+        },1,6000);*/
+        buscarlista ();
+        buscarMesaDesocupada ();
         this.buscarMesa.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
         {
             @Override

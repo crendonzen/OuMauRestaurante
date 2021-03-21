@@ -11,7 +11,7 @@
         android:layout_width="1286dp"
         android:layout_height="800dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/fondoa"
+        android:src="@mipmap/fnn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,30 +49,35 @@
 
             <Spinner
                 android:id="@+id/spnModCategoria"
-                android:layout_width="480dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:entries="@android:array/emailAddressTypes"
+                android:layout_width="356dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="56dp"
+                android:entries="@array/Spinner_items"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/txtModnombrePlato"
-                android:layout_width="480dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
+                android:layout_width="357dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#FAF7F7"
                 android:ems="10"
                 android:hint="Nombre del plato"
                 android:inputType="textPersonName"
+                android:textColorHint="#F6F4F4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spnModCategoria" />
 
             <EditText
                 android:id="@+id/txtModPrecionPlato"
-                android:layout_width="480dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
+                android:layout_width="354dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#FAF7F7"
                 android:ems="10"
                 android:inputType="numberDecimal"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,9 +85,11 @@
 
             <EditText
                 android:id="@+id/txtModDescripcion"
-                android:layout_width="482dp"
-                android:layout_height="89dp"
-                android:layout_marginStart="8dp"
+                android:layout_width="355dp"
+                android:layout_height="82dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="#FAF9F9"
                 android:ems="10"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +99,8 @@
                 android:id="@+id/btnModificar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="192dp"
+                android:layout_marginTop="100dp"
                 android:text="Modificar plato"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtModDescripcion" />
