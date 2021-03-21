@@ -157,11 +157,12 @@
             motion:layout_editor_absoluteY="-447dp" />
         <Constraint
             android:id="@+id/scrollView3"
-            android:layout_width="478dp"
-            android:layout_height="8dp"
+            android:layout_width="437dp"
+            android:layout_height="352dp"
             android:alpha="0"
-            motion:layout_editor_absoluteY="47dp"
-            motion:layout_editor_absoluteX="420dp" />
+            motion:layout_constraintTop_toBottomOf="@+id/searchBuscarPlato"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="@+id/imageView2" />
         <Constraint
             android:id="@+id/scrollView2"
             android:layout_width="498dp"
@@ -193,14 +194,17 @@
             motion:layout_constraintTop_toBottomOf="@+id/imageView2"
             motion:layout_editor_absoluteY="497dp" />
         <Constraint
-            android:layout_height="20dp"
-            motion:layout_editor_absoluteX="296dp"
+            android:layout_height="46dp"
             motion:layout_constraintTop_toTopOf="parent"
-            android:layout_width="525dp"
-            android:id="@+id/searchBuscarPlato" />
+            android:layout_width="520dp"
+            android:id="@+id/searchBuscarPlato"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="@+id/imageView2"
+            android:layout_marginEnd="33dp"
+            android:layout_marginRight="33dp" />
         <Constraint
-            android:layout_width="517dp"
-            android:layout_height="467dp"
+            android:layout_width="510dp"
+            android:layout_height="414dp"
             android:id="@+id/imageView2"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_editor_absoluteX="8dp" />
