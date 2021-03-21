@@ -52,17 +52,6 @@
         android:src="@mipmap/fondomesa" />
 
 
-    <ImageButton
-        android:id="@+id/AgregarPedido"
-        android:layout_width="465dp"
-        android:layout_height="115dp"
-
-        android:layout_marginTop="13dp"
-        android:src="@mipmap/imgagregarpedido"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
-
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="506dp"

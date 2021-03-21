@@ -179,14 +179,7 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
             }
         });
 
-        agregarMesa.setOnClickListener (new View.OnClickListener () {
-            @Override
-            public void onClick(View v)
-            {
-                mostrarVentana (v);
-            }
-        });
-        mDialog = new Dialog (getContext ());
+
         return v;
 
     }
