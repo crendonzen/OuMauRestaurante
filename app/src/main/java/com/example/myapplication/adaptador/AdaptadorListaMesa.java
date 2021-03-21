@@ -1,5 +1,6 @@
 package com.example.myapplication.adaptador;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
@@ -14,6 +16,7 @@ import com.example.myapplication.interfaz.PedidosMesaFragment;
 import com.example.myapplication.mundo.Mesa;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class AdaptadorListaMesa extends  RecyclerView.Adapter<AdaptadorListaMesa.ViewHolder> implements View.OnClickListener
 {
@@ -47,6 +50,19 @@ public class AdaptadorListaMesa extends  RecyclerView.Adapter<AdaptadorListaMesa
         proyecto = this.list.get(position);
 
         holder.txtNumeroMesa.setText(String.valueOf(list.get(position).getNumero()));
+        holder.item.setTag (position);
+        holder.item.setOnLongClickListener (new View.OnLongClickListener ()
+        {
+            @Override
+            public boolean onLongClick(View view)
+            {
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                view.startDrag(data, shadowBuilder, view, 0);
+                view.setVisibility(View.INVISIBLE);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -73,14 +89,22 @@ public class AdaptadorListaMesa extends  RecyclerView.Adapter<AdaptadorListaMesa
     {
         this.listener = listener;
     }
+
+    public ArrayList<Mesa> getList()
+    {
+        return this.list;
+    }
+
     public class ViewHolder  extends RecyclerView.ViewHolder
     {
+        ConstraintLayout item;
         TextView txtNumeroMesa;
 
         public ViewHolder (@NonNull View itemView)
         {
             super(itemView);
             txtNumeroMesa=(TextView) itemView.findViewById(R.id.txtNombrePlato);
+            item=(ConstraintLayout) itemView.findViewById (R.id.itemMesaOcupada);
         }
     }
 

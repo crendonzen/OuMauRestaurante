@@ -436,8 +436,11 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
     {
         PrintManager printManager=(PrintManager)getContext ().getSystemService (Context.PRINT_SERVICE);
         try{
-            PrintDocumentAdapter adapter=new PDFAdapter (getContext (),common.getRutaRaiz(getContext ())+"ticket.pdf");
+
+            PrintDocumentAdapter adapter=new PDFAdapter (getContext (),common.getRutaRaiz(getContext ())+"ticket.pdf",this.pedidoFactura,adaptadorListaPedidos,requestQueue);
+
             printManager.print ("Document",adapter, new PrintAttributes.Builder ().build ());
+
         }catch (Exception exception)
         {
             exception.printStackTrace ();
@@ -540,7 +543,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
 
                         si.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View view) {
+                            public void onClick(View view)
+                            {
                                 try
                                 {
                                     int cantidad = Integer.parseInt(input.getText ().toString ());

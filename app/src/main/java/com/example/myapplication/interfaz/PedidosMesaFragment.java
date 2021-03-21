@@ -1,9 +1,13 @@
 package com.example.myapplication.interfaz;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,9 +15,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.InputType;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -32,7 +40,11 @@ import com.example.myapplication.Abtract.InterfazFragamen;
 import com.example.myapplication.R;
 import com.example.myapplication.adaptador.AdaptadorListaMesa;
 import com.example.myapplication.adaptador.AdaptadorListaMesaDesocupada;
+import com.example.myapplication.adaptador.AdaptadorListaPedidos;
+import com.example.myapplication.adaptador.AdaptadorListaPlatos;
 import com.example.myapplication.mundo.Mesa;
+import com.example.myapplication.mundo.Pedido;
+import com.example.myapplication.mundo.Plato;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +62,7 @@ import java.util.TimerTask;
  * Use the {@link PedidosMesaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PedidosMesaFragment extends Fragment
+public class PedidosMesaFragment extends Fragment implements View.OnDragListener
 {
     protected RequestQueue requestQueue;
     protected JsonRequest jsonRequest;
@@ -75,6 +87,7 @@ public class PedidosMesaFragment extends Fragment
 
     private String mParam1;
     private String mParam2;
+    private String idEmpleados;
 
     public PedidosMesaFragment()
     {
@@ -123,7 +136,7 @@ public class PedidosMesaFragment extends Fragment
         this.mesasDesocupadas.setAdapter (adaptadorListaMesaDesocupada);
         this.listaMesas.setAdapter(adaptadorListaMesa);
         this.listaMesas.setLayoutManager (new GridLayoutManager (getContext (), 3));
-
+        recuperarPreferencias();
 
 
 
@@ -134,12 +147,12 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
             @Override
             public void run()
             {
-
+                buscarlista ();
+                buscarMesaDesocupada ();
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1,5000);
-        buscarlista ();
-        buscarMesaDesocupada ();
+        },1,6000);
+
         this.buscarMesa.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
         {
             @Override
@@ -179,7 +192,8 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
             }
         });
 
-
+        this. mesasDesocupadas.setOnDragListener(this);
+        this.listaMesas.setOnDragListener(this);
         return v;
 
     }
@@ -190,7 +204,7 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
         Map<String, String> params = new HashMap<String, String> ();
         params.put ("buscarMesasDesocupadas", "Mes");
         JSONObject parameters = new JSONObject (params);
-        String url = "https://192.168.0.3/restaurante/pedidos.php";
+        String url = "https://openm.co/consultas/pedidos.php";
 
         jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> () {
             @Override
@@ -206,7 +220,6 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
                         String estado = mesa.getString ("estado");
                         Mesa m = new Mesa (id, numero, codigoQR, estado);
                         mesasDesAux.add (m);
-
                     }
 
                     if (mesasDesAux.size () != cantMesas) {
@@ -227,11 +240,7 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
                 error.printStackTrace ();
             }
         });
-        int socketTimeout = 0;
-        RetryPolicy policy = new DefaultRetryPolicy (socketTimeout,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        jsonRequest.setRetryPolicy (policy);
+
         requestQueue.add (jsonRequest);
     }
 
@@ -308,5 +317,167 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
     public void onDetach()
     {
         super.onDetach();
+    }
+
+    @Override
+    public boolean onDrag(View v, DragEvent event)
+    {
+        int action = event.getAction();
+        switch (action)
+        {
+            case DragEvent.ACTION_DRAG_STARTED:
+                break;
+            case DragEvent.ACTION_DRAG_ENTERED:
+                //    v.setBackgroundColor(Color.LTGRAY);
+                break;
+            case DragEvent.ACTION_DRAG_EXITED:
+                v.setBackgroundColor(Color.YELLOW);
+                break;
+            case DragEvent.ACTION_DROP:
+
+                int positionFuente = -1;
+                View viewSource = (View) event.getLocalState ();
+                RecyclerView RecyclerView = (RecyclerView) viewSource.getParent ();
+                positionFuente = (int) viewSource.getTag ();
+
+                if (RecyclerView.getAdapter () instanceof AdaptadorListaMesa)
+                {
+                    final AdaptadorListaMesa adaptadorListaMesa = (AdaptadorListaMesa) RecyclerView.getAdapter ();
+                    final Mesa mesa = adaptadorListaMesa.getList ().get (positionFuente);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext ());
+                    builder.setTitle("Title");
+                    final TextView input = new TextView(getContext ());
+                    input.setText ("¿Desea eliminar  el pedido de la mesa "+mesa.getIdmesa ()+"?");
+                    builder.setView(input);
+
+                    final int finalPositionFuente = positionFuente;
+                    final int finalPositionFuente1 = positionFuente;
+                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(final DialogInterface dialog, int which)
+                        {
+                            final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando pedido...","Espere por favor...",false,false);
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put ("eliminarUnPedido", "true");
+                            params.put ("idmesa", mesa.getIdmesa ()+"");
+                            JSONObject parameters = new JSONObject (params);
+                            String url = "https://openm.co/consultas/pedidos.php";
+                            jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
+                            {
+                                @Override
+                                public void onResponse(JSONObject response)
+                                {
+                                    loading.dismiss ();
+                                    Toast.makeText (getContext (), "Pedido elminado de la "+ mesa.getIdmesa (), Toast.LENGTH_SHORT).show ();
+                                    adaptadorListaMesaDesocupada.getList ().add (mesa);
+                                    adaptadorListaMesa.getList ().remove (finalPositionFuente1);
+                                    adaptadorListaMesaDesocupada.notifyDataSetChanged ();
+                                    adaptadorListaMesa.notifyDataSetChanged ();
+
+                                    dialog.cancel();
+                                }
+                            }, new Response.ErrorListener ()
+                            {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace ();
+                                    loading.dismiss ();
+                                }
+                            });
+                            int socketTimeout = 0;
+                            requestQueue.add (jsonRequest);
+                        }
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show ();
+
+                } else if ((RecyclerView.getAdapter () instanceof AdaptadorListaMesaDesocupada))
+                {
+                    final AdaptadorListaMesaDesocupada adaptadorListaMesaDesocupada = (AdaptadorListaMesaDesocupada) RecyclerView.getAdapter ();
+                    final Mesa  mesa = adaptadorListaMesaDesocupada.getList ().get (positionFuente);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext ());
+                    builder.setTitle("Title");
+                    final TextView input = new TextView(getContext ());
+                    input.setText ("¿Desea realizar un pedido en esta mesa?");
+                    builder.setView(input);
+
+                    final int finalPositionFuente = positionFuente;
+                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(final DialogInterface dialog, int which)
+                        {
+                            final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando pedido...","Espere por favor...",false,false);
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put ("crearPedido", "true");
+                            params.put ("idmesa", mesa.getIdmesa ()+"");
+                            params.put ("idempleado", idEmpleados+"");
+                            JSONObject parameters = new JSONObject (params);
+                            String url = "https://openm.co/consultas/pedidos.php";
+                            jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
+                            {
+                                @Override
+                                public void onResponse(JSONObject response)
+                                {
+                                    loading.dismiss ();
+                                    Toast.makeText (getContext (), "Pedido creado en la mesa "+ mesa.getIdmesa (), Toast.LENGTH_SHORT).show ();
+                                    adaptadorListaMesa.getList ().add (mesa);
+                                    adaptadorListaMesaDesocupada.getList ().remove (finalPositionFuente);
+                                    adaptadorListaMesaDesocupada.notifyDataSetChanged ();
+                                    adaptadorListaMesa.notifyDataSetChanged ();
+                                    dialog.cancel();
+                                }
+                            }, new Response.ErrorListener ()
+                            {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace ();
+                                    loading.dismiss ();
+                                }
+                            });
+                            int socketTimeout = 0;
+                            requestQueue.add (jsonRequest);
+                        }
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show ();
+                }
+                break;
+            case DragEvent.ACTION_DRAG_ENDED:
+                v.setBackgroundColor(0);
+                break;
+            default:
+                break;
+        }
+        View vw = (View) event.getLocalState();
+        vw.setVisibility(View.VISIBLE);
+        return true;
+    }
+
+    private void recuperarPreferencias()
+    {
+        SharedPreferences preferences= getContext ().getSharedPreferences("preferenciasLogin", Context.MODE_PRIVATE);
+        boolean sesion=preferences.getBoolean("sesion",false);
+        if(sesion)
+        {
+            this.idEmpleados=preferences.getString("idEmpleados", "No hay nada");
+
+        }
     }
 }
