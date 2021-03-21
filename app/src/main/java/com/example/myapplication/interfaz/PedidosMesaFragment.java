@@ -141,18 +141,18 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
 
 
 
-new Timer ().scheduleAtFixedRate(new TimerTask ()
+/*new Timer ().scheduleAtFixedRate(new TimerTask ()
 
         {
             @Override
             public void run()
             {
-                buscarlista ();
-                buscarMesaDesocupada ();
+
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1,6000);
-
+        },1,6000);*/
+        buscarlista ();
+        buscarMesaDesocupada ();
         this.buscarMesa.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
         {
             @Override
