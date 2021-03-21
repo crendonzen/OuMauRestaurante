@@ -19,8 +19,8 @@
 
     <ImageView
         android:id="@+id/imageView14"
-        android:layout_width="774dp"
-        android:layout_height="666dp"
+        android:layout_width="777dp"
+        android:layout_height="671dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/fondofut"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,12 +28,12 @@
 
     <LinearLayout
         android:id="@+id/linearLayout9"
-        android:layout_width="779dp"
-        android:layout_height="597dp"
+        android:layout_width="770dp"
+        android:layout_height="568dp"
         android:background="#7A787878"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView5"
+        tools:layout_editor_absoluteX="28dp"></LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView5"
@@ -100,21 +100,26 @@
 
             <ImageButton
                 android:id="@+id/imagenFactura"
-                android:layout_width="67dp"
-                android:layout_height="74dp"
+                android:layout_width="162dp"
+                android:layout_height="66dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginEnd="32dp"
                 android:background="#00FFFFFF"
-                android:src="@mipmap/botonfactura"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/imprimircaja"
                 app:layout_constraintEnd_toStartOf="@+id/btnActualizarPedido"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/imagenCocina"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="156dp"
+                android:layout_height="66dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginEnd="8dp"
                 android:background="#00FFFFFF"
-                android:src="@mipmap/botonact"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/imprimircocina"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imagenFactura"
                 app:layout_constraintTop_toTopOf="parent" />
 

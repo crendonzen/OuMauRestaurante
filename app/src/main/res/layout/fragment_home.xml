@@ -21,21 +21,22 @@
     <ImageButton
         android:id="@+id/botonAgregar"
         style="@android:style/Widget.DeviceDefault.ImageButton"
-        android:layout_width="258dp"
-        android:layout_height="414dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="251dp"
+        android:layout_height="430dp"
         android:backgroundTint="#00FFFFFF"
-        android:src="@mipmap/pedidosmesa"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/imgmesas"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/botonPlatos"
         app:layout_constraintTop_toBottomOf="@+id/imageView10" />
 
     <ImageButton
         android:id="@+id/botonPedidos"
-        android:layout_width="258dp"
-        android:layout_height="409dp"
+        android:layout_width="253dp"
+        android:layout_height="431dp"
         android:backgroundTint="#00FFFFFF"
-        android:src="@mipmap/pedidosdo"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/imgdomicilios"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/botonAgregar"
         app:layout_constraintTop_toBottomOf="@+id/imageView10" />
@@ -43,10 +44,11 @@
     <ImageButton
         android:id="@+id/botonPlatos"
         android:layout_width="262dp"
-        android:layout_height="407dp"
+        android:layout_height="426dp"
         android:layout_marginStart="84dp"
         android:backgroundTint="#03FFFFFF"
-        android:src="@mipmap/platos"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/imgmenu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView10"
@@ -54,10 +56,11 @@
 
     <ImageButton
         android:id="@+id/imageButton2"
-        android:layout_width="261dp"
-        android:layout_height="409dp"
+        android:layout_width="267dp"
+        android:layout_height="436dp"
         android:layout_marginEnd="156dp"
         android:backgroundTint="#00FFFFFF"
+        android:scaleType="centerCrop"
         android:src="@mipmap/inventarioin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

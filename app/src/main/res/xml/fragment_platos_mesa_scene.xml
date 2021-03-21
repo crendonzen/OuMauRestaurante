@@ -31,17 +31,17 @@
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent" />
         <Constraint
-            android:layout_height="670dp"
+            android:layout_height="664dp"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="781dp"
+            android:layout_width="773dp"
             android:id="@+id/imageView14"
             motion:layout_constraintTop_toBottomOf="@+id/fragment10"
             motion:layout_editor_absoluteY="31dp"
             motion:layout_editor_absoluteX="582dp" />
         <Constraint
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="781dp"
-            android:layout_height="670dp"
+            android:layout_width="773dp"
+            android:layout_height="664dp"
             motion:layout_constraintTop_toBottomOf="@+id/fragment10"
             android:id="@+id/imageView14"
             android:layout_marginTop="0dp"

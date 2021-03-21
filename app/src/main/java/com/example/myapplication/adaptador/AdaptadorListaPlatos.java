@@ -52,7 +52,7 @@ public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPl
     {
         plato = this.list.get(position);
         holder.txtNombrePlato.setText(list.get(position).getNombre ());
-
+        holder.txtPrecioPlato.setText(String.valueOf(list.get(position).getPrecio()));
         Glide.with(inflater.getContext ())
                 .load(list.get(position).getImage())
                 .into(holder.imgPlatos);
@@ -92,9 +92,9 @@ public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPl
         {
             super(itemView);
             txtNombrePlato=(TextView) itemView.findViewById(R.id.txtNombrePlatoMenu);
-            txtPrecioPlato=(TextView) itemView.findViewById(R.id.txtPrecioPlato);
+            txtPrecioPlato=(TextView) itemView.findViewById(R.id.txtPrecioMenu);
 
-            txtDescripcionPlato=(TextView) itemView.findViewById(R.id.txtPrecioMenu);
+            //txtDescripcionPlato=(TextView) itemView.findViewById(R.id.txtPrecioMenu);
             imgPlatos=(ImageView) itemView.findViewById(R.id.imgPlatosMenu);
             item=(ConstraintLayout) itemView.findViewById (R.id.itemPlato);
         }

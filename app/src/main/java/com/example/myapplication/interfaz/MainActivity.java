@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
-    TextView nombreUsuario;
+    TextView nick,nombreUsuario,apellidoUsuario,cargoUsuario;
     ImageButton menu,agregarPedido,pedidos;
 
     private PlatosMesaFragment platosMesaFragment;
@@ -72,7 +72,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        nombreUsuario=findViewById(R.id.textView3);
+
+        nick=findViewById(R.id.textView3);
+        nombreUsuario=findViewById(R.id.txtNombreUsuario);
+        apellidoUsuario=findViewById(R.id.txtApellidoUsuario);
+        cargoUsuario=findViewById(R.id.txtCargoUsuario);
 
         recuperarPreferencias();
 
@@ -146,8 +150,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         boolean sesion=preferences.getBoolean("sesion",false);
         if(sesion)
         {
-            String nick=preferences.getString("nick", "No hay nada");
-            nombreUsuario.setText (nick);
+            String cargo=preferences.getString("cargo", "No hay nada");
+            String apellido=preferences.getString("apellidos", "No hay nada");
+            String nombre=preferences.getString("nombres", "No hay nada");
+            String nickUsuario=preferences.getString("nick", "No hay nada");
+            nick.setText (nickUsuario);
+            nombreUsuario.setText(nombre);
+            apellidoUsuario.setText(apellido);
+            cargoUsuario.setText(cargo);
         }
     }
 

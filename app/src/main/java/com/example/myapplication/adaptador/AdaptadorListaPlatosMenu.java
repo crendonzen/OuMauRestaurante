@@ -54,9 +54,11 @@ public class AdaptadorListaPlatosMenu extends  RecyclerView.Adapter<AdaptadorLis
         plato = this.list.get(position);
         holder.txtNombrePlato.setText(list.get(position).getNombre());
 
+
         Glide.with(inflater.getContext ())
                 .load(list.get(position).getImage())
                 .into(holder.imgPlatos);
+
 
 
     }
