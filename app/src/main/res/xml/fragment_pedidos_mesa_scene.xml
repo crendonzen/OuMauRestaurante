@@ -33,7 +33,7 @@
         <OnSwipe
             motion:touchAnchorId="@+id/imageView3"
             motion:touchAnchorSide="bottom" />
-
+        <OnSwipe motion:touchAnchorId="@+id/AgregarPedido" />
 
 
     </Transition>
@@ -154,32 +154,29 @@
             android:layout_width="528dp"
             android:layout_height="168dp"
             android:id="@+id/AgregarPedido"
-            motion:layout_constraintTop_toTopOf="@+id/AgregarPedido"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintVertical_bias="0.0"
             motion:layout_constraintBottom_toTopOf="@+id/scrollView2"
-            android:layout_marginTop="1702dp" />
+            motion:layout_constraintTop_toTopOf="@+id/imageView2"
+            motion:layout_constraintVertical_bias="0.0" />
         <Constraint
             android:id="@+id/scrollView2"
-            android:layout_width="497dp"
-            android:layout_height="617dp"
+            android:layout_width="498dp"
+            android:layout_height="514dp"
             motion:layout_constraintStart_toStartOf="parent"
             android:alpha="1"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            motion:layout_constraintBottom_toBottomOf="@+id/imageView13"
-            motion:layout_editor_absoluteY="103dp" />
+            motion:layout_editor_absoluteY="206dp" />
         <Constraint
-            android:layout_width="497dp"
-            android:layout_height="617dp"
+            android:layout_width="498dp"
+            android:layout_height="514dp"
             motion:layout_constraintStart_toStartOf="parent"
             android:id="@+id/scrollView2"
-            motion:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            motion:layout_editor_absoluteY="103dp"
-            motion:layout_constraintTop_toTopOf="@+id/AgregarPedido"
-            android:layout_marginTop="205dp" />
+            motion:layout_editor_absoluteY="206dp"
+            motion:layout_constraintTop_toBottomOf="@+id/AgregarPedido"
+            android:layout_marginTop="38dp" />
         <Constraint
             android:layout_height="805dp"
             android:layout_width="522dp"
@@ -202,7 +199,8 @@
             android:layout_width="525dp"
             android:layout_height="791dp"
             android:id="@+id/imageView2"
-            motion:layout_constraintTop_toTopOf="parent" />
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_editor_absoluteX="8dp" />
         <Constraint
             android:layout_height="wrap_content"
             motion:layout_editor_absoluteX="32dp"
