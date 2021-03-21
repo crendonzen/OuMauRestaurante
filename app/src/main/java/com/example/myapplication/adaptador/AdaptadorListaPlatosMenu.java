@@ -53,7 +53,7 @@ public class AdaptadorListaPlatosMenu extends  RecyclerView.Adapter<AdaptadorLis
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         plato = this.list.get(position);
         holder.txtNombrePlato.setText(list.get(position).getNombre());
-
+        holder.txtPrecioPlato.setText(String.valueOf(list.get(position).getPrecio()));
 
         Glide.with(inflater.getContext ())
                 .load(list.get(position).getImage())
@@ -92,7 +92,7 @@ public class AdaptadorListaPlatosMenu extends  RecyclerView.Adapter<AdaptadorLis
         {
             super(itemView);
             txtNombrePlato=(TextView) itemView.findViewById(R.id.txtNombrePlato_menu);
-            txtPrecioPlato=(TextView) itemView.findViewById(R.id.txtPrecioPlato);
+            txtPrecioPlato=(TextView) itemView.findViewById(R.id.txtPrecio_menu);
 
             txtCategoriaPlato=(TextView) itemView.findViewById(R.id.categoria_menu);
             imgPlatos=(ImageView) itemView.findViewById(R.id.imgPlatos_menu);
