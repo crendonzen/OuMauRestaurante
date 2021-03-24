@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="544dp"
+        android:layout_height="287dp"
+        android:background="#7E0303"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView25"
+                android:layout_width="147dp"
+                android:layout_height="191dp"
+                android:layout_marginStart="16dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.505"
+                app:srcCompat="@mipmap/imgobservacion" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="Agrega observaciones"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintStart_toEndOf="@+id/imageView25"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:id="@+id/editTextObsPlatos"
+                android:layout_width="326dp"
+                android:layout_height="106dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#FDFCFC"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Observación"
+                android:inputType="textMultiLine"
+                android:textColor="#FAF6F6"
+                android:textColorHint="#FDFCFC"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/imageView25"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+            <Button
+                android:id="@+id/btnAgrObs"
+                android:layout_width="104dp"
+                android:layout_height="49dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="12dp"
+                android:background="#EC0202"
+                android:text="Agregar"
+                android:textColor="#FBF8F8"
+                app:layout_constraintStart_toEndOf="@+id/imageView25"
+                app:layout_constraintTop_toBottomOf="@+id/editTextObsPlatos" />
+
+            <Button
+                android:id="@+id/btnCancelar"
+                android:layout_width="108dp"
+                android:layout_height="49dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="12dp"
+                android:background="#FFC107"
+                android:text="Cancelar"
+                app:layout_constraintStart_toEndOf="@+id/btnAgrObs"
+                app:layout_constraintTop_toBottomOf="@+id/editTextObsPlatos" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,8 +49,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/lista_pedidos"
-                android:layout_width="698dp"
-                android:layout_height="283dp"
+                android:layout_width="706dp"
+                android:layout_height="507dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
                 app:layout_constraintEnd_toEndOf="parent"

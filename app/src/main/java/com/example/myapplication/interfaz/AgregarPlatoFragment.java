@@ -218,7 +218,7 @@ public class AgregarPlatoFragment extends Fragment
                         {
                             Toast.makeText(getContext(), "Plato registrado con exito",Toast.LENGTH_SHORT).show();
                             limpiar();
-                            Navigation.findNavController(v).navigate(R.id.action_agregarPlatoFragment_to_platosFragment);
+                            Navigation.findNavController(v).navigate(R.id.platosFragment);
                         }
                     }
                 }, new Response.ErrorListener ()

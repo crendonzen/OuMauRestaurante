@@ -100,6 +100,7 @@ public class DetallePlatoFragment extends Fragment
         DetallePlatoFragment fragment = new DetallePlatoFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -166,6 +167,7 @@ public class DetallePlatoFragment extends Fragment
             buscarImage.setEnabled(false);
         }
         Bundle objetoPlato = getArguments();
+
         if(objetoPlato !=null)
         {
             this.platos = (Plato) objetoPlato.getSerializable ("plato");

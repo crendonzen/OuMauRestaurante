@@ -32,7 +32,7 @@ import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InterfazFragamen {
     Button cerrarSesion;
-    private AppBarConfiguration mAppBarConfiguration;
+    AppBarConfiguration mAppBarConfiguration;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     DrawerLayout drawerLayout;
@@ -40,20 +40,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     TextView nick,nombreUsuario,apellidoUsuario,cargoUsuario;
     ImageButton menu,agregarPedido,pedidos;
+    Plato plato;
+
 
     private PlatosMesaFragment platosMesaFragment;
+    private PlatosFragment platosFragment;
     private DetallePlatoFragment detallePlatoFragment;
+
+    private String rolUsuario;
 
 
     @Override
-
-
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment,new HomeFragment());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
         cerrarSesion=findViewById(R.id.botonCerrarSesion);
         cerrarSesion.setOnClickListener(new View.OnClickListener()
@@ -79,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         cargoUsuario=findViewById(R.id.txtCargoUsuario);
 
         recuperarPreferencias();
-
+   //     enviarPlato(plato);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -118,30 +127,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
+
+
     }
 
     private void irMenu()
     {
-
+        drawerLayout.closeDrawer(GravityCompat.START);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.nav_host_fragment,new HomeFragment());
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
+
     }
 
     private void irPlatos()
     {
+        if(rolUsuario.equals("Admin"))
+        {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.nav_host_fragment,new PlatosFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment,new PlatosFragment());
-        fragmentTransaction.commit();
+        }
+        else
+        {
+            Toast.makeText(MainActivity.this, "No tiene permisos para acceder a Menu", Toast.LENGTH_SHORT).show();
+        }
+
     }
     private void irPedidos() {
+        drawerLayout.closeDrawer(GravityCompat.START);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.nav_host_fragment,new PedidosFragment());
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
     }
 
     private void recuperarPreferencias()
@@ -150,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         boolean sesion=preferences.getBoolean("sesion",false);
         if(sesion)
         {
+            this.rolUsuario=preferences.getString("rol", "No hay nada");
             String cargo=preferences.getString("cargo", "No hay nada");
             String apellido=preferences.getString("apellidos", "No hay nada");
             String nombre=preferences.getString("nombres", "No hay nada");
@@ -164,7 +192,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onSupportNavigateUp()
     {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+       NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+       // NavController navControllerDos = Navigation.findNavController(this, R.id.platosFragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 
@@ -178,7 +207,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.nav_host_fragment,new HomeFragment());
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+
         }
         return false;
     }
@@ -193,11 +224,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bundleEnvio.putSerializable("plato", plato);
         detallePlatoFragment.setArguments(bundleEnvio);
 
-
         //CArgar fragment en el activity
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.nav_host_fragment, detallePlatoFragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }
