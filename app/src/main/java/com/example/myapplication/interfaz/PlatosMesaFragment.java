@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -98,6 +99,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
     private ImageButton btnFactura;
     private ImageButton btnCocina;
     private Dialog mDialog;
+    EditText info;
 
 
 
@@ -127,6 +129,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         this.listaPedidos.setLayoutManager(new GridLayoutManager(getContext(), 5));
         this.listaPedidos.setAdapter(this.adaptadorListaPedidos);
         this.btnActualizarPedido = v.findViewById(R.id.btnActualizarPedido);
+        info=v.findViewById(R.id.info);
 /*
         this.btnActualizarPedido.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,6 +216,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                     int platos_idplatos = plato.getInt("platos_idplatos");
                                     String pedidos_observacion = plato.getString("pedidos_observacion");
 
+
+
                                     Toast.makeText(getContext(), plato.getString("mesas_numero"), Toast.LENGTH_SHORT).show();
 
                                     Pedido pedidoDatos = new Pedido (
@@ -225,10 +230,28 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                             pedidos_cantidad
                                     );
 
+
+
                                     pedidoDatos.setObsevacion (pedidos_observacion);
+
+
                                     pedidoFactura.agregarPedido (pedidoDatos);
+                                   /* if(pedidoDatos.getObsevacion().equals(""))
+                                    {
+                                        info.setVisibility(View.INVISIBLE);
+                                        break;
+
+                                    }else
+                                    {
+                                        Toast.makeText(getContext(), pedidoDatos.getObsevacion(), Toast.LENGTH_SHORT).show();
+                                        info.setVisibility(View.VISIBLE);
+                                        break;
+                                    }*/
                                 }
+
                             }
+
+
                         } catch (Exception e)
                         {
                             e.printStackTrace();
@@ -241,6 +264,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                     }
                 });
                 requestQueue.add(jsonRequest);
+
+
             }
         });
 
@@ -509,6 +534,9 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                         {
                             crearObservacion(miPlato);
                             miPlato.setCantidad (miPlato.getCantidad () + 1);
+
+
+
                         } else
                         {
                             Pedido pedido=plato.converAPedido ();
@@ -580,6 +608,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                                             String platos_categoria = plato.getString("platos_categoria");
                                                             int platos_idplatos = plato.getInt("platos_idplatos");
                                                             String pedidos_observacion = plato.getString("pedidos_observacion");
+
 
                                                             Toast.makeText(getContext(), plato.getString("mesas_numero"), Toast.LENGTH_SHORT).show();
 
@@ -657,34 +686,41 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
     {
         final String[] miObservacion = {""};
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext ());
-        builder.setTitle("Title");
 
-        final EditText input = new EditText(getContext ());
+        LayoutInflater inflater= getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_observacion_plato,null);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
+        dialog.show ();
+
+
+        final EditText input =view.findViewById(R.id.editTextObsPlatos);
+        Button agregarObservacion=view.findViewById(R.id.btnAgrObs);
+        Button cancelar=view.findViewById(R.id.btnCancelar);
+
         input.setText (miPlato.getObsevacion ().isEmpty ()?"":miPlato.getObsevacion ());
-        input.setInputType(InputType.TYPE_CLASS_TEXT );
+        //input.setInputType(InputType.TYPE_CLASS_TEXT );
         builder.setView(input);
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
-        {
+        agregarObservacion.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(View view) {
                 miObservacion[0] = input.getText().toString();
                 miPlato.setObsevacion ( miObservacion[0]);
                 actuiizarPedido();
+                dialog.cancel();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-        {
+        cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(View view) {
                 dialog.cancel();
                 actuiizarPedido();
             }
         });
 
-        builder.show ();
+
+        dialog.show ();
     }
 
     private void actuiizarPedido()

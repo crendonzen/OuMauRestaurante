@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.R;
 import com.example.myapplication.interfaz.MenuPlatosFragment;
 import com.example.myapplication.mundo.Plato;
@@ -29,13 +30,15 @@ public class AdaptadorListaPlatosMenu extends  RecyclerView.Adapter<AdaptadorLis
     private ArrayList<Plato> list;
     private MenuPlatosFragment buscarPlato;
     private Context contexto;
-    private static LayoutInflater  inflater = null;
+    private  LayoutInflater  inflater;
     private View.OnClickListener listener;
 
-    public AdaptadorListaPlatosMenu(Context conexto, ArrayList<Plato> lista)
+    public AdaptadorListaPlatosMenu(Context contexto, ArrayList<Plato> lista)
     {
         this.list=lista;
-        inflater = (LayoutInflater ) conexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.contexto = contexto;
+        inflater = LayoutInflater.from(contexto);
+        notifyDataSetChanged();
     }
 
 
@@ -43,23 +46,27 @@ public class AdaptadorListaPlatosMenu extends  RecyclerView.Adapter<AdaptadorLis
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-
         View view = inflater.inflate(R.layout.fragment_lista_platos, null);
         view.setOnClickListener(this);
-        return new AdaptadorListaPlatosMenu.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        plato = this.list.get(position);
-        holder.txtNombrePlato.setText(list.get(position).getNombre());
-        holder.txtPrecioPlato.setText(String.valueOf(list.get(position).getPrecio()));
 
-        Glide.with(inflater.getContext ())
-                .load(list.get(position).getImage())
-                .into(holder.imgPlatos);
+try {
+    plato = this.list.get(position);
 
+    Glide.with(contexto)
+            .load(plato.getImage())
+            .into(holder.imgPlatos);
+    holder.txtNombrePlato.setText(list.get(position).getNombre());
+    holder.txtPrecioPlato.setText(String.valueOf(list.get(position).getPrecio()));
+    holder.txtCategoriaPlato.setText(list.get(position).getCategoria());
 
+} catch (Exception e) {
+    e.printStackTrace();
+}
 
     }
     public ArrayList<Plato> getList()
@@ -99,6 +106,7 @@ public class AdaptadorListaPlatosMenu extends  RecyclerView.Adapter<AdaptadorLis
 
         }
     }
+
 
 
 

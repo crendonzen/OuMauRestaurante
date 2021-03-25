@@ -31,10 +31,11 @@ public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPl
     private Context contexto;
     private static LayoutInflater  inflater = null;
 
-    public AdaptadorListaPlatos(Context conexto, ArrayList<Plato> lista)
+    public AdaptadorListaPlatos(Context contexto, ArrayList<Plato> lista)
     {
         this.list=lista;
-        inflater = (LayoutInflater ) conexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.contexto = contexto;
+        inflater =LayoutInflater.from(contexto);
     }
 
 
@@ -44,7 +45,7 @@ public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPl
     {
 
         View view = inflater.inflate(R.layout.fragment_lista_menu_platos, null);
-        return new AdaptadorListaPlatos.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPl
         plato = this.list.get(position);
         holder.txtNombrePlato.setText(list.get(position).getNombre ());
         holder.txtPrecioPlato.setText(String.valueOf(list.get(position).getPrecio()));
-        Glide.with(inflater.getContext ())
+        Glide.with(contexto)
                 .load(list.get(position).getImage())
                 .into(holder.imgPlatos);
         holder.item.setTag (position);

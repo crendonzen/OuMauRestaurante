@@ -16,18 +16,6 @@
         android:src="@mipmap/fondomdeso"
         tools:layout_editor_absoluteX="8dp" />
 
-    <SearchView
-        android:id="@+id/searchBuscarPlato"
-        android:layout_width="492dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="30dp"
-        android:background="#85575656"
-        android:queryHint="Buscar mesa"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="432dp"
@@ -45,8 +33,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listaPlatosMesas"
-                android:layout_width="447dp"
-                android:layout_height="300dp"
+                android:layout_width="477dp"
+                android:layout_height="510dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,14 +42,45 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <ImageView
-        android:id="@+id/imageView13"
-        android:layout_width="457dp"
-        android:layout_height="420dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/fnn"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
+    <SearchView
+        android:id="@+id/searchBuscarPlato"
+        android:layout_width="492dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="30dp"
+        android:background="#CE292828"
+        android:queryHint="Buscar mesa"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout10"
+        android:layout_width="471dp"
+        android:layout_height="604dp"
+        android:background="@drawable/ventana_factura_background"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="165dp"
+                android:layout_height="34dp"
+                android:layout_marginTop="8dp"
+                android:text="Agregar mesa"
+                android:textColor="#05D305"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView2"

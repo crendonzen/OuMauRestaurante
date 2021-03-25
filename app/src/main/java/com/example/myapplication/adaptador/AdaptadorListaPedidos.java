@@ -32,10 +32,11 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
     private static LayoutInflater  inflater = null;
     private View.OnClickListener listener;
 
-    public AdaptadorListaPedidos(Context conexto, ArrayList<Pedido> lista)
+    public AdaptadorListaPedidos(Context contexto, ArrayList<Pedido> lista)
     {
         this.list=lista;
-        inflater = (LayoutInflater ) conexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.contexto = contexto;
+        inflater = LayoutInflater.from(contexto);
     }
 
 
@@ -45,18 +46,19 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
     {
         View view = inflater.inflate(R.layout.fragment_lista_pedidos_platos, null);
         view.setOnClickListener(this);
-        return new AdaptadorListaPedidos.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        plato = this.list.get(position);
+
+        plato = list.get(position);
 
         holder.txtNombre.setText(list.get(position).getNombre ());
        // holder.txtPrecio.setText(list.get(position).getPrecio ()+"");
         holder.txtCantidadPlato.setText(list.get(position).getCantidad ()+"");
-        Glide.with(inflater.getContext ())
+        Glide.with(contexto)
                 .load(list.get(position).getImage())
                 .into(holder.imgPlatos);
         holder.item.setTag (position);

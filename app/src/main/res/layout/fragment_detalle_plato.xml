@@ -97,11 +97,13 @@
 
             <Button
                 android:id="@+id/btnModificar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="192dp"
+                android:layout_width="241dp"
+                android:layout_height="43dp"
                 android:layout_marginTop="100dp"
+                android:background="#880202"
                 android:text="Modificar plato"
+                android:textColor="#FBFBFB"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtModDescripcion" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -113,7 +115,9 @@
         android:layout_height="50dp"
         android:layout_marginStart="288dp"
         android:layout_marginTop="44dp"
+        android:background="#910303"
         android:text="ELEGIR IMAGEN"
+        android:textColor="#FAF9F9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

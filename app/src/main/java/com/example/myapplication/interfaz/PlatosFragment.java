@@ -6,8 +6,11 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -64,8 +67,10 @@ public class PlatosFragment extends Fragment {
     private ArrayList<Plato> platosMenu;
     private AdaptadorListaPlatosMenu adaptadorListaPlatosMenu;
 
-    ArrayList<Plato> platoslist;
+
     RecyclerView recyclerView;
+
+    AgregarPlatoFragment agregarPlatoFragment;
 
 
     public PlatosFragment() {
@@ -104,23 +109,32 @@ public class PlatosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_platos, container, false);
+
+
+
+
+
         ImageButton agregarPlato = v.findViewById(R.id.botonAgregarPlato);
         this.listaPlatos = v.findViewById(R.id.listaPlatosCarta);
         this.buscarPlato = v.findViewById(R.id.buscar_plato);
 
         this.requestQueue =  VolleySingleton.getInstance(getContext ()).getRequestQueue();
         this.platosMenu = new ArrayList<Plato>();
-        this.adaptadorListaPlatosMenu = new AdaptadorListaPlatosMenu (getContext (),this.platosMenu);
-        listaPlatos.setAdapter(adaptadorListaPlatosMenu);
+
+
         this.listaPlatos.setLayoutManager(new GridLayoutManager(getContext(),4));
+        this.adaptadorListaPlatosMenu = new AdaptadorListaPlatosMenu (getContext (),platosMenu);
+        adaptadorListaPlatosMenu.notifyDataSetChanged ();
+        listaPlatos.setAdapter(adaptadorListaPlatosMenu);
+
 
         adaptadorListaPlatosMenu.setOnclickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                String numeroMesa = platosMenu.get(listaPlatos.getChildAdapterPosition(v)).getImage ();
-                Toast.makeText(getContext (), numeroMesa, Toast.LENGTH_SHORT).show();
+                int numeroMesa = platosMenu.get(listaPlatos.getChildAdapterPosition(v)).getIdplato();
+                // Toast.makeText(getContext (), numeroMesa, Toast.LENGTH_SHORT).show();
                 interfazFragamen.enviarPlato(platosMenu.get(listaPlatos.getChildAdapterPosition(v)));
             }
         });
@@ -142,12 +156,17 @@ public class PlatosFragment extends Fragment {
         agregarPlato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.agregarPlatoFragment);
+                Fragment agregarPlatoFragment = new AgregarPlatoFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment, agregarPlatoFragment);
+                transaction.addToBackStack(null);
+                // Commit a la transacción
+                transaction.commit();
             }
         });
 
 
-        platoslist = new ArrayList<>();
+
 
         cargarPlatos("");
 
@@ -183,7 +202,8 @@ public class PlatosFragment extends Fragment {
                         Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image);
                         platosMenu.add (m);
                     }
-                    adaptadorListaPlatosMenu.notifyDataSetChanged ();
+                    adaptadorListaPlatosMenu.notifyDataSetChanged();
+
                 } catch (JSONException e)
                 {
                     e.printStackTrace ();
