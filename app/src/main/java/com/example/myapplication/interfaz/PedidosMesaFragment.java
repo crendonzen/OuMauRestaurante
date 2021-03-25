@@ -222,7 +222,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                         mesasDesAux.add (m);
                     }
 
-                    if (mesasDesAux.size () != cantMesas) {
+                    if (mesasDesAux.size () != cantMesas&& !mesasDesAux.isEmpty ()) {
                         mesasDes.clear ();
                         String numero = mesasDesAux.get (mesasDesAux.size () - 1).getNumero ();
                         mesasDes.addAll (mesasDesAux);
@@ -271,7 +271,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             Mesa m=new Mesa( id,  numero,  codigoQR, estado);
                             mesasAux.add(m);
                         }
-                        if (mesasAux.size()!=cantMesas)
+                        if (mesasAux.size()!=cantMesas  && !mesasAux.isEmpty ())
                         {
                             mesas.clear();
                             String numero = mesasAux.get (mesasAux.size () - 1).getNumero ();
