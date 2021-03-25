@@ -224,7 +224,6 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
 
                     if (mesasDesAux.size () != cantMesas&& !mesasDesAux.isEmpty ()) {
                         mesasDes.clear ();
-                        String numero = mesasDesAux.get (mesasDesAux.size () - 1).getNumero ();
                         mesasDes.addAll (mesasDesAux);
                         cantMesas = mesasDes.size ();
                     }
