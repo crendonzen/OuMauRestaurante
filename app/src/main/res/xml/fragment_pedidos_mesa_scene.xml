@@ -149,7 +149,8 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             motion:layout_constraintEnd_toEndOf="@+id/imageView13"
-            motion:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+            motion:layout_constraintTop_toBottomOf="@+id/scrollView3"
+            android:visibility="visible" />
         <Constraint
             android:layout_width="500dp"
             android:layout_height="270dp"
