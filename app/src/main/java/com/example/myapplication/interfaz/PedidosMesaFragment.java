@@ -222,9 +222,8 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                         mesasDesAux.add (m);
                     }
 
-                    if (mesasDesAux.size () != cantMesas&& !mesasDesAux.isEmpty ()) {
+                    if (mesasDesAux.size () != cantMesas) {
                         mesasDes.clear ();
-                        String numero = mesasDesAux.get (mesasDesAux.size () - 1).getNumero ();
                         mesasDes.addAll (mesasDesAux);
                         cantMesas = mesasDes.size ();
                     }
@@ -271,11 +270,9 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             Mesa m=new Mesa( id,  numero,  codigoQR, estado);
                             mesasAux.add(m);
                         }
-                        if (mesasAux.size()!=cantMesas  && !mesasAux.isEmpty ())
+                        if (mesasAux.size()!=cantMesas )
                         {
                             mesas.clear();
-                            String numero = mesasAux.get (mesasAux.size () - 1).getNumero ();
-                            //  Toast.makeText(getContext (),"Mesa "+numero+" ha sido ocupada", Toast.LENGTH_SHORT).show();
                             mesas.addAll(mesasAux);
                             cantMesas=mesas.size ();
                         }
