@@ -174,24 +174,13 @@ public class DetallePlatoFragment extends Fragment
             this.nombrePlato.setText (platos.getNombre ());
             this.precioPlato.setText (platos.getPrecio () + "");
             this.descripcionPlato.setText (platos.getPrecio () + "");
-            final ProgressDialog loading = ProgressDialog.show(getContext (),"Cargando imagen...","Espere por favor...",false,false);
 
-            RequestQueue requestQueue =  VolleySingleton.getInstance(getContext ()).getRequestQueue();
-            ImageRequest imgRequest = new ImageRequest(platos.getImage (), new Response.Listener<Bitmap>()
-            {
-                @Override
-                public void onResponse(Bitmap response)
-                {
-                    loading.dismiss ();
-                    bitmap = response;
-                    imagenPlato.setImageBitmap (bitmap);
-                }
-            }, 0, 0, ImageView.ScaleType.CENTER_CROP, Bitmap.Config.ARGB_8888,
-            new Response.ErrorListener()
-               {@Override
-                public void onErrorResponse(VolleyError error) { error.printStackTrace ();loading.dismiss ();}
-            });
-            requestQueue.add (imgRequest);
+
+
+            Glide.with(getContext ())
+                    .load(platos.getImage ())
+                    .into(imagenPlato);
+
 
         }
        return view;

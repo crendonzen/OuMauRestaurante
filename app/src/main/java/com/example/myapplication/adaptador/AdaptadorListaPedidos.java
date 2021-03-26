@@ -23,6 +23,8 @@ import com.example.myapplication.mundo.Plato;
 
 import java.util.ArrayList;
 
+import kotlin.reflect.KVisibility;
+
 public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaPedidos.ViewHolder>  implements View.OnClickListener
 {
     private Plato plato;
@@ -52,12 +54,12 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-
         plato = list.get(position);
 
         holder.txtNombre.setText(list.get(position).getNombre ());
        // holder.txtPrecio.setText(list.get(position).getPrecio ()+"");
         holder.txtCantidadPlato.setText(list.get(position).getCantidad ()+"");
+
         Glide.with(contexto)
                 .load(list.get(position).getImage())
                 .into(holder.imgPlatos);
@@ -74,6 +76,13 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
                 return true;
             }
         });
+        if (!list.get(position).getObsevacion ().isEmpty ())
+        {
+            holder.imgInfo.setVisibility (View.VISIBLE);
+        }else
+        {
+            holder.imgInfo.setVisibility (View.GONE);
+        }
 
     }
 
@@ -103,6 +112,7 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
     {
         ConstraintLayout item;
         TextView txtNombre,txtPrecio,txtCategoria,txtObservacion,txtCantidadPlato;
+        ImageView imgInfo;
 
         ImageView imgPlatos;
         public ViewHolder(@NonNull View itemView)
@@ -113,6 +123,7 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
             txtCantidadPlato=(TextView) itemView.findViewById(R.id.txtCantidadPlato);
             imgPlatos=(ImageView) itemView.findViewById(R.id.imgPlatos);
             item=(ConstraintLayout) itemView.findViewById (R.id.itemPlatoPedido);
+            imgInfo=(ImageView) itemView.findViewById(R.id.imgInfo);
         }
     }
 

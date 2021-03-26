@@ -20,7 +20,9 @@ import com.example.myapplication.R;
 import com.example.myapplication.interfaz.MenuPlatosFragment;
 import com.example.myapplication.mundo.Plato;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPlatos.ViewHolder>
 {
@@ -51,9 +53,10 @@ public class AdaptadorListaPlatos extends  RecyclerView.Adapter<AdaptadorListaPl
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
         plato = this.list.get(position);
         holder.txtNombrePlato.setText(list.get(position).getNombre ());
-        holder.txtPrecioPlato.setText(String.valueOf(list.get(position).getPrecio()));
+        holder.txtPrecioPlato.setText(String.valueOf(nf.format (list.get(position).getPrecio())));
         Glide.with(contexto)
                 .load(list.get(position).getImage())
                 .into(holder.imgPlatos);

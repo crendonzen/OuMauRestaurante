@@ -129,7 +129,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
         this.mesasDesAux = new ArrayList<Mesa> ();
         this.mesas = new ArrayList<Mesa> ();
         this.mesasAux = new ArrayList<Mesa> ();
-        this.adaptadorListaMesa = new AdaptadorListaMesa (getContext (), this.mesas);
+        this.adaptadorListaMesa = new AdaptadorListaMesa (getContext (), this.mesas, this);
         this.listaMesas.setLayoutManager (new LinearLayoutManager (getContext ()));
         this.mesasDesocupadas.setLayoutManager (new GridLayoutManager (getContext (), 3));
         this.adaptadorListaMesaDesocupada = new AdaptadorListaMesaDesocupada (getContext (), this.mesasDes);
@@ -191,9 +191,9 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                 getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
             }
         });
-
         this. mesasDesocupadas.setOnDragListener(this);
         this.listaMesas.setOnDragListener(this);
+
         return v;
 
     }
@@ -328,16 +328,16 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                 //    v.setBackgroundColor(Color.LTGRAY);
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
-                v.setBackgroundColor(Color.YELLOW);
+               // v.setBackgroundColor(Color.YELLOW);
                 break;
             case DragEvent.ACTION_DROP:
-
-                int positionFuente = -1;
+                int positionFuente = -1, posicionDestion=-1;
                 View viewSource = (View) event.getLocalState ();
                 RecyclerView RecyclerView = (RecyclerView) viewSource.getParent ();
                 positionFuente = (int) viewSource.getTag ();
+                posicionDestion = (int) v.getTag ();
 
-                if (RecyclerView.getAdapter () instanceof AdaptadorListaMesa)
+                if((RecyclerView.getAdapter () instanceof AdaptadorListaMesa)&&v.getId ()== R.id.listaMesasDesocupadas)
                 {
                     final AdaptadorListaMesa adaptadorListaMesa = (AdaptadorListaMesa) RecyclerView.getAdapter ();
                     final Mesa mesa = adaptadorListaMesa.getList ().get (positionFuente);
@@ -372,6 +372,10 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                                     adaptadorListaMesa.getList ().remove (finalPositionFuente1);
                                     adaptadorListaMesaDesocupada.notifyDataSetChanged ();
                                     adaptadorListaMesa.notifyDataSetChanged ();
+                                    Bundle bundleEnvio = new Bundle ();
+
+                                    bundleEnvio.putSerializable ("mesa", null);
+                                    getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
 
                                     dialog.cancel();
                                 }
@@ -397,7 +401,47 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                     });
                     builder.show ();
 
-                } else if ((RecyclerView.getAdapter () instanceof AdaptadorListaMesaDesocupada))
+                } if((RecyclerView.getAdapter () instanceof AdaptadorListaMesaDesocupada)&&v.getId ()== R.id.itemMesaOcupada)
+                {
+                    final Mesa mesaOrigen = adaptadorListaMesa.getList ().get (positionFuente);
+                    final Mesa mesaDestino = adaptadorListaMesaDesocupada.getList ().get (posicionDestion);
+                    final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando pedido...","Espere por favor...",false,false);
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put ("cambiarMesaPedio", "true");
+                    params.put ("idmesaOrigen", mesaOrigen.getIdmesa ()+"");
+                    params.put ("idmesaDestion", mesaDestino.getIdmesa ()+"");
+                    JSONObject parameters = new JSONObject (params);
+                    String url = "https://openm.co/consultas/pedidos.php";
+                    jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
+                    {
+                        @Override
+                        public void onResponse(JSONObject response)
+                        {
+                            /*loading.dismiss ();
+                            Toast.makeText (getContext (), "Pedido elminado de la "+ mesa.getIdmesa (), Toast.LENGTH_SHORT).show ();
+                            adaptadorListaMesaDesocupada.getList ().add (mesa);
+                            adaptadorListaMesa.getList ().remove (finalPositionFuente1);
+                            adaptadorListaMesaDesocupada.notifyDataSetChanged ();
+                            adaptadorListaMesa.notifyDataSetChanged ();
+                            Bundle bundleEnvio = new Bundle ();
+
+                            bundleEnvio.putSerializable ("mesa", null);
+                            getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
+
+                            dialog.cancel();*/
+                        }
+                    }, new Response.ErrorListener ()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace ();
+                            loading.dismiss ();
+                        }
+                    });
+                    int socketTimeout = 0;
+                    requestQueue.add (jsonRequest);
+
+                } else if ((RecyclerView.getAdapter () instanceof AdaptadorListaMesaDesocupada)&&v.getId ()== R.id.listaPlatosMesas)
                 {
                     final AdaptadorListaMesaDesocupada adaptadorListaMesaDesocupada = (AdaptadorListaMesaDesocupada) RecyclerView.getAdapter ();
                     final Mesa  mesa = adaptadorListaMesaDesocupada.getList ().get (positionFuente);

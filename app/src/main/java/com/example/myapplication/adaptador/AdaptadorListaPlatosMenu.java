@@ -21,7 +21,9 @@ import com.example.myapplication.R;
 import com.example.myapplication.interfaz.MenuPlatosFragment;
 import com.example.myapplication.mundo.Plato;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AdaptadorListaPlatosMenu extends  RecyclerView.Adapter<AdaptadorListaPlatosMenu.ViewHolder> implements View.OnClickListener
 {
@@ -52,21 +54,23 @@ public class AdaptadorListaPlatosMenu extends  RecyclerView.Adapter<AdaptadorLis
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    {
+        try
+        {
+            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
+            plato = this.list.get(position);
 
-try {
-    plato = this.list.get(position);
+            Glide.with(contexto)
+                    .load(plato.getImage())
+                    .into(holder.imgPlatos);
+            holder.txtNombrePlato.setText(list.get(position).getNombre());
+            holder.txtPrecioPlato.setText(String.valueOf(nf.format(list.get(position).getPrecio())));
+            holder.txtCategoriaPlato.setText(list.get(position).getCategoria());
 
-    Glide.with(contexto)
-            .load(plato.getImage())
-            .into(holder.imgPlatos);
-    holder.txtNombrePlato.setText(list.get(position).getNombre());
-    holder.txtPrecioPlato.setText(String.valueOf(list.get(position).getPrecio()));
-    holder.txtCategoriaPlato.setText(list.get(position).getCategoria());
-
-} catch (Exception e) {
-    e.printStackTrace();
-}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
     public ArrayList<Plato> getList()

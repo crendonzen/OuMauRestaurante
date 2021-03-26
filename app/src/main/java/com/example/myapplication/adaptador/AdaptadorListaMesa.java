@@ -2,6 +2,7 @@ package com.example.myapplication.adaptador;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 public class AdaptadorListaMesa extends  RecyclerView.Adapter<AdaptadorListaMesa.ViewHolder> implements View.OnClickListener
 {
+    private final PedidosMesaFragment fragmentEvet;
     private Mesa proyecto;
     private ArrayList<Mesa> list;
     private PedidosMesaFragment buscarMesa;
@@ -27,10 +29,11 @@ public class AdaptadorListaMesa extends  RecyclerView.Adapter<AdaptadorListaMesa
     private static LayoutInflater  inflater = null;
     private View.OnClickListener listener;
 
-    public AdaptadorListaMesa(Context conexto, ArrayList<Mesa> lista)
+    public AdaptadorListaMesa(Context conexto, ArrayList<Mesa> lista, PedidosMesaFragment fragmentEvet)
     {
         this.list=lista;
         this.contexto = conexto;
+        this.fragmentEvet=fragmentEvet;
         inflater = (LayoutInflater ) conexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -51,6 +54,7 @@ public class AdaptadorListaMesa extends  RecyclerView.Adapter<AdaptadorListaMesa
 
         holder.txtNumeroMesa.setText(String.valueOf(list.get(position).getNumero()));
         holder.item.setTag (position);
+        holder.item.setOnDragListener (fragmentEvet);
         holder.item.setOnLongClickListener (new View.OnLongClickListener ()
         {
             @Override
