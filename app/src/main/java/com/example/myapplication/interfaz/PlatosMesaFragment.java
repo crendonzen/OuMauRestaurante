@@ -332,8 +332,12 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 addItemleftImage( document,   Element.ALIGN_CENTER, "@Oumao.oficial",  numeroValorOrden,  R.mipmap.redes);
 
 
+                titulo = new Font(fontName, 36.0f, Font.NORMAL, BaseColor.BLACK);
+
+
                 agregarEspacio (document);
                 agregarEspacio (document);
+
 
                 Font numeroOrden=new Font (fontName,fontSize,Font.NORMAL,color);
                 addItem(document,"FACTURA", Element.ALIGN_CENTER,numeroOrden);
