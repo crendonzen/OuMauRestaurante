@@ -85,17 +85,12 @@ public class PDFAdapter extends PrintDocumentAdapter
                 jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
                 {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        try
-                        {
+                    public void onResponse(JSONObject response)
+                    {
+                         pedidoFactura.limpiarLista ();
+                        adaptadorListaPedidos.notifyDataSetChanged ();
+                        Toast.makeText (context, "La "+pedidoFactura.getMesas_numero ()+" ah sido desocupada", Toast.LENGTH_SHORT).show ();
 
-                            JSONArray datos = response.getJSONArray ("datos");
-                            pedidoFactura.limpiarLista ();
-                            adaptadorListaPedidos.notifyDataSetChanged ();
-                        } catch (JSONException e)
-                        {
-                            e.printStackTrace ();
-                        }
                     }
                 }, new Response.ErrorListener () {
                     @Override

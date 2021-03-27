@@ -315,7 +315,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 Document document=new Document ();
                 PdfWriter.getInstance (document, new FileOutputStream (path));
                 document.open ();
-                document.setPageSize (PageSize.A4);
+                document.setPageSize (PageSize.NOTE);
                 document.addCreationDate ();
                 document.addAuthor ("Open");
                 document.addAuthor ("user");

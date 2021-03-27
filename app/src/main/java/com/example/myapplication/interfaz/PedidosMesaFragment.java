@@ -75,6 +75,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
     private ArrayList<Mesa> mesas;
     private ArrayList<Mesa> mesasAux;
     private ProgressDialog dialog;
+    private Mesa mesa;
     private int cantMesas;
     private Activity actividad;
     private InterfazFragamen interfazFragamen;
@@ -141,18 +142,17 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
 
 
 
-/*new Timer ().scheduleAtFixedRate(new TimerTask ()
+new Timer ().scheduleAtFixedRate(new TimerTask ()
 
         {
             @Override
             public void run()
             {
-
+                buscarlista ();
+                buscarMesaDesocupada ();
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1,6000);*/
-        buscarlista ();
-        buscarMesaDesocupada ();
+        },1,6000);
         this.buscarMesa.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
         {
             @Override
@@ -185,7 +185,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
             @Override
             public void onClick(View v)
             {
-                Mesa mesa = mesas.get (listaMesas.getChildAdapterPosition (v));
+                mesa = mesas.get (listaMesas.getChildAdapterPosition (v));
                 Bundle bundleEnvio = new Bundle ();
                 bundleEnvio.putSerializable ("mesa", mesa);
                 getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
@@ -269,12 +269,23 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             String estado=mesa.getString("estado");
                             Mesa m=new Mesa( id,  numero,  codigoQR, estado);
                             mesasAux.add(m);
+
                         }
                         if (mesasAux.size()!=cantMesas )
                         {
                             mesas.clear();
                             mesas.addAll(mesasAux);
                             cantMesas=mesas.size ();
+                        }
+                        if (mesa instanceof  Mesa){
+                            Bundle bundleEnvio = new Bundle ();
+                            bundleEnvio.putSerializable ("mesa", mesa);
+                            getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
+                        }else
+                        {
+                            Bundle bundleEnvio = new Bundle ();
+                            bundleEnvio.putSerializable ("mesa", null);
+                            getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
                         }
                         adaptadorListaMesa.notifyDataSetChanged ();
                     }
