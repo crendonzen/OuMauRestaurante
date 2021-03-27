@@ -335,7 +335,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                 View viewSource = (View) event.getLocalState ();
                 RecyclerView RecyclerView = (RecyclerView) viewSource.getParent ();
                 positionFuente = (int) viewSource.getTag ();
-                posicionDestion = (int) v.getTag ();
+               // posicionDestion = (int) v.getTag ();
 
                 if((RecyclerView.getAdapter () instanceof AdaptadorListaMesa)&&v.getId ()== R.id.listaMesasDesocupadas)
                 {
@@ -343,19 +343,25 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                     final Mesa mesa = adaptadorListaMesa.getList ().get (positionFuente);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext ());
-                    builder.setTitle("Title");
-                    final TextView input = new TextView(getContext ());
+                    LayoutInflater inflater= getLayoutInflater();
+                    View view = inflater.inflate(R.layout.dialog_eliminar_mesa,null);
+                    builder.setView(view);
+                    final AlertDialog dialog = builder.create();
+                    dialog.show ();
+
+                    final TextView input = view.findViewById(R.id.txtEliminarMesa);
+                    Button botonSi=view.findViewById(R.id.btnSiEliminar);
+                    Button botonNo=view.findViewById(R.id.btnEliminarNo);
                     input.setText ("¿Desea eliminar  el pedido de la mesa "+mesa.getIdmesa ()+"?");
                     builder.setView(input);
 
                     final int finalPositionFuente = positionFuente;
                     final int finalPositionFuente1 = positionFuente;
-                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener()
-                    {
+
+                    botonSi.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(final DialogInterface dialog, int which)
-                        {
-                            final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando pedido...","Espere por favor...",false,false);
+                        public void onClick(View view) {
+                            final ProgressDialog loading = ProgressDialog.show(getContext (),"Eliminando pedido...","Espere por favor...",false,false);
                             Map<String, String> params = new HashMap<String, String>();
                             params.put ("eliminarUnPedido", "true");
                             params.put ("idmesa", mesa.getIdmesa ()+"");
@@ -391,15 +397,14 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             requestQueue.add (jsonRequest);
                         }
                     });
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener()
-                    {
+
+                    botonNo.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
+                        public void onClick(View view) {
                             dialog.cancel();
                         }
                     });
-                    builder.show ();
+                    dialog.show ();
 
                 } if((RecyclerView.getAdapter () instanceof AdaptadorListaMesaDesocupada)&&v.getId ()== R.id.itemMesaOcupada)
                 {
@@ -445,18 +450,26 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                 {
                     final AdaptadorListaMesaDesocupada adaptadorListaMesaDesocupada = (AdaptadorListaMesaDesocupada) RecyclerView.getAdapter ();
                     final Mesa  mesa = adaptadorListaMesaDesocupada.getList ().get (positionFuente);
+
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext ());
-                    builder.setTitle("Title");
-                    final TextView input = new TextView(getContext ());
-                    input.setText ("¿Desea realizar un pedido en esta mesa?");
-                    builder.setView(input);
+                    LayoutInflater inflater= getLayoutInflater();
+                    View view = inflater.inflate(R.layout.dialog_agregar_mesa,null);
+                    builder.setView(view);
+                    final AlertDialog dialog = builder.create();
+                    dialog.show ();
+
+
+
+                    final TextView input = view.findViewById(R.id.txtAgregarMesa);
+                    input.setText ("¿Desea realizar un pedido en la "+mesa.getNumero()+"?");
+                    Button botonSiAgregar =view.findViewById(R.id.botonSiAgregar);
+                    Button botonNoAgregar =view.findViewById(R.id.botonNoAgregar);
 
                     final int finalPositionFuente = positionFuente;
-                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener()
-                    {
+                    botonSiAgregar.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(final DialogInterface dialog, int which)
-                        {
+                        public void onClick(View view) {
                             final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando pedido...","Espere por favor...",false,false);
                             Map<String, String> params = new HashMap<String, String>();
                             params.put ("crearPedido", "true");
@@ -489,15 +502,17 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             requestQueue.add (jsonRequest);
                         }
                     });
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener()
-                    {
+
+
+                    botonNoAgregar.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
+                        public void onClick(View view) {
                             dialog.cancel();
                         }
                     });
-                    builder.show ();
+
+
+                    dialog.show ();
                 }
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
