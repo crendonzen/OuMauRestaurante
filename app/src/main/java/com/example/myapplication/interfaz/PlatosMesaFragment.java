@@ -301,6 +301,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         {
             if (this.pedidoFactura.hayPedidos())
             {
+
                 NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
                 SimpleDateFormat format=new SimpleDateFormat ("dd/MM/yyyy");
                 Document document=new Document ();
@@ -315,18 +316,28 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 float valueFontSize=20.0f;
                 double total=0;
                 BaseFont fontName= BaseFont.createFont ("assets/fonts/Brandon_medium.otf","UTF-8",BaseFont.EMBEDDED);
+                Font numeroValorOrden=new Font (fontName,valueFontSize,Font.NORMAL,BaseColor.BLACK);
 
 
                 addItemImage (document, Element.ALIGN_CENTER, R.mipmap.restaurante);
 
+                addItem(document,"NIT. 085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
+                addItem(document,"Calle 18a #3-05 B/Lorenzo", Element.ALIGN_CENTER,numeroValorOrden);
+                addItemleftImage( document,   Element.ALIGN_CENTER, "305 484 8526",  numeroValorOrden,  R.mipmap.restaurante);
+
+                addItem(document,"Oumaorestaurante@gmail.com", Element.ALIGN_CENTER,numeroValorOrden);
+                addItem(document,"@Oumao.oficial", Element.ALIGN_CENTER,numeroValorOrden);
+
+
                 Font titulo=new Font (fontName,36.0f,Font.NORMAL,BaseColor.BLACK);
-                addItem(document,"Orden pedido", Element.ALIGN_CENTER,titulo);
+                agregarEspacio (document);
+                agregarEspacio (document);
 
                 Font numeroOrden=new Font (fontName,fontSize,Font.NORMAL,color);
-                addItem(document,"Pedido no.", Element.ALIGN_LEFT,numeroOrden);
+                addItem(document,"FACTURA", Element.ALIGN_CENTER,numeroOrden);
 
-                Font numeroValorOrden=new Font (fontName,valueFontSize,Font.NORMAL,BaseColor.BLACK);
-                addItem(document,"#"+this.pedidoFactura.getFactura_idfacturas (), Element.ALIGN_LEFT,numeroValorOrden);
+
+                addItem(document,""+this.pedidoFactura.getFactura_idfacturas (), Element.ALIGN_CENTER,numeroValorOrden);
                 agregarLinea(document);
 
                 addItem(document,"Fecha de pedido", Element.ALIGN_LEFT,numeroOrden);
@@ -401,7 +412,6 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
 
                 double total=0;
                 addItemImage (document, Element.ALIGN_CENTER, R.mipmap.restaurante);
-
 
                 addItem(document,"NIT. 085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
                 addItem(document,"Calle 18a #3-05 B/Lorenzo", Element.ALIGN_CENTER,numeroValorOrden);
@@ -642,7 +652,6 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                 try
                                 {
                                     int cantidad = Integer.parseInt(input.getText ().toString ());
-
                                     if (cantidad<=plato.getCantidad ())
                                     {
                                         HashMap<String, String> params = new HashMap<String, String> ();

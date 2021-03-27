@@ -69,7 +69,6 @@ public class PDFAdapter extends PrintDocumentAdapter
 
             if (this.repeticion==1)
             {
-                Toast.makeText (context, "No se puede reducir esa cantidad de platos 1", Toast.LENGTH_SHORT).show ();
                 String data = new Gson ().toJson (pedidoFactura.getPedidos ());
 
                 HashMap<String, String> params = new HashMap<String, String> ();
@@ -129,7 +128,6 @@ public class PDFAdapter extends PrintDocumentAdapter
                 callback.onWriteCancelled ();
             }else
             {
-                Toast.makeText (context, "No se puede reducir esa cantidad de platos 2", Toast.LENGTH_SHORT).show ();
                 callback.onWriteFinished (new PageRange[]{PageRange.ALL_PAGES});
             }
         }catch (FileNotFoundException e)
