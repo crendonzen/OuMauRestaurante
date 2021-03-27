@@ -337,7 +337,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                 positionFuente = (int) viewSource.getTag ();
                // posicionDestion = (int) v.getTag ();
 
-                if((RecyclerView.getAdapter () instanceof AdaptadorListaMesa)&&v.getId ()== R.id.listaMesasDesocupadas)
+                if((RecyclerView.getAdapter () instanceof AdaptadorListaMesa))
                 {
                     final AdaptadorListaMesa adaptadorListaMesa = (AdaptadorListaMesa) RecyclerView.getAdapter ();
                     final Mesa mesa = adaptadorListaMesa.getList ().get (positionFuente);
@@ -406,15 +406,16 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                     });
                     dialog.show ();
 
-                } if((RecyclerView.getAdapter () instanceof AdaptadorListaMesaDesocupada)&&v.getId ()== R.id.itemMesaOcupada)
+                }/*else if((RecyclerView.getAdapter () instanceof AdaptadorListaMesaDesocupada)&&v.getId ()== R.id.itemMesaOcupada)
                 {
                     final Mesa mesaOrigen = adaptadorListaMesa.getList ().get (positionFuente);
-                    final Mesa mesaDestino = adaptadorListaMesaDesocupada.getList ().get (posicionDestion);
-                    final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando pedido...","Espere por favor...",false,false);
+                    //final Mesa mesaDestino = adaptadorListaMesaDesocupada.getList ().get (posicionDestion);
+                   // final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando pedido...","Espere por favor...",false,false);
                     Map<String, String> params = new HashMap<String, String>();
                     params.put ("cambiarMesaPedio", "true");
+                    Toast.makeText (getContext (), "Pedido elminado de la ", Toast.LENGTH_SHORT).show ();
                     params.put ("idmesaOrigen", mesaOrigen.getIdmesa ()+"");
-                    params.put ("idmesaDestion", mesaDestino.getIdmesa ()+"");
+                  //  params.put ("idmesaDestion", mesaDestino.getIdmesa ()+"");
                     JSONObject parameters = new JSONObject (params);
                     String url = "https://openm.co/consultas/pedidos.php";
                     jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
@@ -433,20 +434,20 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             bundleEnvio.putSerializable ("mesa", null);
                             getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
 
-                            dialog.cancel();*/
+                            dialog.cancel();
                         }
                     }, new Response.ErrorListener ()
                     {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             error.printStackTrace ();
-                            loading.dismiss ();
+                            //loading.dismiss ();
                         }
                     });
                     int socketTimeout = 0;
-                    requestQueue.add (jsonRequest);
+                    //requestQueue.add (jsonRequest);
 
-                } else if ((RecyclerView.getAdapter () instanceof AdaptadorListaMesaDesocupada)&&v.getId ()== R.id.listaPlatosMesas)
+                }*/ else if ((RecyclerView.getAdapter () instanceof AdaptadorListaMesaDesocupada)&&v.getId ()== R.id.listaPlatosMesas)
                 {
                     final AdaptadorListaMesaDesocupada adaptadorListaMesaDesocupada = (AdaptadorListaMesaDesocupada) RecyclerView.getAdapter ();
                     final Mesa  mesa = adaptadorListaMesaDesocupada.getList ().get (positionFuente);
