@@ -3,6 +3,7 @@ package com.example.myapplication.interfaz;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -301,6 +302,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         {
             if (this.pedidoFactura.hayPedidos())
             {
+                final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando factura...","Espere por favor...",false,false);
 
                 NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
                 SimpleDateFormat format=new SimpleDateFormat ("dd/MM/yyyy");
@@ -365,7 +367,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 agregarLinea(document);
                 addItemleft (document,"Total",nf.format((total*0.19)+total)+"",titulo,numeroValorOrden);
                 document.close ();
-                imprimiPDF();
+                imprimiPDF("caja");
+                loading.dismiss ();
             }else
             {
                 Toast.makeText(getContext(), "No hay pedidos que imprimir", Toast.LENGTH_SHORT).show();
@@ -393,6 +396,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         {
             if (this.pedidoFactura.hayPedidos())
             {
+                final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando factura...","Espere por favor...",false,false);
+
                 NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
                 float fontSize=26.0f;
                 float valueFontSize=26.0f;
@@ -456,7 +461,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 agregarEspacio (document);
                 addItemleft (document,"Total",nf.format(total)+"",titulo,numeroValorOrden);
                 document.close ();
-                imprimiPDF();
+                imprimiPDF("");
+                loading.dismiss ();
             }else
             {
                 Toast.makeText(getContext(), "No hay pedidos que imprimir", Toast.LENGTH_SHORT).show();
@@ -475,12 +481,12 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         }
     }
 
-    private void imprimiPDF()
+    private void imprimiPDF(String destino)
     {
         PrintManager printManager=(PrintManager)getContext ().getSystemService (Context.PRINT_SERVICE);
         try{
 
-            PrintDocumentAdapter adapter=new PDFAdapter (getContext (),common.getRutaRaiz(getContext ())+"ticket.pdf",this.pedidoFactura,adaptadorListaPedidos,requestQueue);
+            PrintDocumentAdapter adapter=new PDFAdapter (getContext (),common.getRutaRaiz(getContext ())+"ticket.pdf",this.pedidoFactura,destino,adaptadorListaPedidos,requestQueue);
 
             printManager.print ("Document",adapter, new PrintAttributes.Builder ().build ());
 

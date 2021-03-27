@@ -37,6 +37,7 @@ import java.util.HashMap;
 public class PDFAdapter extends PrintDocumentAdapter
 {
     private final Context context;
+    private final String destino;
     private String path;
     private int repeticion=0;
     private AdaptadorListaPedidos adaptadorListaPedidos;
@@ -44,7 +45,7 @@ public class PDFAdapter extends PrintDocumentAdapter
     private RequestQueue requestQueue;
     private JsonRequest jsonRequest;
 
-    public PDFAdapter(Context context, String s, Factura factura, AdaptadorListaPedidos listaPedidos,RequestQueue requestQueue)
+    public PDFAdapter(Context context, String s, Factura factura,String destino, AdaptadorListaPedidos listaPedidos,RequestQueue requestQueue)
     {
 
         this.context=context;
@@ -52,6 +53,8 @@ public class PDFAdapter extends PrintDocumentAdapter
         this.pedidoFactura=factura;
         this.adaptadorListaPedidos=listaPedidos;
         this.requestQueue=requestQueue;
+        this.destino=destino;
+
     }
     @Override
     public void onLayout(PrintAttributes oldAttributes, PrintAttributes newAttributes, CancellationSignal cancellationSignal, LayoutResultCallback callback, Bundle extras) {
@@ -67,7 +70,7 @@ public class PDFAdapter extends PrintDocumentAdapter
                     .build ();
             callback.onLayoutFinished (builder.build (),!newAttributes.equals (oldAttributes));
 
-            if (this.repeticion==1)
+            if (this.repeticion==1&& this.destino.equals ("caja"))
             {
                 String data = new Gson ().toJson (pedidoFactura.getPedidos ());
 
