@@ -3,6 +3,7 @@ package com.example.myapplication.interfaz;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -301,35 +302,38 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         {
             if (this.pedidoFactura.hayPedidos())
             {
+                final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando factura...","Espere por favor...",false,false);
 
                 NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
+                float fontSize=26.0f;
+                float valueFontSize=26.0f;
+                BaseFont fontName= BaseFont.createFont ("assets/fonts/Brandon_medium.otf","UTF-8",BaseFont.EMBEDDED);
+
+                Font titulo=new Font (fontName,36.0f,Font.NORMAL,BaseColor.BLACK);
+                Font numeroValorOrden=new Font (fontName,valueFontSize,Font.NORMAL,BaseColor.BLACK);
                 SimpleDateFormat format=new SimpleDateFormat ("dd/MM/yyyy");
                 Document document=new Document ();
                 PdfWriter.getInstance (document, new FileOutputStream (path));
                 document.open ();
-                document.setPageSize (PageSize.NOTE);
+                document.setPageSize (PageSize.A4);
                 document.addCreationDate ();
                 document.addAuthor ("Open");
                 document.addAuthor ("user");
-                BaseColor color=new BaseColor (0,153,204,255);
-                float fontSize=20.0f;
-                float valueFontSize=20.0f;
+                BaseColor color=new BaseColor (Color.BLACK);
+
                 double total=0;
-                BaseFont fontName= BaseFont.createFont ("assets/fonts/Brandon_medium.otf","UTF-8",BaseFont.EMBEDDED);
-                Font numeroValorOrden=new Font (fontName,valueFontSize,Font.NORMAL,BaseColor.BLACK);
-
-
                 addItemImage (document, Element.ALIGN_CENTER, R.mipmap.restaurante);
 
                 addItem(document,"NIT. 085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
                 addItem(document,"Calle 18a #3-05 B/Lorenzo", Element.ALIGN_CENTER,numeroValorOrden);
-                addItemleftImage( document,   Element.ALIGN_CENTER, "305 484 8526",  numeroValorOrden,  R.mipmap.restaurante);
+                addItemleftImage( document,   Element.ALIGN_CENTER, "305 484 8526",  numeroValorOrden,  R.mipmap.redesw);
 
                 addItem(document,"Oumaorestaurante@gmail.com", Element.ALIGN_CENTER,numeroValorOrden);
-                addItem(document,"@Oumao.oficial", Element.ALIGN_CENTER,numeroValorOrden);
+                addItemleftImage( document,   Element.ALIGN_CENTER, "@Oumao.oficial",  numeroValorOrden,  R.mipmap.redes);
 
 
-                Font titulo=new Font (fontName,36.0f,Font.NORMAL,BaseColor.BLACK);
+                titulo = new Font(fontName, 36.0f, Font.NORMAL, BaseColor.BLACK);
+
 
                 agregarEspacio (document);
                 agregarEspacio (document);
@@ -342,32 +346,28 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 addItem(document,""+this.pedidoFactura.getFactura_idfacturas (), Element.ALIGN_CENTER,numeroValorOrden);
                 agregarLinea(document);
 
-                addItem(document,"Fecha de pedido", Element.ALIGN_LEFT,numeroOrden);
-                addItem(document,format.format (pedidoFactura.getFactura_fecha ()), Element.ALIGN_LEFT,numeroValorOrden);
-                agregarLinea(document);
-
-                addItem(document,"Numero de mesa", Element.ALIGN_LEFT,numeroOrden);
-                addItem(document,pedidoFactura.getMesas_numero (), Element.ALIGN_LEFT,numeroValorOrden);
+                addItemleft (document,"Fecha de pedido", "Numero de mesa",numeroValorOrden,numeroValorOrden);
+                addItemleft (document,format.format (pedidoFactura.getFactura_fecha ()), pedidoFactura.getMesas_numero (),numeroValorOrden,numeroValorOrden);
                 agregarLinea(document);
                 agregarEspacio (document);
-                addItem (document,"Detalle de los platos",Element.ALIGN_LEFT,titulo);
+                addItem (document,"Ordenes del pedido",Element.ALIGN_CENTER,titulo);
                 agregarLinea(document);
 
                 for (Pedido pedido: pedidoFactura.getPedidos ())
                 {
                     addItemleft (document,pedido.getNombre (),"",titulo,numeroValorOrden);
                     total+=pedido.getTotal();
-                    addItemleft (document,pedido.getCantidad ()+"*"+nf.format(pedido.getPrecio ()),nf.format(pedido.getTotal())+"",titulo,numeroValorOrden);
+                    addItemleft (document,nf.format(pedido.getPrecio ())+"*"+pedido.getCantidad (),nf.format(pedido.getTotal())+"",titulo,numeroValorOrden);
                 }
 
                 agregarLinea(document);
                 agregarEspacio (document);
                 addItemleft (document,"Subtotal",nf.format(total)+"",titulo,numeroValorOrden);
-                addItemleft (document,"IVA",nf.format(total*0.19)+"",titulo,numeroValorOrden);
                 agregarLinea(document);
-                addItemleft (document,"Total",nf.format((total*0.19)+total)+"",titulo,numeroValorOrden);
+                addItemleft (document,"Total",nf.format(total)+"",titulo,numeroValorOrden);
                 document.close ();
-                imprimiPDF();
+                imprimiPDF("caja");
+                loading.dismiss ();
             }else
             {
                 Toast.makeText(getContext(), "No hay pedidos que imprimir", Toast.LENGTH_SHORT).show();
@@ -395,6 +395,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         {
             if (this.pedidoFactura.hayPedidos())
             {
+                final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando factura...","Espere por favor...",false,false);
+
                 NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
                 float fontSize=26.0f;
                 float valueFontSize=26.0f;
@@ -417,10 +419,10 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
 
                 addItem(document,"NIT. 085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
                 addItem(document,"Calle 18a #3-05 B/Lorenzo", Element.ALIGN_CENTER,numeroValorOrden);
-                addItemleftImage( document,   Element.ALIGN_CENTER, "305 484 8526",  numeroValorOrden,  R.mipmap.restaurante);
+                addItemleftImage( document,   Element.ALIGN_CENTER, "305 484 8526",  numeroValorOrden,  R.mipmap.redesw);
 
                 addItem(document,"Oumaorestaurante@gmail.com", Element.ALIGN_CENTER,numeroValorOrden);
-                addItem(document,"@Oumao.oficial", Element.ALIGN_CENTER,numeroValorOrden);
+                addItemleftImage( document,   Element.ALIGN_CENTER, "@Oumao.oficial",  numeroValorOrden,  R.mipmap.redes);
 
                 agregarEspacio (document);
                 agregarEspacio (document);
@@ -432,22 +434,17 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 addItem(document,""+this.pedidoFactura.getFactura_idfacturas (), Element.ALIGN_CENTER,numeroValorOrden);
                 agregarLinea(document);
 
-                addItem(document,"Fecha de pedido", Element.ALIGN_LEFT,numeroOrden);
-                addItem(document,format.format (pedidoFactura.getFactura_fecha ()), Element.ALIGN_LEFT,numeroValorOrden);
-                agregarLinea(document);
-
-                addItem(document,"Numero de mesa", Element.ALIGN_LEFT,numeroOrden);
-                addItem(document,pedidoFactura.getMesas_numero (), Element.ALIGN_LEFT,numeroValorOrden);
+                addItemleft (document,"Fecha de pedido", "Numero de mesa",numeroValorOrden,numeroValorOrden);
+                addItemleft (document,format.format (pedidoFactura.getFactura_fecha ()), pedidoFactura.getMesas_numero (),numeroValorOrden,numeroValorOrden);
                 agregarLinea(document);
                 agregarEspacio (document);
-                addItem (document,"Orden pedido",Element.ALIGN_LEFT,titulo);
+                addItem (document,"Ordenes del pedido",Element.ALIGN_CENTER,titulo);
                 agregarLinea(document);
-
                 for (Pedido pedido: pedidoFactura.getPedidos ())
                 {
                     addItemleft (document,pedido.getNombre (),"",titulo,numeroValorOrden);
                     total+=pedido.getTotal();
-                    addItemleft (document,pedido.getCantidad ()+"*"+nf.format(pedido.getPrecio ()),nf.format(pedido.getTotal())+"",titulo,numeroValorOrden);
+                    addItemleft (document,nf.format(pedido.getPrecio ())+"*"+pedido.getCantidad (),nf.format(pedido.getTotal())+"",titulo,numeroValorOrden);
                     if (!pedido.getObsevacion ().isEmpty ())
                         addItemleft (document,pedido.getObsevacion (),"",titulo,numeroValorOrden);
                     agregarLinea(document);
@@ -458,7 +455,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 agregarEspacio (document);
                 addItemleft (document,"Total",nf.format(total)+"",titulo,numeroValorOrden);
                 document.close ();
-                imprimiPDF();
+                imprimiPDF("");
+                loading.dismiss ();
             }else
             {
                 Toast.makeText(getContext(), "No hay pedidos que imprimir", Toast.LENGTH_SHORT).show();
@@ -477,12 +475,12 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         }
     }
 
-    private void imprimiPDF()
+    private void imprimiPDF(String destino)
     {
         PrintManager printManager=(PrintManager)getContext ().getSystemService (Context.PRINT_SERVICE);
         try{
 
-            PrintDocumentAdapter adapter=new PDFAdapter (getContext (),common.getRutaRaiz(getContext ())+"ticket.pdf",this.pedidoFactura,adaptadorListaPedidos,requestQueue);
+            PrintDocumentAdapter adapter=new PDFAdapter (getContext (),common.getRutaRaiz(getContext ())+"ticket.pdf",this.pedidoFactura,destino,adaptadorListaPedidos,requestQueue);
 
             printManager.print ("Document",adapter, new PrintAttributes.Builder ().build ());
 
@@ -510,13 +508,13 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
         Image logo = Image.getInstance(stream.toByteArray());
 
-        logo.scaleAbsolute (40,40);
+        logo.scaleAbsolute (80,40);
 
         Paragraph paragraph=new Paragraph ();
         logo.setAlignment(Image.ALIGN_CENTER);
         Chunk chunk=new Chunk (logo,150,-10);
         paragraph.add (chunk);
-        paragraph.setIndentationRight (155);
+        paragraph.setIndentationRight (140);
         paragraph.add (new Chunk ( new VerticalPositionMark ()));
         Chunk chunkRight=new Chunk (textRight ,right);
         paragraph.add (chunkRight);
@@ -577,7 +575,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
         Image logo = Image.getInstance(stream.toByteArray());
-        logo.scaleAbsolute (120,120);
+        logo.scaleAbsolute (155,120);
         logo.setAlignment(Image.ALIGN_CENTER);
         Paragraph paragraph=new Paragraph ();
         paragraph.add (logo);
