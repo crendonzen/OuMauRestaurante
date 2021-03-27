@@ -313,6 +313,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 double total=0;
                 BaseFont fontName= BaseFont.createFont ("assets/fonts/Brandon_medium.otf","UTF-8",BaseFont.EMBEDDED);
                 Font titulo=new Font (fontName,36.0f,Font.NORMAL,BaseColor.BLACK);
+
+                addItem(document,"Orden pedido", Element.ALIGN_CENTER,titulo);
                 addItem(document,"Orden pedido", Element.ALIGN_CENTER,titulo);
 
                 Font numeroOrden=new Font (fontName,fontSize,Font.NORMAL,color);
