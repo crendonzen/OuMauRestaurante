@@ -4,7 +4,8 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.print.PrintAttributes;
@@ -18,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,12 +45,14 @@ import com.example.myapplication.mundo.Mesa;
 import com.example.myapplication.mundo.Pedido;
 import com.example.myapplication.mundo.Plato;
 import com.google.gson.Gson;
+import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
@@ -68,6 +70,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -312,6 +315,10 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 float valueFontSize=20.0f;
                 double total=0;
                 BaseFont fontName= BaseFont.createFont ("assets/fonts/Brandon_medium.otf","UTF-8",BaseFont.EMBEDDED);
+
+
+                addItemImage (document, Element.ALIGN_CENTER, R.mipmap.restaurante);
+
                 Font titulo=new Font (fontName,36.0f,Font.NORMAL,BaseColor.BLACK);
                 addItem(document,"Orden pedido", Element.ALIGN_CENTER,titulo);
 
@@ -326,7 +333,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 addItem(document,format.format (pedidoFactura.getFactura_fecha ()), Element.ALIGN_LEFT,numeroValorOrden);
                 agregarLinea(document);
 
-                addItem(document,"Número de mesa", Element.ALIGN_LEFT,numeroOrden);
+                addItem(document,"Numero de mesa", Element.ALIGN_LEFT,numeroOrden);
                 addItem(document,pedidoFactura.getMesas_numero (), Element.ALIGN_LEFT,numeroValorOrden);
                 agregarLinea(document);
                 agregarEspacio (document);
@@ -376,38 +383,52 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
             if (this.pedidoFactura.hayPedidos())
             {
                 NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
+                float fontSize=26.0f;
+                float valueFontSize=26.0f;
+                BaseFont fontName= BaseFont.createFont ("assets/fonts/Brandon_medium.otf","UTF-8",BaseFont.EMBEDDED);
+
+                Font titulo=new Font (fontName,36.0f,Font.NORMAL,BaseColor.BLACK);
+                Font numeroValorOrden=new Font (fontName,valueFontSize,Font.NORMAL,BaseColor.BLACK);
                 SimpleDateFormat format=new SimpleDateFormat ("dd/MM/yyyy");
                 Document document=new Document ();
                 PdfWriter.getInstance (document, new FileOutputStream (path));
                 document.open ();
-                document.setPageSize (PageSize.NOTE);
+                document.setPageSize (PageSize.A4);
                 document.addCreationDate ();
                 document.addAuthor ("Open");
                 document.addAuthor ("user");
-                BaseColor color=new BaseColor (0,153,204,255);
-                float fontSize=20.0f;
-                float valueFontSize=20.0f;
+                BaseColor color=new BaseColor (Color.BLACK);
+
                 double total=0;
-                BaseFont fontName= BaseFont.createFont ("assets/fonts/Brandon_medium.otf","UTF-8",BaseFont.EMBEDDED);
-                Font titulo=new Font (fontName,36.0f,Font.NORMAL,BaseColor.BLACK);
-                addItem(document,"Orden pedido", Element.ALIGN_CENTER,titulo);
+                addItemImage (document, Element.ALIGN_CENTER, R.mipmap.restaurante);
+
+
+                addItem(document,"NIT. 085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
+                addItem(document,"Calle 18a #3-05 B/Lorenzo", Element.ALIGN_CENTER,numeroValorOrden);
+                addItemleftImage( document,   Element.ALIGN_CENTER, "305 484 8526",  numeroValorOrden,  R.mipmap.restaurante);
+
+                addItem(document,"Oumaorestaurante@gmail.com", Element.ALIGN_CENTER,numeroValorOrden);
+                addItem(document,"@Oumao.oficial", Element.ALIGN_CENTER,numeroValorOrden);
+
+                agregarEspacio (document);
+                agregarEspacio (document);
 
                 Font numeroOrden=new Font (fontName,fontSize,Font.NORMAL,color);
-                addItem(document,"Pedido no.", Element.ALIGN_LEFT,numeroOrden);
+                addItem(document,"FACTURA", Element.ALIGN_CENTER,numeroOrden);
 
-                Font numeroValorOrden=new Font (fontName,valueFontSize,Font.NORMAL,BaseColor.BLACK);
-                addItem(document,"#"+this.pedidoFactura.getFactura_idfacturas (), Element.ALIGN_LEFT,numeroValorOrden);
+
+                addItem(document,""+this.pedidoFactura.getFactura_idfacturas (), Element.ALIGN_CENTER,numeroValorOrden);
                 agregarLinea(document);
 
                 addItem(document,"Fecha de pedido", Element.ALIGN_LEFT,numeroOrden);
                 addItem(document,format.format (pedidoFactura.getFactura_fecha ()), Element.ALIGN_LEFT,numeroValorOrden);
                 agregarLinea(document);
 
-                addItem(document,"Número de mesa", Element.ALIGN_LEFT,numeroOrden);
+                addItem(document,"Numero de mesa", Element.ALIGN_LEFT,numeroOrden);
                 addItem(document,pedidoFactura.getMesas_numero (), Element.ALIGN_LEFT,numeroValorOrden);
                 agregarLinea(document);
                 agregarEspacio (document);
-                addItem (document,"Detalle de los platos",Element.ALIGN_LEFT,titulo);
+                addItem (document,"Orden pedido",Element.ALIGN_LEFT,titulo);
                 agregarLinea(document);
 
                 for (Pedido pedido: pedidoFactura.getPedidos ())
@@ -415,7 +436,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                     addItemleft (document,pedido.getNombre (),"",titulo,numeroValorOrden);
                     total+=pedido.getTotal();
                     addItemleft (document,pedido.getCantidad ()+"*"+nf.format(pedido.getPrecio ()),nf.format(pedido.getTotal())+"",titulo,numeroValorOrden);
-                    addItemleft (document,pedido.getObsevacion (),"",titulo,numeroValorOrden);
+                    if (!pedido.getObsevacion ().isEmpty ())
+                        addItemleft (document,pedido.getObsevacion (),"",titulo,numeroValorOrden);
                     agregarLinea(document);
                 }
 
@@ -468,6 +490,55 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         document.add(paragraph);
     }
 
+
+    private void addItemleftImage(Document document,  int alignCenter, String textRight,  Font right, int idImage) throws DocumentException, IOException {
+        agregarEspacio (document);
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), idImage);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        Image logo = Image.getInstance(stream.toByteArray());
+
+        logo.scaleAbsolute (40,40);
+
+        Paragraph paragraph=new Paragraph ();
+        logo.setAlignment(Image.ALIGN_CENTER);
+        Chunk chunk=new Chunk (logo,150,-10);
+        paragraph.add (chunk);
+        paragraph.setIndentationRight (155);
+        paragraph.add (new Chunk ( new VerticalPositionMark ()));
+        Chunk chunkRight=new Chunk (textRight ,right);
+        paragraph.add (chunkRight);
+        paragraph.setAlignment (alignCenter);
+
+        document.add(paragraph);
+    }
+
+    private void addItemDoubleleftImage(Document document,  int alignCenter, String textRight,  Font right, int idImage1, int idImage) throws DocumentException, IOException {
+        agregarEspacio (document);
+        Image logo = obtenerImage (idImage1);
+
+        logo.scaleAbsolute (40,40);
+
+        Paragraph paragraph=new Paragraph ();
+        logo.setAlignment(Image.ALIGN_CENTER);
+        Chunk chunk=new Chunk (logo,150,-10);
+        paragraph.add (chunk);
+        paragraph.setIndentationRight (155);
+        paragraph.add (new Chunk ( new VerticalPositionMark ()));
+
+        Chunk chunkRight=new Chunk (textRight ,right);
+        paragraph.add (chunkRight);
+        paragraph.setAlignment (alignCenter);
+
+        document.add(paragraph);
+    }
+    public Image obtenerImage(int idImage) throws IOException, BadElementException {
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), idImage);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        Image logo = Image.getInstance(stream.toByteArray());
+        return  logo;
+    }
     private void agregarLinea(Document document) throws DocumentException
     {
         LineSeparator separator=new LineSeparator ();
@@ -479,16 +550,27 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
 
     private void agregarEspacio(Document document) throws DocumentException
     {
-        document.add (new Paragraph (""));
+        document.add (new Paragraph ("."));
     }
 
-    private void addItem(Document document, String oreden_detalle, int alignCenter, Font titulo) throws DocumentException {
-        Chunk chunk=new Chunk (oreden_detalle,titulo);
+    private void addItem(Document document, String orden_detalle, int alignCenter, Font titulo) throws DocumentException {
+        Chunk chunk=new Chunk (orden_detalle,titulo);
         Paragraph paragraph=new Paragraph (chunk);
         paragraph.setAlignment (alignCenter);
         document.add(paragraph);
     }
-
+    private void addItemImage(Document document,  int alignCenter, int idImage) throws DocumentException, IOException
+    {
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), idImage);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        Image logo = Image.getInstance(stream.toByteArray());
+        logo.scaleAbsolute (120,120);
+        logo.setAlignment(Image.ALIGN_CENTER);
+        Paragraph paragraph=new Paragraph ();
+        paragraph.add (logo);
+        document.add(paragraph);
+    }
     @Override
     public boolean onDrag(View v, DragEvent event)
     {
@@ -560,6 +642,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                 try
                                 {
                                     int cantidad = Integer.parseInt(input.getText ().toString ());
+
                                     if (cantidad<=plato.getCantidad ())
                                     {
                                         HashMap<String, String> params = new HashMap<String, String> ();
