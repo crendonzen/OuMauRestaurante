@@ -46,6 +46,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Abtract.InterfazFragamen;
 import com.example.myapplication.R;
+import com.example.myapplication.adaptador.Servidor;
 import com.example.myapplication.adaptador.VolleySingleton;
 import com.example.myapplication.mundo.Plato;
 
@@ -222,7 +223,7 @@ public class DetallePlatoFragment extends Fragment
             {
                 final ProgressDialog loading = ProgressDialog.show(getContext (),"Actualizando cambios...","Espere por favor...",false,false);
 
-                String URL="https://192.168.1.27/consultas/platos.php";
+                String URL="https://"+ Servidor.HOST +"/consultas/platos.php";
 
                 RequestQueue servicio= Volley.newRequestQueue(getContext());
                 Map<String,String> params= new HashMap<String, String> ();

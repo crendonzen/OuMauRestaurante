@@ -42,6 +42,7 @@ import com.example.myapplication.adaptador.AdaptadorListaMesa;
 import com.example.myapplication.adaptador.AdaptadorListaMesaDesocupada;
 import com.example.myapplication.adaptador.AdaptadorListaPedidos;
 import com.example.myapplication.adaptador.AdaptadorListaPlatos;
+import com.example.myapplication.adaptador.Servidor;
 import com.example.myapplication.mundo.Mesa;
 import com.example.myapplication.mundo.Pedido;
 import com.example.myapplication.mundo.Plato;
@@ -58,7 +59,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * A simple {@link Fragment} subclass.
+
  * Use the {@link PedidosMesaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -82,6 +83,8 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
     ImageButton agregarMesa;
     Dialog mDialog;
     TextView numeroMesa;
+    private Timer timer;
+
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -138,11 +141,8 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
         this.listaMesas.setAdapter(adaptadorListaMesa);
         this.listaMesas.setLayoutManager (new GridLayoutManager (getContext (), 3));
         recuperarPreferencias();
-
-
-
-
-new Timer ().scheduleAtFixedRate(new TimerTask ()
+        this.timer = new Timer();
+        this.timer.scheduleAtFixedRate(new TimerTask ()
 
         {
             @Override
@@ -152,7 +152,8 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
                 buscarMesaDesocupada ();
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1,6000);
+        },1,2000);
+
         this.buscarMesa.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
         {
             @Override
@@ -204,7 +205,7 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
         Map<String, String> params = new HashMap<String, String> ();
         params.put ("buscarMesasDesocupadas", "Mes");
         JSONObject parameters = new JSONObject (params);
-        String url = "http://192.168.1.27/consultas/pedidos.php";
+        String url = "http://"+ Servidor.HOST +"/consultas/pedidos.php";
 
         jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> () {
             @Override
@@ -249,7 +250,7 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
         Map<String,String> params= new HashMap<String, String> ();
         params.put("buscarMesas","Mes");
         JSONObject parameters = new JSONObject(params);
-        String url="http://192.168.1.27/consultas/pedidos.php";
+        String url="http://"+ Servidor.HOST +"/consultas/pedidos.php";
         jsonRequest=new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
         {
             @Override
@@ -281,12 +282,16 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
                             Bundle bundleEnvio = new Bundle ();
                             bundleEnvio.putSerializable ("mesa", mesa);
                             getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
+                            Toast.makeText(getContext(), "estoi enviando", Toast.LENGTH_SHORT).show();
+
                         }else
                         {
                             Bundle bundleEnvio = new Bundle ();
                             bundleEnvio.putSerializable ("mesa", null);
                             getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
                         }
+
+
                         adaptadorListaMesa.notifyDataSetChanged ();
                     }
                 } catch (JSONException e)
@@ -348,74 +353,70 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
                 positionFuente = (int) viewSource.getTag ();
                // posicionDestion = (int) v.getTag ();
 
-                if((RecyclerView.getAdapter () instanceof AdaptadorListaMesa))
+
+
+                if(v.getId() == R.id.listaMesasDesocupadas && ( (View) event.getLocalState()).getId ()== R.id.listaPlatosMesas)
                 {
-                    final AdaptadorListaMesa adaptadorListaMesa = (AdaptadorListaMesa) RecyclerView.getAdapter ();
-                    final Mesa mesa = adaptadorListaMesa.getList ().get (positionFuente);
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext ());
-                    LayoutInflater inflater= getLayoutInflater();
-                    View view = inflater.inflate(R.layout.dialog_eliminar_mesa,null);
-                    builder.setView(view);
-                    final AlertDialog dialog = builder.create();
-                    dialog.show ();
+                        final Mesa mesa = adaptadorListaMesa.getList().get(positionFuente);
 
-                    final TextView input = view.findViewById(R.id.txtEliminarMesa);
-                    Button botonSi=view.findViewById(R.id.btnSiEliminar);
-                    Button botonNo=view.findViewById(R.id.btnEliminarNo);
-                    input.setText ("¿Desea eliminar  el pedido de la mesa "+mesa.getIdmesa ()+"?");
-                    builder.setView(input);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        LayoutInflater inflater = getLayoutInflater();
+                        View view = inflater.inflate(R.layout.dialog_eliminar_mesa, null);
+                        builder.setView(view);
+                        final AlertDialog dialog = builder.create();
+                        dialog.show();
 
-                    final int finalPositionFuente = positionFuente;
-                    final int finalPositionFuente1 = positionFuente;
+                        final TextView input = view.findViewById(R.id.txtEliminarMesa);
+                        Button botonSi = view.findViewById(R.id.btnSiEliminar);
+                        Button botonNo = view.findViewById(R.id.btnEliminarNo);
+                        input.setText("¿Desea eliminar  el pedido de la mesa " + mesa.getIdmesa() + "?");
+                        builder.setView(input);
 
-                    botonSi.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            final ProgressDialog loading = ProgressDialog.show(getContext (),"Eliminando pedido...","Espere por favor...",false,false);
-                            Map<String, String> params = new HashMap<String, String>();
-                            params.put ("eliminarUnPedido", "true");
-                            params.put ("idmesa", mesa.getIdmesa ()+"");
-                            JSONObject parameters = new JSONObject (params);
-                            String url = "http://192.168.1.27/consultas/pedidos.php";
-                            jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
-                            {
-                                @Override
-                                public void onResponse(JSONObject response)
-                                {
-                                    loading.dismiss ();
-                                    Toast.makeText (getContext (), "Pedido elminado de la "+ mesa.getIdmesa (), Toast.LENGTH_SHORT).show ();
-                                    adaptadorListaMesaDesocupada.getList ().add (mesa);
-                                    adaptadorListaMesa.getList ().remove (finalPositionFuente1);
-                                    adaptadorListaMesaDesocupada.notifyDataSetChanged ();
-                                    adaptadorListaMesa.notifyDataSetChanged ();
-                                    Bundle bundleEnvio = new Bundle ();
+                        final int finalPositionFuente = positionFuente;
+                        final int finalPositionFuente1 = positionFuente;
 
+                        botonSi.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                final ProgressDialog loading = ProgressDialog.show(getContext(), "Eliminando pedido...", "Espere por favor...", false, false);
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("eliminarUnPedido", "true");
+                                params.put("idmesa", mesa.getIdmesa() + "");
+                                JSONObject parameters = new JSONObject(params);
+                                String url = "http://"+ Servidor.HOST +"/consultas/pedidos.php";
+                                jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        loading.dismiss();
+                                        Toast.makeText(getContext(), "Pedido elminado de la " + mesa.getIdmesa(), Toast.LENGTH_SHORT).show();
+
+
+                                  /*  Bundle bundleEnvio = new Bundle ();
                                     bundleEnvio.putSerializable ("mesa", null);
-                                    getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
+                                    getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);*/
 
-                                    dialog.cancel();
-                                }
-                            }, new Response.ErrorListener ()
-                            {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    error.printStackTrace ();
-                                    loading.dismiss ();
-                                }
-                            });
-                            int socketTimeout = 0;
-                            requestQueue.add (jsonRequest);
-                        }
-                    });
+                                        dialog.cancel();
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        error.printStackTrace();
+                                        loading.dismiss();
+                                    }
+                                });
+                                int socketTimeout = 0;
+                                requestQueue.add(jsonRequest);
+                            }
+                        });
 
-                    botonNo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog.cancel();
-                        }
-                    });
-                    dialog.show ();
+                        botonNo.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.cancel();
+                            }
+                        });
+                        dialog.show();
 
                 }/*else if((RecyclerView.getAdapter () instanceof AdaptadorListaMesaDesocupada)&&v.getId ()== R.id.itemMesaOcupada)
                 {
@@ -458,9 +459,9 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
                     int socketTimeout = 0;
                     //requestQueue.add (jsonRequest);
 
-                }*/ else if ((RecyclerView.getAdapter () instanceof AdaptadorListaMesaDesocupada)&&v.getId ()== R.id.listaPlatosMesas)
+                }*/ else if (v.getId ()== R.id.listaPlatosMesas)
                 {
-                    final AdaptadorListaMesaDesocupada adaptadorListaMesaDesocupada = (AdaptadorListaMesaDesocupada) RecyclerView.getAdapter ();
+
                     final Mesa  mesa = adaptadorListaMesaDesocupada.getList ().get (positionFuente);
 
 
@@ -488,7 +489,7 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
                             params.put ("idmesa", mesa.getIdmesa ()+"");
                             params.put ("idempleado", idEmpleados+"");
                             JSONObject parameters = new JSONObject (params);
-                            String url = "http://192.168.1.27/consultas/pedidos.php";
+                            String url = "http://"+ Servidor.HOST +"/consultas/pedidos.php";
                             jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
                             {
                                 @Override
@@ -496,10 +497,7 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
                                 {
                                     loading.dismiss ();
                                     Toast.makeText (getContext (), "Pedido creado en la mesa "+ mesa.getIdmesa (), Toast.LENGTH_SHORT).show ();
-                                    adaptadorListaMesa.getList ().add (mesa);
-                                    adaptadorListaMesaDesocupada.getList ().remove (finalPositionFuente);
-                                    adaptadorListaMesaDesocupada.notifyDataSetChanged ();
-                                    adaptadorListaMesa.notifyDataSetChanged ();
+
                                     dialog.cancel();
                                 }
                             }, new Response.ErrorListener ()
@@ -546,6 +544,16 @@ new Timer ().scheduleAtFixedRate(new TimerTask ()
         {
             this.idEmpleados=preferences.getString("idEmpleados", "No hay nada");
 
+        }
+    }
+
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        if(this.timer != null){
+            this.timer.cancel();
         }
     }
 }

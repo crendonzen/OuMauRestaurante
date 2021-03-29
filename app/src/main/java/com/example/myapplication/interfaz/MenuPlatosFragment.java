@@ -22,6 +22,7 @@ import com.android.volley.toolbox.JsonRequest;
 import com.example.myapplication.R;
 import com.example.myapplication.adaptador.AdaptadorListaPedidos;
 import com.example.myapplication.adaptador.AdaptadorListaPlatos;
+import com.example.myapplication.adaptador.Servidor;
 import com.example.myapplication.adaptador.VolleySingleton;
 import com.example.myapplication.mundo.Factura;
 import com.example.myapplication.mundo.Plato;
@@ -126,7 +127,7 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
         Map<String,String> params= new HashMap<String, String>();
         params.put("buscarPlatos",platoNombre);
         JSONObject parameters = new JSONObject(params);
-        String url="http://192.168.1.27/consultas/platos.php";
+        String url="http://"+ Servidor.HOST +"/consultas/platos.php";
         jsonRequest=new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
         {
             @Override

@@ -44,6 +44,8 @@ import com.android.volley.toolbox.Volley;
 
 import com.example.myapplication.Abtract.InterfazFragamen;
 import com.example.myapplication.R;
+import com.example.myapplication.adaptador.Servidor;
+
 import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -194,7 +196,7 @@ public class AgregarPlatoFragment extends Fragment
             {
                 final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando plato...","Espere por favor...",false,false);
 
-                String URL="https://192.168.2.18/consultas/platos.php";
+                String URL="https://"+ Servidor.HOST +"/consultas/platos.php";
 
                 RequestQueue servicio= Volley.newRequestQueue(getContext());
                 Map<String,String> params= new HashMap<String, String> ();

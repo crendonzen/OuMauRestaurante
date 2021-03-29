@@ -40,18 +40,16 @@ public class PDFAdapter extends PrintDocumentAdapter
     private final String destino;
     private String path;
     private int repeticion=0;
-    private AdaptadorListaPedidos adaptadorListaPedidos;
     private Factura pedidoFactura;
     private RequestQueue requestQueue;
     private JsonRequest jsonRequest;
 
-    public PDFAdapter(Context context, String s, Factura factura,String destino, AdaptadorListaPedidos listaPedidos,RequestQueue requestQueue)
+    public PDFAdapter(Context context, String s, Factura factura,String destino,RequestQueue requestQueue)
     {
 
         this.context=context;
         this.path=s;
         this.pedidoFactura=factura;
-        this.adaptadorListaPedidos=listaPedidos;
         this.requestQueue=requestQueue;
         this.destino=destino;
 
@@ -80,15 +78,15 @@ public class PDFAdapter extends PrintDocumentAdapter
                 params.put ("idmesa", pedidoFactura.getMesas_idmesas ()+ "");
                 JSONObject parameters = new JSONObject (params);
 
-                String url = "http://openm.co/consultas/pedidos.php";
+                String url = "http://"+ Servidor.HOST +"/consultas/pedidos.php";
 
                 jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
                 {
                     @Override
                     public void onResponse(JSONObject response)
                     {
-                         pedidoFactura.limpiarLista ();
-                        adaptadorListaPedidos.notifyDataSetChanged ();
+
+
                         Toast.makeText (context, "La "+pedidoFactura.getMesas_numero ()+" ah sido desocupada", Toast.LENGTH_SHORT).show ();
 
                     }
@@ -99,7 +97,7 @@ public class PDFAdapter extends PrintDocumentAdapter
                     }
                 });
                 requestQueue.add (jsonRequest);
-                adaptadorListaPedidos.notifyDataSetChanged ();
+
             }
             repeticion=repeticion+1;
         }

@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.myapplication.R;
+import com.example.myapplication.adaptador.Servidor;
 import com.example.myapplication.mundo.Usuario;
 
 import org.json.JSONException;
@@ -71,7 +72,7 @@ public class loginActivity extends AppCompatActivity
                     parametros.put("contrasena",contrasena);
                     JSONObject parameters = new JSONObject(parametros);
 
-                    String url="http://192.168.1.27/consultas/buscarUsuario.php";
+                    String url="http://"+ Servidor.HOST +"/consultas/buscarUsuario.php";
                     jsonRequest=new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
                     {
                         @Override
