@@ -126,7 +126,7 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
         Map<String,String> params= new HashMap<String, String>();
         params.put("buscarPlatos",platoNombre);
         JSONObject parameters = new JSONObject(params);
-        String url="http://openm.co/consultas/platos.php";
+        String url="http://192.168.1.27/consultas/platos.php";
         jsonRequest=new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
         {
             @Override

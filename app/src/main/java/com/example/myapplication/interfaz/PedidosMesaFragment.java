@@ -204,7 +204,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
         Map<String, String> params = new HashMap<String, String> ();
         params.put ("buscarMesasDesocupadas", "Mes");
         JSONObject parameters = new JSONObject (params);
-        String url = "https://openm.co/consultas/pedidos.php";
+        String url = "http://192.168.1.27/consultas/pedidos.php";
 
         jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> () {
             @Override
@@ -249,7 +249,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
         Map<String,String> params= new HashMap<String, String> ();
         params.put("buscarMesas","Mes");
         JSONObject parameters = new JSONObject(params);
-        String url="https://openm.co/consultas/pedidos.php";
+        String url="http://192.168.1.27/consultas/pedidos.php";
         jsonRequest=new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
         {
             @Override
@@ -366,7 +366,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             params.put ("eliminarUnPedido", "true");
                             params.put ("idmesa", mesa.getIdmesa ()+"");
                             JSONObject parameters = new JSONObject (params);
-                            String url = "https://openm.co/consultas/pedidos.php";
+                            String url = "http://192.168.1.27/consultas/pedidos.php";
                             jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
                             {
                                 @Override
@@ -416,7 +416,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                     params.put ("idmesaOrigen", mesaOrigen.getIdmesa ()+"");
                     params.put ("idmesaDestion", mesaDestino.getIdmesa ()+"");
                     JSONObject parameters = new JSONObject (params);
-                    String url = "https://openm.co/consultas/pedidos.php";
+                    String url = "http://192.168.1.27/consultas/pedidos.php";
                     jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
                     {
                         @Override
@@ -476,7 +476,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             params.put ("idmesa", mesa.getIdmesa ()+"");
                             params.put ("idempleado", idEmpleados+"");
                             JSONObject parameters = new JSONObject (params);
-                            String url = "https://openm.co/consultas/pedidos.php";
+                            String url = "http://192.168.1.27/consultas/pedidos.php";
                             jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
                             {
                                 @Override

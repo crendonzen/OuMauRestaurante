@@ -71,7 +71,7 @@ public class loginActivity extends AppCompatActivity
                     parametros.put("contrasena",contrasena);
                     JSONObject parameters = new JSONObject(parametros);
 
-                    String url="https://openm.co/consultas/buscarUsuario.php";
+                    String url="http://192.168.1.27/consultas/buscarUsuario.php";
                     jsonRequest=new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
                     {
                         @Override
@@ -93,6 +93,7 @@ public class loginActivity extends AppCompatActivity
                         @Override
                         public void onErrorResponse(VolleyError error)
                         {
+                            error.printStackTrace();
                             Toast.makeText(loginActivity.this, "El usuario no esta registrado o contraseña incorrecta", Toast.LENGTH_SHORT).show();
                         }
                     });

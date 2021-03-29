@@ -194,7 +194,7 @@ public class AgregarPlatoFragment extends Fragment
             {
                 final ProgressDialog loading = ProgressDialog.show(getContext (),"Creando plato...","Espere por favor...",false,false);
 
-                String URL="https://openm.co/consultas/platos.php";
+                String URL="https://192.168.2.18/consultas/platos.php";
 
                 RequestQueue servicio= Volley.newRequestQueue(getContext());
                 Map<String,String> params= new HashMap<String, String> ();
