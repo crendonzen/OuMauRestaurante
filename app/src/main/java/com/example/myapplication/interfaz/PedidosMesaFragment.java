@@ -112,7 +112,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                 buscarMesaDesocupada ();
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1,2000);
+        },1,3000);
     }
 
     public static PedidosMesaFragment newInstance(String param1, String param2)
@@ -565,6 +565,9 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
     @Override
     public void onPause() {
         super.onPause();
+        if(this.timer != null){
+            this.timer.cancel();
+        }
     }
 
     @Override
