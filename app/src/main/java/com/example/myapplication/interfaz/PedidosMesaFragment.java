@@ -98,6 +98,23 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
         // Required empty public constructor
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.timer = new Timer();
+        this.timer.scheduleAtFixedRate(new TimerTask ()
+
+        {
+            @Override
+            public void run()
+            {
+                buscarlista ();
+                buscarMesaDesocupada ();
+                System.out.println ("A Kiss after 5 seconds");
+            }
+        },1,2000);
+    }
+
     public static PedidosMesaFragment newInstance(String param1, String param2)
     {
         PedidosMesaFragment fragment = new PedidosMesaFragment ();
@@ -141,18 +158,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
         this.listaMesas.setAdapter(adaptadorListaMesa);
         this.listaMesas.setLayoutManager (new GridLayoutManager (getContext (), 3));
         recuperarPreferencias();
-        this.timer = new Timer();
-        this.timer.scheduleAtFixedRate(new TimerTask ()
 
-        {
-            @Override
-            public void run()
-            {
-                buscarlista ();
-                buscarMesaDesocupada ();
-                System.out.println ("A Kiss after 5 seconds");
-            }
-        },1,2000);
 
         this.buscarMesa.setOnQueryTextListener (new SearchView.OnQueryTextListener ()
         {
@@ -353,9 +359,14 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                 positionFuente = (int) viewSource.getTag ();
                // posicionDestion = (int) v.getTag ();
 
+             //   Toast.makeText(getContext(), ((RecyclerView)( (View) event.getLocalState())).getId ()+"", Toast.LENGTH_SHORT).show();
+
+                if((v instanceof  RecyclerView)
 
 
-                if(v.getId() == R.id.listaMesasDesocupadas && ( (View) event.getLocalState()).getId ()== R.id.listaPlatosMesas)
+                        && (( (View) event.getLocalState()).getParent() instanceof  RecyclerView)
+                        &&  v.getId() == R.id.listaMesasDesocupadas
+                        && ((RecyclerView)( (View) event.getLocalState()).getParent()).getId ()== R.id.listaPlatosMesas)
                 {
 
                         final Mesa mesa = adaptadorListaMesa.getList().get(positionFuente);
@@ -459,7 +470,11 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                     int socketTimeout = 0;
                     //requestQueue.add (jsonRequest);
 
-                }*/ else if (v.getId ()== R.id.listaPlatosMesas)
+                }*/ else if((v instanceof  RecyclerView)
+                        && (( (View) event.getLocalState()).getParent() instanceof  RecyclerView)
+                        &&  v.getId() == R.id.listaPlatosMesas
+                        && ((RecyclerView)( (View) event.getLocalState()).getParent()).getId ()== R.id.listaMesasDesocupadas)
+
                 {
 
                     final Mesa  mesa = adaptadorListaMesaDesocupada.getList ().get (positionFuente);
@@ -547,6 +562,10 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 
     @Override
     public void onStop()
@@ -556,4 +575,6 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
             this.timer.cancel();
         }
     }
+
+
 }

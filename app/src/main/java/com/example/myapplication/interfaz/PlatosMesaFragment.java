@@ -334,7 +334,12 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 Font numeroValorOrden=new Font (fontName,valueFontSize,Font.NORMAL,BaseColor.BLACK);
                 SimpleDateFormat format=new SimpleDateFormat ("dd/MM/yyyy");
                 Document document=new Document ();
-                PdfWriter.getInstance (document, new FileOutputStream (path));
+                try {
+                    PdfWriter.getInstance (document, new FileOutputStream (path));
+                }catch (Exception e){
+                    
+                }
+
                 document.open ();
                 document.setPageSize (PageSize.NOTE);
                 document.addCreationDate ();
@@ -812,7 +817,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         params.put ("miObservacion", miObservacion);
         JSONObject parameters = new JSONObject (params);
 
-        String url = "http://192.168.1.27/consultas/pedidos.php";
+        String url = "http://"+ Servidor.HOST +"/consultas/pedidos.php";
 
         jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
         {

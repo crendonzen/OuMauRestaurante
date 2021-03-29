@@ -54,7 +54,7 @@ public class AdaptadorListaMesa extends  RecyclerView.Adapter<AdaptadorListaMesa
 
         holder.txtNumeroMesa.setText(String.valueOf(list.get(position).getNumero()));
         holder.item.setTag (position);
-        holder.item.setOnDragListener (fragmentEvet);
+        //holder.item.setOnDragListener (fragmentEvet);
         holder.item.setOnLongClickListener (new View.OnLongClickListener ()
         {
             @Override
