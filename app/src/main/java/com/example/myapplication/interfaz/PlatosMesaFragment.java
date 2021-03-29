@@ -315,7 +315,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 Document document=new Document ();
                 PdfWriter.getInstance (document, new FileOutputStream (path));
                 document.open ();
-                document.setPageSize (PageSize.A4);
+                document.setPageSize (PageSize.NOTE);
                 document.addCreationDate ();
                 document.addAuthor ("Open");
                 document.addAuthor ("user");
@@ -512,7 +512,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
 
         Paragraph paragraph=new Paragraph ();
         logo.setAlignment(Image.ALIGN_CENTER);
-        Chunk chunk=new Chunk (logo,150,-10);
+        Chunk chunk=new Chunk (logo,120,-10);
         paragraph.add (chunk);
         paragraph.setIndentationRight (140);
         paragraph.add (new Chunk ( new VerticalPositionMark ()));
@@ -523,25 +523,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         document.add(paragraph);
     }
 
-    private void addItemDoubleleftImage(Document document,  int alignCenter, String textRight,  Font right, int idImage1, int idImage) throws DocumentException, IOException {
-        agregarEspacio (document);
-        Image logo = obtenerImage (idImage1);
 
-        logo.scaleAbsolute (40,40);
-
-        Paragraph paragraph=new Paragraph ();
-        logo.setAlignment(Image.ALIGN_CENTER);
-        Chunk chunk=new Chunk (logo,150,-10);
-        paragraph.add (chunk);
-        paragraph.setIndentationRight (155);
-        paragraph.add (new Chunk ( new VerticalPositionMark ()));
-
-        Chunk chunkRight=new Chunk (textRight ,right);
-        paragraph.add (chunkRight);
-        paragraph.setAlignment (alignCenter);
-
-        document.add(paragraph);
-    }
     public Image obtenerImage(int idImage) throws IOException, BadElementException {
         Bitmap bm = BitmapFactory.decodeResource(getResources(), idImage);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
