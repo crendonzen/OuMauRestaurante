@@ -33,8 +33,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listaPlatosMesas"
-                android:layout_width="483dp"
-                android:layout_height="304dp"
+                android:layout_width="465dp"
+                android:layout_height="499dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

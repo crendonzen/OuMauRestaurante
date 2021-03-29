@@ -174,7 +174,7 @@ public class DetallePlatoFragment extends Fragment
             this.platos = (Plato) objetoPlato.getSerializable ("plato");
             this.nombrePlato.setText (platos.getNombre ());
             this.precioPlato.setText (platos.getPrecio () + "");
-            this.descripcionPlato.setText (platos.getPrecio () + "");
+            this.descripcionPlato.setText (platos.getDescripcion());
 
 
 
