@@ -66,8 +66,8 @@
 
                     <TextView
                         android:id="@+id/txtNombrePlato_menu"
-                        android:layout_width="93dp"
-                        android:layout_height="16dp"
+                        android:layout_width="153dp"
+                        android:layout_height="19dp"
                         android:layout_marginStart="2dp"
                         android:layout_marginTop="2dp"
                         android:text="Nombre plato"

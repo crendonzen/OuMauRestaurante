@@ -78,6 +78,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
     private ProgressDialog dialog;
     private Mesa mesa;
     private int cantMesas;
+    private int cantMesasDesocupadas;
     private Activity actividad;
     private InterfazFragamen interfazFragamen;
     ImageButton agregarMesa;
@@ -109,10 +110,10 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
             public void run()
             {
                 buscarlista ();
-                buscarMesaDesocupada ();
+              //  buscarMesaDesocupada ();
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1,2000);
+        },1,1000);
     }
 
     public static PedidosMesaFragment newInstance(String param1, String param2)
@@ -252,7 +253,8 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
 
     public void buscarlista()
     {
-        mesasAux.clear();
+
+
         Map<String,String> params= new HashMap<String, String> ();
         params.put("buscarMesas","Mes");
         JSONObject parameters = new JSONObject(params);
@@ -266,6 +268,9 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                 {
                     if (response!=null)
                     {
+
+                        mesasDesAux.clear ();
+                        mesasAux.clear();
                         JSONArray datos = response.getJSONArray ("datos");
                         for (int i = 0; i < datos.length(); i++)
                         {
@@ -275,15 +280,21 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             String codigoQR=mesa.getString("codigoQR");
                             String estado=mesa.getString("estado");
                             Mesa m=new Mesa( id,  numero,  codigoQR, estado);
-                            mesasAux.add(m);
+                            if(estado.equals("Ocupada")){
+                                mesasAux.add(m);
+                            }else{
+                                mesasDesAux.add (m);
+                            }
+                        }
 
-                        }
-                        if (mesasAux.size()!=cantMesas )
-                        {
+                        if (mesasDesAux.size ()+mesasAux.size()!= cantMesas) {
+                            mesasDes.clear ();
                             mesas.clear();
+                            mesasDes.addAll (mesasDesAux);
+                            cantMesas = mesasDes.size ()+mesasAux.size();
                             mesas.addAll(mesasAux);
-                            cantMesas=mesas.size ();
                         }
+
                         if (mesa instanceof  Mesa){
                             Bundle bundleEnvio = new Bundle ();
                             bundleEnvio.putSerializable ("mesa", mesa);
@@ -297,7 +308,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
                         }
 
-
+                        adaptadorListaMesaDesocupada.notifyDataSetChanged ();
                         adaptadorListaMesa.notifyDataSetChanged ();
                     }
                 } catch (JSONException e)
@@ -368,7 +379,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                         &&  v.getId() == R.id.listaMesasDesocupadas
                         && ((RecyclerView)( (View) event.getLocalState()).getParent()).getId ()== R.id.listaPlatosMesas)
                 {
-
+                    AdaptadorListaMesa adaptadorListaMesa= (AdaptadorListaMesa) ((RecyclerView)( (View) event.getLocalState()).getParent()).getAdapter();
                         final Mesa mesa = adaptadorListaMesa.getList().get(positionFuente);
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -476,7 +487,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                         && ((RecyclerView)( (View) event.getLocalState()).getParent()).getId ()== R.id.listaMesasDesocupadas)
 
                 {
-
+                    AdaptadorListaMesaDesocupada adaptadorListaMesaDesocupada= (AdaptadorListaMesaDesocupada) ((RecyclerView)( (View) event.getLocalState()).getParent()).getAdapter();
                     final Mesa  mesa = adaptadorListaMesaDesocupada.getList ().get (positionFuente);
 
 
