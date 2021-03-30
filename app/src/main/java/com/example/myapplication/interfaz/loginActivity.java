@@ -23,6 +23,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.adaptador.Servidor;
 import com.example.myapplication.mundo.Usuario;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,8 +81,8 @@ public class loginActivity extends AppCompatActivity
                         {
                               try
                               {
-                                  JSONObject datos = response.optJSONArray ("datos").getJSONObject (0);
-                                  guardarPreferencias(datos);
+                                  JSONArray datos = response.getJSONArray ("datos");
+                                  guardarPreferencias(datos.getJSONObject(0));
                                   Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                   startActivity(intent);
                                   finish();

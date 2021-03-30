@@ -123,6 +123,20 @@
                 app:layout_constraintEnd_toStartOf="@+id/imagenFactura"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/lblPrecioTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginEnd="112dp"
+                android:layout_marginBottom="26dp"
+                android:text="$"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imagenCocina"
+                app:layout_constraintStart_toEndOf="@+id/numero_Mesa"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 

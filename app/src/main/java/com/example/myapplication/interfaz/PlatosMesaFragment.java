@@ -100,11 +100,13 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
     private boolean isDropped = false;
     private MenuPlatosFragment.Listener mListener;
     private TextView numeroMesa;
+    private TextView lblTotal;
     private ImageButton btnActualizarPedido;
     private ImageButton btnFactura;
     private ImageButton btnCocina;
     private Dialog mDialog;
-    EditText info;
+    private double total;
+    private EditText info;
     private int idMesa;
 
 
@@ -158,6 +160,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         });
 
         numeroMesa = v.findViewById(R.id.numero_Mesa);
+        this.lblTotal = v.findViewById(R.id.lblPrecioTotal);
         getParentFragmentManager().setFragmentResultListener("key", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle)
@@ -184,6 +187,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                 JSONArray datos = response.getJSONArray("datos");
                                 if (datos.length() > 0)
                                 {
+                                    total=0;
+                                    NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
                                     JSONObject pedido = datos.getJSONObject(0);
                                     int mesas_idmesas = pedido.getInt("mesas_idmesas");
                                     String mesas_numero = pedido.getString("mesas_numero");
@@ -221,20 +226,17 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                        int pedidos_cantidad = 0;
                                        double platos_precio=0;
                                         int platos_idplatos=0;
-                                        try {
-                                             pedidos_cantidad = plato.getInt("pedidos_cantidad");
+                                        try
+                                        {
+                                            pedidos_cantidad = plato.getInt("pedidos_cantidad");
                                             platos_precio = plato.getDouble("platos_precio");
-                                           platos_idplatos = plato.getInt("platos_idplatos");
+                                            platos_idplatos = plato.getInt("platos_idplatos");
                                             String platos_imagen = plato.getString("platos_imagen");
                                             String platos_descripcion = plato.getString("platos_descripcion");
                                             String platos_nombre = plato.getString("platos_nombre");
                                             String platos_categoria = plato.getString("platos_categoria");
-
                                             String pedidos_observacion = plato.getString("pedidos_observacion");
-
-
-
-
+                                            total+=platos_precio*pedidos_cantidad;
                                             Pedido pedidoDatos = new Pedido (
                                                     platos_idplatos,
                                                     platos_categoria,
@@ -255,7 +257,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
 
 
                                     }
-
+                                    lblTotal.setText (nf.format (total));
                                 }
                                 adaptadorListaPedidos.notifyDataSetChanged ();
                             } catch (Exception e)
@@ -274,6 +276,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                    idMesa=mesa.getIdmesa();
                 }else if(!(mesa instanceof Mesa))
                 {
+                    numeroMesa.setText("Seleccione una mesa");
                     pedidoFactura.limpiarLista ();
                     adaptadorListaPedidos.notifyDataSetChanged ();
                 }
@@ -337,7 +340,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 try {
                     PdfWriter.getInstance (document, new FileOutputStream (path));
                 }catch (Exception e){
-                    
+
                 }
 
                 document.open ();
@@ -388,8 +391,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
 
                 agregarLinea(document);
                 agregarEspacio (document);
-                addItemleft (document,"Subtotal",nf.format(total)+"",titulo,numeroValorOrden);
-                agregarLinea(document);
+              //  addItemleft (document,"Subtotal",nf.format(total)+"",titulo,numeroValorOrden);
+              //  agregarLinea(document);
                 addItemleft (document,"Total",nf.format(total)+"",titulo,numeroValorOrden);
                 document.close ();
                 imprimiPDF("caja");
@@ -612,20 +615,23 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                     positionFuente = (int) viewSource.getTag ();
                     if ((RecyclerView.getAdapter () instanceof AdaptadorListaPlatos)&&v.getId ()== R.id.lista_pedidos)
                     {
+                        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
                         AdaptadorListaPlatos adaptadorListaPlatos = (AdaptadorListaPlatos) RecyclerView.getAdapter ();
                         Plato plato = adaptadorListaPlatos.getList ().get (positionFuente);
                         Pedido miPlato = pedidoFactura.buscarPedido (plato.getIdplato ());
 
                         if (miPlato instanceof Pedido)
                         {
+                            total+=miPlato.getTotal ();
                             miPlato.setCantidad (miPlato.getCantidad () + 1);
                         } else
                         {
                             Pedido pedido=plato.converAPedido ();
                             pedido.setCantidad (1);
                             pedidoFactura.agregarPedido ( pedido);
-
+                            total+=pedido.getTotal ();
                         }
+                        lblTotal.setText (nf.format (total));
                         actuiizarPedido();
                         v.setVisibility (View.VISIBLE);
                         Toast.makeText (getContext (), v.getId ()+"", Toast.LENGTH_SHORT).show ();
@@ -683,6 +689,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                                     JSONArray datos = response.getJSONArray("datos");
                                                     if (datos.length() > 0)
                                                     {
+                                                        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
+                                                        total=0;
                                                         for (int i = 0; i < datos.length(); i++)
                                                         {
                                                             JSONObject plato = datos.getJSONObject(i);
@@ -707,9 +715,11 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                                                     platos_imagen,
                                                                     pedidos_cantidad
                                                             );
+                                                            total+=platoDatos.getTotal ();
                                                             pedidoFactura.agregarPedido (platoDatos);
                                                             adaptadorListaPedidos.notifyDataSetChanged ();
                                                         }
+                                                        lblTotal.setText (nf.format (total));
                                                     }
                                                 } catch (JSONException e)
                                                 {
