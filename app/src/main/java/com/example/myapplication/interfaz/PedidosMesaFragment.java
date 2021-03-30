@@ -374,7 +374,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                     && recyclerView.getId ()== R.id.listaPlatosMesas)
                 {
                     positionFuente = (int) viewSource.getTag ();
-                    AdaptadorListaMesa adaptadorListaMesa= (AdaptadorListaMesa) recyclerView.getAdapter();
+                    final AdaptadorListaMesa adaptadorListaMesa= (AdaptadorListaMesa) recyclerView.getAdapter();
                     final Mesa mesa = adaptadorListaMesa.getList().get(positionFuente);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -406,7 +406,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                                 {
                                     loading.dismiss();
                                     Toast.makeText(getContext(), "Pedido elminado de la " + mesa.getIdmesa(), Toast.LENGTH_SHORT).show();
-
+                                    adaptadorListaMesa.notifyDataSetChanged ();
                                   /*  Bundle bundleEnvio = new Bundle ();
                                     bundleEnvio.putSerializable ("mesa", null);
                                     getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);*/
@@ -481,7 +481,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
 
                 {
                     positionFuente = (int) viewSource.getTag ();
-                    AdaptadorListaMesaDesocupada adaptadorListaMesaDesocupada= (AdaptadorListaMesaDesocupada) recyclerView.getAdapter();
+                    final AdaptadorListaMesaDesocupada adaptadorListaMesaDesocupada= (AdaptadorListaMesaDesocupada) recyclerView.getAdapter();
                     final Mesa mesa =  adaptadorListaMesaDesocupada.getList().get(positionFuente);
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext ());
                     LayoutInflater inflater= getLayoutInflater();
@@ -496,7 +496,6 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                     Button botonSiAgregar =view.findViewById(R.id.botonSiAgregar);
                     Button botonNoAgregar =view.findViewById(R.id.botonNoAgregar);
 
-                    final int finalPositionFuente = positionFuente;
                     botonSiAgregar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -513,6 +512,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                                 public void onResponse(JSONObject response)
                                 {
                                     loading.dismiss ();
+                                    adaptadorListaMesaDesocupada.notifyDataSetChanged ();
                                     Toast.makeText (getContext (), "Pedido creado en la mesa "+ mesa.getIdmesa (), Toast.LENGTH_SHORT).show ();
                                     dialog.cancel();
                                 }
