@@ -154,7 +154,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
         this.adaptadorListaMesa = new AdaptadorListaMesa (getContext (), this.mesas, this);
         this.listaMesas.setLayoutManager (new LinearLayoutManager (getContext ()));
         this.mesasDesocupadas.setLayoutManager (new GridLayoutManager (getContext (), 3));
-        this.adaptadorListaMesaDesocupada = new AdaptadorListaMesaDesocupada (getContext (), this.mesasDes);
+        this.adaptadorListaMesaDesocupada = new AdaptadorListaMesaDesocupada (getContext (), this.mesasDes,this);
         this.mesasDesocupadas.setAdapter (adaptadorListaMesaDesocupada);
         this.listaMesas.setAdapter(adaptadorListaMesa);
         this.listaMesas.setLayoutManager (new GridLayoutManager (getContext (), 3));
@@ -254,7 +254,8 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
     public void buscarlista()
     {
 
-
+        mesasDesAux.clear ();
+        mesasAux.clear();
         Map<String,String> params= new HashMap<String, String> ();
         params.put("buscarMesas","Mes");
         JSONObject parameters = new JSONObject(params);
@@ -269,8 +270,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                     if (response!=null)
                     {
 
-                        mesasDesAux.clear ();
-                        mesasAux.clear();
+
                         JSONArray datos = response.getJSONArray ("datos");
                         for (int i = 0; i < datos.length(); i++)
                         {
@@ -287,19 +287,22 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             }
                         }
 
-                        if (mesasDesAux.size ()+mesasAux.size()!= cantMesas) {
+                        if (mesasDesAux.size ()!= cantMesas) {
+                            cantMesas = mesasDes.size ();
                             mesasDes.clear ();
                             mesas.clear();
-                            mesasDes.addAll (mesasDesAux);
-                            cantMesas = mesasDes.size ()+mesasAux.size();
+
                             mesas.addAll(mesasAux);
+                            mesasDes.addAll (mesasDesAux);
+
+
                         }
 
                         if (mesa instanceof  Mesa){
                             Bundle bundleEnvio = new Bundle ();
                             bundleEnvio.putSerializable ("mesa", mesa);
                             getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
-                            Toast.makeText(getContext(), "estoi enviando", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(getContext(), "estoi enviando", Toast.LENGTH_SHORT).show();
 
                         }else
                         {
@@ -307,9 +310,9 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             bundleEnvio.putSerializable ("mesa", null);
                             getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
                         }
-
                         adaptadorListaMesaDesocupada.notifyDataSetChanged ();
                         adaptadorListaMesa.notifyDataSetChanged ();
+
                     }
                 } catch (JSONException e)
                 {
@@ -367,14 +370,14 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                 int positionFuente = -1, posicionDestion=-1;
                 View viewSource = (View) event.getLocalState();
                 RecyclerView recyclerView= (RecyclerView) viewSource.getParent ();
-
+                positionFuente = (int) viewSource.getTag ();
                 if((v instanceof  RecyclerView)
                     && (recyclerView instanceof  RecyclerView)
                     &&  v.getId() == R.id.listaMesasDesocupadas
                     && recyclerView.getId ()== R.id.listaPlatosMesas)
                 {
-                    positionFuente = (int) viewSource.getTag ();
-                    AdaptadorListaMesa adaptadorListaMesa= (AdaptadorListaMesa) recyclerView.getAdapter();
+                  //  positionFuente = (int) viewSource.getTag ();
+                    final AdaptadorListaMesa adaptadorListaMesa= (AdaptadorListaMesa) recyclerView.getAdapter();
                     final Mesa mesa = adaptadorListaMesa.getList().get(positionFuente);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -423,6 +426,10 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             int socketTimeout = 0;
                             requestQueue.add(jsonRequest);
                         }
+
+
+
+
                     });
 
                     botonNo.setOnClickListener(new View.OnClickListener() {
@@ -480,8 +487,8 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                         && recyclerView.getId ()== R.id.listaMesasDesocupadas)
 
                 {
-                    positionFuente = (int) viewSource.getTag ();
-                    AdaptadorListaMesaDesocupada adaptadorListaMesaDesocupada= (AdaptadorListaMesaDesocupada) recyclerView.getAdapter();
+                   // positionFuente = (int) viewSource.getTag ();
+                    final AdaptadorListaMesaDesocupada adaptadorListaMesaDesocupada= (AdaptadorListaMesaDesocupada) recyclerView.getAdapter();
                     final Mesa mesa =  adaptadorListaMesaDesocupada.getList().get(positionFuente);
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext ());
                     LayoutInflater inflater= getLayoutInflater();
@@ -515,6 +522,8 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                                     loading.dismiss ();
                                     Toast.makeText (getContext (), "Pedido creado en la mesa "+ mesa.getIdmesa (), Toast.LENGTH_SHORT).show ();
                                     dialog.cancel();
+
+
                                 }
                             }, new Response.ErrorListener ()
                             {
@@ -536,7 +545,9 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
 
 
                     dialog.show ();
+
                 }
+                onStart();
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
                 v.setBackgroundColor(0);

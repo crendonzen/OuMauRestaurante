@@ -57,9 +57,12 @@ public class AdaptadorListaMesa extends  RecyclerView.Adapter<AdaptadorListaMesa
         //holder.item.setOnDragListener (fragmentEvet);
         holder.item.setOnLongClickListener (new View.OnLongClickListener ()
         {
+
+
             @Override
             public boolean onLongClick(View view)
             {
+                fragmentEvet.onStop();
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                 view.startDrag(data, shadowBuilder, view, 0);

@@ -337,7 +337,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 try {
                     PdfWriter.getInstance (document, new FileOutputStream (path));
                 }catch (Exception e){
-                    
+
                 }
 
                 document.open ();
@@ -388,8 +388,8 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
 
                 agregarLinea(document);
                 agregarEspacio (document);
-                addItemleft (document,"Subtotal",nf.format(total)+"",titulo,numeroValorOrden);
-                agregarLinea(document);
+              //  addItemleft (document,"Subtotal",nf.format(total)+"",titulo,numeroValorOrden);
+              //  agregarLinea(document);
                 addItemleft (document,"Total",nf.format(total)+"",titulo,numeroValorOrden);
                 document.close ();
                 imprimiPDF("caja");
