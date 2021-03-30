@@ -181,7 +181,7 @@ public class PlatosFragment extends Fragment {
         Map<String,String> params= new HashMap<String, String>();
         params.put("buscarPlatos",platoNombre);
         JSONObject parameters = new JSONObject(params);
-        String url="http://"+ Servidor.HOST +"/consultas/platos.php";
+        String url=Servidor.HOST +"/consultas/platos.php";
         jsonRequest=new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
         {
             @Override

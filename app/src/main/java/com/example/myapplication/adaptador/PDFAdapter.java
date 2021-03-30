@@ -78,7 +78,7 @@ public class PDFAdapter extends PrintDocumentAdapter
                 params.put ("idmesa", pedidoFactura.getMesas_idmesas ()+ "");
                 JSONObject parameters = new JSONObject (params);
 
-                String url = "http://"+ Servidor.HOST +"/consultas/pedidos.php";
+                String url = Servidor.HOST +"/consultas/pedidos.php";
 
                 jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
                 {

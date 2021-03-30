@@ -174,7 +174,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                     Toast.makeText(getContext(), "" + idmesa, Toast.LENGTH_SHORT).show();
                     params.put("buscarPlatoMesa", idmesa + "");
                     JSONObject parameters = new JSONObject(params);
-                    String url = "http://"+ Servidor.HOST +"/consultas/pedidos.php";
+                    String url =Servidor.HOST +"/consultas/pedidos.php";
 
                     jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
                         @Override
@@ -676,7 +676,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                         params.put ("idplato", plato.getIdplato ()+"");
                                         params.put ("idfactura", pedidoFactura.getFactura_idfacturas () + "");
                                         JSONObject parameters = new JSONObject (params);
-                                        String url = "http://"+ Servidor.HOST +"/consultas/pedidos.php";
+                                        String url = Servidor.HOST +"/consultas/pedidos.php";
 
                                         jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
                                         {
@@ -827,7 +827,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         params.put ("miObservacion", miObservacion);
         JSONObject parameters = new JSONObject (params);
 
-        String url = "http://"+ Servidor.HOST +"/consultas/pedidos.php";
+        String url = Servidor.HOST +"/consultas/pedidos.php";
 
         jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
         {
@@ -855,7 +855,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
         params.put ("idfactura", pedidoFactura.getFactura_idfacturas () + "");
         JSONObject parameters = new JSONObject (params);
 
-        String url = "http://"+ Servidor.HOST +"/consultas/pedidos.php";
+        String url = Servidor.HOST +"/consultas/pedidos.php";
 
         jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
         {

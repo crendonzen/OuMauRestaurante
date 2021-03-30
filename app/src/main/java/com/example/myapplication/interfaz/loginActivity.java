@@ -73,7 +73,7 @@ public class loginActivity extends AppCompatActivity
                     parametros.put("contrasena",contrasena);
                     JSONObject parameters = new JSONObject(parametros);
 
-                    String url="http://"+ Servidor.HOST +"/consultas/buscarUsuario.php";
+                    String url=Servidor.HOST +"/consultas/buscarUsuario.php";
                     jsonRequest=new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
                     {
                         @Override
