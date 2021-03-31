@@ -353,7 +353,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 double total=0;
                 addItemImage (document, Element.ALIGN_CENTER, R.mipmap.restaurante);
 
-                addItem(document,"NIT. 085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
+                addItem(document,"NIT. 1085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
                 addItem(document,"Calle 18a #3-05 B/Lorenzo", Element.ALIGN_CENTER,numeroValorOrden);
                 addItemleftImage( document,   Element.ALIGN_CENTER, "305 484 8526",  numeroValorOrden,  R.mipmap.redesw);
 
@@ -446,7 +446,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 double total=0;
                 addItemImage (document, Element.ALIGN_CENTER, R.mipmap.restaurante);
 
-                addItem(document,"NIT. 085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
+                addItem(document,"NIT. 1085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
                 addItem(document,"Calle 18a #3-05 B/Lorenzo", Element.ALIGN_CENTER,numeroValorOrden);
                 addItemleftImage( document,   Element.ALIGN_CENTER, "305 484 8526",  numeroValorOrden,  R.mipmap.redesw);
 

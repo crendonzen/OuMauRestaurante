@@ -113,7 +113,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                 //  buscarMesaDesocupada ();
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1,1000);
+        },1,2000);
     }
 
     public static PedidosMesaFragment newInstance(String param1, String param2)
