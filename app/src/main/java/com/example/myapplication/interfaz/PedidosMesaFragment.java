@@ -113,7 +113,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                 //  buscarMesaDesocupada ();
                 System.out.println ("A Kiss after 5 seconds");
             }
-        },1,1000);
+        },1,5000);
     }
 
     public static PedidosMesaFragment newInstance(String param1, String param2)
@@ -323,11 +323,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
         requestQueue.add(jsonRequest);
     }
 
-    public void mostrarVentana(View v)
-    {
-        mDialog.setContentView(R.layout.registrar_mesa);
-        mDialog.show();
-    }
+
 
     public void onAttach(Context context)
     {
