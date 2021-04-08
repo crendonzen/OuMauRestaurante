@@ -9,6 +9,7 @@ package com.example.myapplication.mundo;
 import android.graphics.Bitmap;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -108,5 +109,47 @@ public class Plato implements Serializable
     public Pedido converAPedido()
     {
       return new  Pedido( idPlato,  categoria,  nombre,  descripcion,  precio,  image,0);
+    }
+
+    public boolean equals(Plato otroPlato)
+    {
+        if (this == otroPlato) return true;
+        if (otroPlato == null || getClass () != otroPlato.getClass ()) return false;
+
+        return
+            otroPlato.getPrecio ()==precio &&
+            categoria.equals (otroPlato.getCategoria ()) &&
+            nombre.equals (otroPlato.getNombre ()) &&
+            descripcion.equals (otroPlato.getDescripcion ()) &&
+            image.equals (otroPlato.getImage ());
+    }
+    public int getPosicionCategoria()
+    {
+        if (this.categoria.equals ("Hamburguesas"))
+        {
+            return 0;
+        }else if (this.categoria.equals ("Alas"))
+        {
+            return 1;
+        }else if (this.categoria.equals ("Pizza"))
+        {
+            return 2;
+        }else if (this.categoria.equals ("Parrilla"))
+        {
+            return 3;
+        }else if (this.categoria.equals ("Cajita feliz"))
+        {
+            return 4;
+        }else if (this.categoria.equals ("Bebidas"))
+        {
+            return 5;
+        }else
+        {
+            return 6;
+        }
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash (idPlato, categoria, nombre, descripcion, precio, image);
     }
 }

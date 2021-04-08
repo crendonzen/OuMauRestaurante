@@ -25,9 +25,10 @@
 
     <string-array name="Spinner_items">
         <item> Hamburguesas</item>
+        <item> Alas</item>
         <item> Pizza</item>
         <item> Parrilla</item>
-        <item> Infantil</item>
+        <item> Cajita feliz</item>
         <item> Bebidas</item>
         <item> Extras</item>
     </string-array>

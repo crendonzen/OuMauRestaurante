@@ -171,7 +171,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                     numeroMesa.setText(mesa.getNumero());
                     int idmesa = mesa.getIdmesa();
                     Map<String, String> params = new HashMap<String, String>();
-                    Toast.makeText(getContext(), "" + idmesa, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "" + idmesa, Toast.LENGTH_SHORT).show();
                     params.put("buscarPlatoMesa", idmesa + "");
                     JSONObject parameters = new JSONObject(params);
                     String url =Servidor.HOST +"/consultas/pedidos.php";
@@ -353,7 +353,11 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 double total=0;
                 addItemImage (document, Element.ALIGN_CENTER, R.mipmap.restaurante);
 
+
                 addItem(document,"NIT. 1085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
+
+                addItem(document,"NIT. 1.085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
+
                 addItem(document,"Calle 18a #3-05 B/Lorenzo", Element.ALIGN_CENTER,numeroValorOrden);
                 addItemleftImage( document,   Element.ALIGN_CENTER, "305 484 8526",  numeroValorOrden,  R.mipmap.redesw);
 
@@ -446,7 +450,11 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                 double total=0;
                 addItemImage (document, Element.ALIGN_CENTER, R.mipmap.restaurante);
 
+
                 addItem(document,"NIT. 1085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
+
+                addItem(document,"NIT.1.085.266.866-3 No. Resp. IVA", Element.ALIGN_CENTER,numeroValorOrden);
+
                 addItem(document,"Calle 18a #3-05 B/Lorenzo", Element.ALIGN_CENTER,numeroValorOrden);
                 addItemleftImage( document,   Element.ALIGN_CENTER, "305 484 8526",  numeroValorOrden,  R.mipmap.redesw);
 
@@ -634,7 +642,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                         lblTotal.setText (nf.format (total));
                         actuiizarPedido();
                         v.setVisibility (View.VISIBLE);
-                        Toast.makeText (getContext (), v.getId ()+"", Toast.LENGTH_SHORT).show ();
+                      //  Toast.makeText (getContext (), v.getId ()+"", Toast.LENGTH_SHORT).show ();
                     } else if ((RecyclerView.getAdapter () instanceof AdaptadorListaPedidos)&&v.getId ()== R.id.btnActualizarPedido)
                     {
                         final AdaptadorListaPedidos adaptadorListaPedidos = (AdaptadorListaPedidos) RecyclerView.getAdapter ();
@@ -702,7 +710,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                                                             String pedidos_observacion = plato.getString("pedidos_observacion");
 
 
-                                                            Toast.makeText(getContext(), plato.getString("mesas_numero"), Toast.LENGTH_SHORT).show();
+                                                          //  Toast.makeText(getContext(), plato.getString("mesas_numero"), Toast.LENGTH_SHORT).show();
 
                                                             Pedido platoDatos = new Pedido (
                                                                     platos_idplatos,

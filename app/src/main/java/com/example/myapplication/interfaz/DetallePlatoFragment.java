@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 
 import android.os.Environment;
@@ -44,6 +45,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.myapplication.Abtract.InterfazFragamen;
 import com.example.myapplication.R;
 import com.example.myapplication.adaptador.Servidor;
@@ -61,6 +65,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.Manifest.permission.BIND_ACCESSIBILITY_SERVICE;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -91,6 +96,7 @@ public class DetallePlatoFragment extends Fragment
     private Activity actividad;
     private InterfazFragamen interfazFragamen;
     private Plato platos = null;
+    private String rutaImg;
     public DetallePlatoFragment()
     {
         // Required empty public constructor
@@ -140,6 +146,7 @@ public class DetallePlatoFragment extends Fragment
                         if (opciones[i].equals("Tomar Foto"))
                         {
                             tomarFotografia();
+
                         }else  if (opciones[i].equals("Cargar Imagen"))
                         {
                             cargarImagen();
@@ -176,11 +183,19 @@ public class DetallePlatoFragment extends Fragment
             this.precioPlato.setText (platos.getPrecio () + "");
             this.descripcionPlato.setText (platos.getDescripcion());
 
+            this. categoriaPalto.setSelection (platos.getPosicionCategoria ());
 
-
-            Glide.with(getContext ())
-                    .load(platos.getImage ())
-                    .into(imagenPlato);
+            this.rutaImg=platos.getImage ();
+            Glide.with (getContext ())
+                    .asBitmap ()
+                    .load (platos.getImage ())
+                    .into (new SimpleTarget<Bitmap> () {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            bitmap = resource;
+                            imagenPlato.setImageBitmap (bitmap);
+                        }
+                    });
 
 
         }
@@ -199,12 +214,15 @@ public class DetallePlatoFragment extends Fragment
     {
         try
         {
-            String rutaImg="";
+            String archivoImg="";
             String nombre=this.nombrePlato.getText().toString ();
             double precio= Double.parseDouble(precioPlato.getText().toString());
             Object select = this.categoriaPalto.getSelectedItem ();
             String descripcion = this.descripcionPlato.getText ().toString ();
-            if (bitmap==null)
+            if (this.platos.equals (new Plato( select.toString(),  nombre,  descripcion,  precio,   this.rutaImg)))
+            {
+                Toast.makeText(getContext(), "No se detectaron cambios",Toast.LENGTH_SHORT).show();
+            }else if (bitmap==null)
             {
                 Toast.makeText(getContext(), "Seleccione una imagen valida",Toast.LENGTH_SHORT).show();
             }else if (!(select instanceof  Object))
@@ -223,20 +241,21 @@ public class DetallePlatoFragment extends Fragment
             {
                 final ProgressDialog loading = ProgressDialog.show(getContext (),"Actualizando cambios...","Espere por favor...",false,false);
 
-                String URL="https://"+ Servidor.HOST +"/consultas/platos.php";
+                String URL= Servidor.HOST +"/consultas/platos.php";
 
                 RequestQueue servicio= Volley.newRequestQueue(getContext());
                 Map<String,String> params= new HashMap<String, String> ();
-                rutaImg=convertirImageToString (bitmap);
+
                 params.put("idplato",this.platos.getIdplato ()+"");
-                params.put("imagen",rutaImg);
+
                 params.put("imagenRuta",this.platos.getImage ());
                 params.put("categoria",select.toString());
                 params.put("nombre",nombre);
                 params.put("precio",precio+"");
                 params.put("descripcion",descripcion);
                 params.put("modificarPlato","true");
-
+                archivoImg=convertirImageToString (bitmap);
+                params.put("imagen",archivoImg);
                 JSONObject parameters = new JSONObject(params);
 
                 JsonRequest jsonRequest=new JsonObjectRequest (Request.Method.POST, URL, parameters, new Response.Listener<JSONObject> ()
@@ -247,9 +266,15 @@ public class DetallePlatoFragment extends Fragment
                         loading.dismiss();
                         if (response!=null)
                         {
-                            Toast.makeText(getContext(), "Plato modificado con existo",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Plato modificado con exito",Toast.LENGTH_SHORT).show();
                             limpiar();
-                           // Navigation.findNavController(v).navigate(R.id.action_agregarPlatoFragment_to_platosFragment);
+                            Fragment pedidosFragment = new PlatosFragment ();
+                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                            transaction.replace(R.id.nav_host_fragment, pedidosFragment);
+                            transaction.addToBackStack(null);
+
+                            // Commit a la transacción
+                            transaction.commit();
                         }
                     }
                 }, new Response.ErrorListener ()
@@ -324,6 +349,7 @@ public class DetallePlatoFragment extends Fragment
                     {
                         bitmap=MediaStore.Images.Media.getBitmap (getContext ().getContentResolver (),miPath);
                         imagenPlato.setImageBitmap(bitmap);
+                        rutaImg="Se cambio";
                     } catch (IOException e)
                     {
                         e.printStackTrace ();
@@ -338,6 +364,7 @@ public class DetallePlatoFragment extends Fragment
                             Log.i("Ruta de almacenamiento","Path: "+path);
                         }
                     });
+                    rutaImg="Se cambio";
                     bitmap= BitmapFactory.decodeFile(path);
                     imagenPlato.setImageBitmap(bitmap);
                     break;

@@ -193,10 +193,15 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
             @Override
             public void onClick(View v)
             {
-                mesa = mesas.get (listaMesas.getChildAdapterPosition (v));
-                Bundle bundleEnvio = new Bundle ();
-                bundleEnvio.putSerializable ("mesa", mesa);
-                getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
+               int pos=listaMesas.getChildAdapterPosition (v);
+                if (pos>-1)
+                {
+                    mesa = mesas.get (listaMesas.getChildAdapterPosition (v));
+                    Bundle bundleEnvio = new Bundle ();
+                    bundleEnvio.putSerializable ("mesa", mesa);
+                    getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
+                }
+
             }
         });
         this. mesasDesocupadas.setOnDragListener(this);

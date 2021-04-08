@@ -32,8 +32,8 @@
                 app:srcCompat="@mipmap/tacos" />
 
             <LinearLayout
-                android:layout_width="105dp"
-                android:layout_height="18dp"
+                android:layout_width="104dp"
+                android:layout_height="38dp"
                 android:background="#B9505050"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,8 +48,8 @@
 
                     <TextView
                         android:id="@+id/txtNombrePlatoMenu"
-                        android:layout_width="107dp"
-                        android:layout_height="18dp"
+                        android:layout_width="104dp"
+                        android:layout_height="38dp"
                         android:text="Nombre plato"
                         android:textColor="#FBFAFA"
                         android:textSize="14sp"
