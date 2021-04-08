@@ -39,7 +39,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout5"
                 android:layout_width="131dp"
-                android:layout_height="19dp"
+                android:layout_height="34dp"
                 android:background="#A99A0303"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
@@ -51,8 +51,8 @@
 
                     <TextView
                         android:id="@+id/txtNombrePlato"
-                        android:layout_width="128dp"
-                        android:layout_height="15dp"
+                        android:layout_width="129dp"
+                        android:layout_height="31dp"
                         android:text="Nombre plato"
                         android:textColor="#FBFAFA"
                         android:textSize="14sp"
