@@ -635,9 +635,7 @@ public class PlatosMesaFragment extends Fragment implements View.OnDragListener
                         actuiizarPedido();
                         v.setVisibility (View.VISIBLE);
                         Toast.makeText (getContext (), v.getId ()+"", Toast.LENGTH_SHORT).show ();
-                    }
-
-                    else if ((RecyclerView.getAdapter () instanceof AdaptadorListaPedidos)&&v.getId ()== R.id.btnActualizarPedido)
+                    } else if ((RecyclerView.getAdapter () instanceof AdaptadorListaPedidos)&&v.getId ()== R.id.btnActualizarPedido)
                     {
                         final AdaptadorListaPedidos adaptadorListaPedidos = (AdaptadorListaPedidos) RecyclerView.getAdapter ();
                         final Pedido plato =  adaptadorListaPedidos.getList ().get (positionFuente);
