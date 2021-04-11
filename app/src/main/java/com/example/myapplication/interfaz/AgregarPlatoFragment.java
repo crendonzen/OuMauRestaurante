@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -224,12 +225,40 @@ public class AgregarPlatoFragment extends Fragment
                             Boolean respuesta = response.getBoolean ("respuesta");
                             if (respuesta.booleanValue ())
                             {
-                                Toast.makeText(getContext(), "Plato registrado con exito",Toast.LENGTH_SHORT).show();
-                                limpiar();
-                                FragmentManager manager = getActivity ().getSupportFragmentManager ();
-                                FragmentTransaction trans = manager.beginTransaction ();
-                                trans.commit();
-                                manager.popBackStack();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                LayoutInflater inflater = getLayoutInflater();
+                                View view = inflater.inflate(R.layout.dialog_eliminar_mesa, null);
+                                builder.setView(view);
+                                final AlertDialog dialog = builder.create();
+                                dialog.show();
+                                final TextView input = view.findViewById(R.id.txtEliminarMesa);
+                                Button botonSi = view.findViewById(R.id.btnSiEliminar);
+                                Button botonNo = view.findViewById(R.id.btnEliminarNo);
+                                input.setText("Plato registrado con exito ¿Desea registar otro plato?");
+                                builder.setView(input);
+
+                                botonSi.setOnClickListener(new View.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(View view)
+                                    {
+                                        limpiar();
+                                        dialog.cancel();
+                                    }
+                                });
+
+                                botonNo.setOnClickListener(new View.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(View view) {
+                                        FragmentManager manager = getActivity ().getSupportFragmentManager ();
+                                        FragmentTransaction trans = manager.beginTransaction ();
+                                        trans.commit();
+                                        manager.popBackStack();
+                                        dialog.cancel();
+                                    }
+                                });
+
                             }else
                             {
                                 String error = response.getString ("error");
@@ -450,7 +479,10 @@ public class AgregarPlatoFragment extends Fragment
 
     public void limpiar()
     {
-        nombrePlato.setText("");
-        precioPlato.setText("");
+        this.nombrePlato.setText("");
+        this.precioPlato.setText("");
+        this.categoriaPalto.setSelection (0);
+        this.descripcionPlato.setText("");
+        this.imagenPlato.setImageBitmap (null);
     }
 }

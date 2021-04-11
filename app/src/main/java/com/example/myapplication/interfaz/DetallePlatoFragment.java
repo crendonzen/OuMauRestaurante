@@ -21,7 +21,6 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -35,42 +34,34 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.myapplication.Abtract.InterfazFragamen;
 import com.example.myapplication.R;
 import com.example.myapplication.adaptador.Servidor;
-import com.example.myapplication.adaptador.VolleySingleton;
 import com.example.myapplication.mundo.Plato;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
-import static android.Manifest.permission.BIND_ACCESSIBILITY_SERVICE;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -91,6 +82,7 @@ public class DetallePlatoFragment extends Fragment
     private EditText nombrePlato;
     private EditText precioPlato;
     private Spinner categoriaPalto;
+    private Spinner estadoPlato;
     private EditText descripcionPlato;
     private Button buscarImage;
     private Button modificarUnPlato;
@@ -131,6 +123,7 @@ public class DetallePlatoFragment extends Fragment
         this.precioPlato = (EditText) view.findViewById(R.id.txtModPrecionPlato);
         this.descripcionPlato = (EditText) view.findViewById(R.id.txtModDescripcion);
         this.categoriaPalto = (Spinner) view.findViewById(R.id.spnModCategoria);
+        this.estadoPlato = (Spinner) view.findViewById(R.id.spnestado);
         this.buscarImage =(Button) view.findViewById(R.id.btnModBuscarImagen);
         this.modificarUnPlato =(Button) view.findViewById(R.id.btnModificar);
         this.imagenPlato =(ImageView) view.findViewById(R.id.imgModPlato);
@@ -167,9 +160,39 @@ public class DetallePlatoFragment extends Fragment
         this.modificarUnPlato.setOnClickListener (new View.OnClickListener ()
         {
             @Override
-            public void onClick(View v)
+            public void onClick(final View v)
             {
-                modificarPlato(v);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getLayoutInflater();
+                View view = inflater.inflate(R.layout.dialog_eliminar_mesa, null);
+                builder.setView(view);
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+
+                final TextView input = view.findViewById(R.id.txtEliminarMesa);
+                Button botonSi = view.findViewById(R.id.btnSiEliminar);
+                Button botonNo = view.findViewById(R.id.btnEliminarNo);
+                input.setText("¿Desea modificar el plato : '"+platos.getNombre ()+"'?");
+                builder.setView(input);
+
+                botonSi.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        modificarPlato(v);
+                        dialog.cancel();
+                    }
+                });
+
+                botonNo.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        dialog.cancel();
+                    }
+                });
             }
         });
         if(validaPermisos())
@@ -231,6 +254,8 @@ public class DetallePlatoFragment extends Fragment
             String nombre=this.nombrePlato.getText().toString ();
             double precio= Double.parseDouble(precioPlato.getText().toString());
             Object select = this.categoriaPalto.getSelectedItem ();
+
+            Object selectEstado = this.estadoPlato.getSelectedItem ();
             String descripcion = this.descripcionPlato.getText ().toString ();
             if (this.platos.equals (new Plato( select.toString(),  nombre,  descripcion,  precio,   this.rutaImg)))
             {
@@ -250,6 +275,9 @@ public class DetallePlatoFragment extends Fragment
             }else if (descripcion.isEmpty ())
             {
                 Toast.makeText(getContext(), "Escriba una descripcon del plato valida",Toast.LENGTH_SHORT).show();
+            }else if (!(selectEstado instanceof  Object))
+            {
+                Toast.makeText(getContext(), "Seleccione una estado valida",Toast.LENGTH_SHORT).show();
             }else
             {
                 final ProgressDialog loading = ProgressDialog.show(getContext (),"Actualizando cambios...","Espere por favor...",false,false);
@@ -266,6 +294,7 @@ public class DetallePlatoFragment extends Fragment
                 params.put("nombre",nombre);
                 params.put("precio",precio+"");
                 params.put("descripcion",descripcion);
+                params.put("estado",selectEstado.toString ());
                 params.put("modificarPlato","true");
                 archivoImg=convertirImageToString (bitmap);
                 params.put("imagen",archivoImg);

@@ -57,6 +57,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <Spinner
+                android:id="@+id/spnestado"
+                android:layout_width="356dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="77dp"
+                android:layout_marginTop="20dp"
+                android:entries="@array/Spinner_items"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtModDescripcion" />
+
             <EditText
                 android:id="@+id/txtModnombrePlato"
                 android:layout_width="357dp"
