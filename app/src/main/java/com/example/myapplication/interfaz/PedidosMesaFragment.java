@@ -222,25 +222,34 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
         jsonRequest = new JsonObjectRequest (Request.Method.POST, url, parameters, new Response.Listener<JSONObject> () {
             @Override
             public void onResponse(JSONObject response) {
-                try {
+                try
+                {
+                    Boolean respuesta = response.getBoolean ("respuesta");
 
-                    JSONArray datos = response.getJSONArray ("datos");
-                    for (int i = 0; i < datos.length (); i++) {
-                        JSONObject mesa = datos.getJSONObject (i);
-                        int id = mesa.getInt ("idmesas");
-                        String numero = mesa.getString ("numero");
-                        String codigoQR = mesa.getString ("codigoQR");
-                        String estado = mesa.getString ("estado");
-                        Mesa m = new Mesa (id, numero, codigoQR, estado);
-                        mesasDesAux.add (m);
-                    }
+                    if (respuesta.booleanValue ())
+                    {
+                        JSONArray datos = response.getJSONArray ("datos");
+                        for (int i = 0; i < datos.length (); i++) {
+                            JSONObject mesa = datos.getJSONObject (i);
+                            int id = mesa.getInt ("idmesas");
+                            String numero = mesa.getString ("numero");
+                            String codigoQR = mesa.getString ("codigoQR");
+                            String estado = mesa.getString ("estado");
+                            Mesa m = new Mesa (id, numero, codigoQR, estado);
+                            mesasDesAux.add (m);
+                        }
 
-                    if (mesasDesAux.size () != cantMesas) {
-                        mesasDes.clear ();
-                        mesasDes.addAll (mesasDesAux);
-                        cantMesas = mesasDes.size ();
+                        if (mesasDesAux.size () != cantMesas) {
+                            mesasDes.clear ();
+                            mesasDes.addAll (mesasDesAux);
+                            cantMesas = mesasDes.size ();
+                        }
+                        adaptadorListaMesaDesocupada.notifyDataSetChanged ();
+                    }else
+                    {
+                        String error = response.getString ("error");
+                        Toast.makeText(getContext(), respuesta.booleanValue ()+" Error: "+error,Toast.LENGTH_SHORT).show();
                     }
-                    adaptadorListaMesaDesocupada.notifyDataSetChanged ();
 
                 } catch (JSONException e) {
                     e.printStackTrace ();
@@ -272,7 +281,9 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
             {
                 try
                 {
-                    if (response!=null)
+                    Boolean respuesta = response.getBoolean ("respuesta");
+
+                    if (respuesta.booleanValue ())
                     {
                         JSONArray datos = response.getJSONArray ("datos");
                         if ( datos.length()-mesasDesAux.size ()!= cantMesas)
@@ -307,10 +318,17 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
 
                         }else
                         {
-                            Bundle bundleEnvio = new Bundle ();
-                            bundleEnvio.putSerializable ("mesa", null);
-                            getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
+                            if (isVisible ())
+                            {
+                                Bundle bundleEnvio = new Bundle ();
+                                bundleEnvio.putSerializable ("mesa", null);
+                                getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
+                            }
                         }
+                    }else
+                    {
+                        String error = response.getString ("error");
+                        Toast.makeText(getContext(), respuesta.booleanValue ()+" Error: "+error,Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e)
                 {
@@ -376,7 +394,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                   //  positionFuente = (int) viewSource.getTag ();
 
                     final AdaptadorListaMesa adaptadorListaMesa= (AdaptadorListaMesa) recyclerView.getAdapter();
-                    final Mesa mesa = adaptadorListaMesa.getList().get(positionFuente);
+                    mesa = adaptadorListaMesa.getList().get(positionFuente);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     LayoutInflater inflater = getLayoutInflater();
@@ -392,6 +410,7 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                     builder.setView(input);
 
 
+                    final int finalPositionFuente = positionFuente;
                     botonSi.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -405,13 +424,29 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                                 @Override
                                 public void onResponse(JSONObject response)
                                 {
-                                    loading.dismiss();
-                                    Toast.makeText(getContext(), "Pedido elminado de la " + mesa.getIdmesa(), Toast.LENGTH_SHORT).show();
-                                    adaptadorListaMesa.notifyDataSetChanged ();
-                                    Bundle bundleEnvio = new Bundle ();
-                                    bundleEnvio.putSerializable ("mesa", null);
-                                    getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
-                                    dialog.cancel();
+                                    try
+                                    {
+                                        loading.dismiss();
+                                        Boolean respuesta = response.getBoolean ("respuesta");
+                                        if (respuesta.booleanValue ())
+                                        {
+                                            Toast.makeText(getContext(), "Pedido elminado de la " + mesa.getIdmesa(), Toast.LENGTH_SHORT).show();
+                                            adaptadorListaMesa.getList().remove (finalPositionFuente);
+                                            adaptadorListaMesa.notifyDataSetChanged ();
+                                            Bundle bundleEnvio = new Bundle ();
+                                            bundleEnvio.putSerializable ("mesa", null);
+                                            getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
+                                            mesa=null;
+                                        }else
+                                        {
+                                            String error = response.getString ("error");
+                                            Toast.makeText(getContext(), respuesta.booleanValue ()+" Error: "+error,Toast.LENGTH_SHORT).show();
+                                        }
+                                        dialog.cancel();
+                                    } catch (JSONException e)
+                                    {
+                                        e.printStackTrace ();
+                                    }
                                 }
                             }, new Response.ErrorListener() {
                                 @Override
@@ -519,13 +554,29 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                                 @Override
                                 public void onResponse(JSONObject response)
                                 {
-                                    loading.dismiss ();
-                                    Bundle bundleEnvio = new Bundle ();
-                                    bundleEnvio.putSerializable ("mesa", mesa);
-                                    getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
-                                    adaptadorListaMesaDesocupada.notifyDataSetChanged ();
-                                    Toast.makeText (getContext (), "Pedido creado en la mesa "+ mesa.getIdmesa (), Toast.LENGTH_SHORT).show ();
-                                    dialog.cancel();
+                                    try
+                                    {
+                                        loading.dismiss ();
+                                        Boolean respuesta = response.getBoolean ("respuesta");
+                                        if (respuesta.booleanValue ())
+                                        {
+                                            Toast.makeText (getContext (), "Pedido creado en la mesa "+ mesa.getIdmesa (), Toast.LENGTH_SHORT).show ();
+                                            Bundle bundleEnvio = new Bundle ();
+                                            bundleEnvio.putSerializable ("mesa", mesa);
+                                            getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
+                                            adaptadorListaMesaDesocupada.notifyDataSetChanged ();
+
+                                        }else
+                                        {
+                                            String error = response.getString ("error");
+                                            Toast.makeText(getContext(), respuesta.booleanValue ()+" Error: "+error,Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        dialog.cancel();
+                                    }catch (JSONException e)
+                                    {
+                                        e.printStackTrace ();
+                                    }
 
                                 }
                             }, new Response.ErrorListener ()
@@ -582,7 +633,9 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
     @Override
     public void onStop()
     {
+
         super.onStop();
+        this.mesa=null;
         if(this.timer != null){
             this.timer.cancel();
         }

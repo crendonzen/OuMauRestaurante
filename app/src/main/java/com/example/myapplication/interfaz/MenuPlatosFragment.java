@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -136,20 +137,29 @@ public class MenuPlatosFragment extends Fragment implements View.OnDragListener
                 platosMenu.clear();
                 try
                 {
-                    JSONArray datos = response.getJSONArray ("datos");
-                    for (int i = 0; i < datos.length(); i++)
+                    Boolean respuesta = response.getBoolean ("respuesta");
+
+                    if (respuesta.booleanValue ())
                     {
-                        JSONObject plato = datos.getJSONObject(i);
-                        int idPlato=plato.getInt ("idplatos");
-                        String categoria=plato.getString("categoria");
-                        String nombre=plato.getString("nombre");
-                        String descripcion=plato.getString("descripcion");
-                        Double precio=plato.getDouble("precio");
-                        String image=plato.getString ("imagen");
-                        Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image);
-                        platosMenu.add (m);
+                        JSONArray datos = response.getJSONArray ("datos");
+                        for (int i = 0; i < datos.length(); i++)
+                        {
+                            JSONObject plato = datos.getJSONObject(i);
+                            int idPlato=plato.getInt ("idplatos");
+                            String categoria=plato.getString("categoria");
+                            String nombre=plato.getString("nombre");
+                            String descripcion=plato.getString("descripcion");
+                            Double precio=plato.getDouble("precio");
+                            String image=plato.getString ("imagen");
+                            Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image);
+                            platosMenu.add (m);
+                        }
+                        adaptadorListaPlatos.notifyDataSetChanged ();
+                    }else
+                    {
+                        String error = response.getString ("error");
+                        Toast.makeText(getContext(), respuesta.booleanValue ()+" Error: "+error,Toast.LENGTH_SHORT).show();
                     }
-                    adaptadorListaPlatos.notifyDataSetChanged ();
                 } catch (JSONException e)
                 {
                     e.printStackTrace ();

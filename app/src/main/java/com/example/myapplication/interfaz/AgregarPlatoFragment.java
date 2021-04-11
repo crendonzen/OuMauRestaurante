@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -46,6 +48,7 @@ import com.example.myapplication.Abtract.InterfazFragamen;
 import com.example.myapplication.R;
 import com.example.myapplication.adaptador.Servidor;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -216,11 +219,25 @@ public class AgregarPlatoFragment extends Fragment
                     public void onResponse(JSONObject response)
                     {
                         loading.dismiss ();
-                        if (response!=null)
+                        try
                         {
-                            Toast.makeText(getContext(), "Plato registrado con exito",Toast.LENGTH_SHORT).show();
-                            limpiar();
-                            Navigation.findNavController(v).navigate(R.id.platosFragment);
+                            Boolean respuesta = response.getBoolean ("respuesta");
+                            if (respuesta.booleanValue ())
+                            {
+                                Toast.makeText(getContext(), "Plato registrado con exito",Toast.LENGTH_SHORT).show();
+                                limpiar();
+                                FragmentManager manager = getActivity ().getSupportFragmentManager ();
+                                FragmentTransaction trans = manager.beginTransaction ();
+                                trans.commit();
+                                manager.popBackStack();
+                            }else
+                            {
+                                String error = response.getString ("error");
+                                Toast.makeText(getContext(), respuesta.booleanValue ()+" Error: "+error,Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e)
+                        {
+                            e.printStackTrace ();
                         }
                     }
                 }, new Response.ErrorListener ()
@@ -239,7 +256,7 @@ public class AgregarPlatoFragment extends Fragment
     private String convertirImageToString(Bitmap bitmap)
     {
         ByteArrayOutputStream array=new ByteArrayOutputStream();
-        bitmap.compress (Bitmap.CompressFormat.PNG, 100, array);
+        bitmap.compress (Bitmap.CompressFormat.WEBP, 100, array);
         byte[] imagenByte=array.toByteArray ();
         String imagenString= Base64.encodeToString (imagenByte, Base64.DEFAULT);
         return imagenString;

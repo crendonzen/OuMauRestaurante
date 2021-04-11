@@ -81,12 +81,21 @@ public class loginActivity extends AppCompatActivity
                         {
                               try
                               {
-                                  JSONArray datos = response.getJSONArray ("datos");
-                                  guardarPreferencias(datos.getJSONObject(0));
-                                  Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                  startActivity(intent);
-                                  finish();
-                              } catch (JSONException e) {
+                                  Boolean respuesta = response.getBoolean ("respuesta");
+                                  if (respuesta.booleanValue ())
+                                  {
+                                      JSONArray datos = response.getJSONArray ("datos");
+                                      guardarPreferencias (datos.getJSONObject (0));
+                                      Intent intent = new Intent (getApplicationContext (), MainActivity.class);
+                                      startActivity (intent);
+                                      finish ();
+                                  }else
+                                  {
+                                      String error = response.getString ("error");
+                                      Toast.makeText(null, respuesta.booleanValue ()+" Error: "+error,Toast.LENGTH_SHORT).show();
+                                  }
+                              } catch (JSONException e)
+                              {
                                 e.printStackTrace ();
                             }
                         }

@@ -2,6 +2,7 @@ package com.example.myapplication.adaptador;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.myapplication.R;
 import com.example.myapplication.interfaz.MenuPlatosFragment;
 import com.example.myapplication.mundo.Factura;
@@ -22,6 +29,7 @@ import com.example.myapplication.mundo.Pedido;
 import com.example.myapplication.mundo.Plato;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import kotlin.reflect.KVisibility;
 
@@ -59,10 +67,13 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
         holder.txtNombre.setText(list.get(position).getNombre ());
        // holder.txtPrecio.setText(list.get(position).getPrecio ()+"");
         holder.txtCantidadPlato.setText(list.get(position).getCantidad ()+"");
-
-        Glide.with(contexto)
-                .load(list.get(position).getImage())
-                .into(holder.imgPlatos);
+        String image = list.get (position).getImage ();
+        if (!holder.imgPlatos.isShown ())
+        {
+            Glide.with (contexto)
+                    .load (image )
+                    .into (holder.imgPlatos);
+        }
         holder.item.setTag (position);
         holder.item.setOnLongClickListener (new View.OnLongClickListener ()
         {

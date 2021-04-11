@@ -190,21 +190,28 @@ public class PlatosFragment extends Fragment {
                 platosMenu.clear();
                 try
                 {
-                    JSONArray datos = response.getJSONArray ("datos");
-                    for (int i = 0; i < datos.length(); i++)
+                    Boolean respuesta = response.getBoolean ("respuesta");
+                    if (respuesta.booleanValue ())
                     {
-                        JSONObject plato = datos.getJSONObject(i);
-                        int idPlato=plato.getInt ("idplatos");
-                        String categoria=plato.getString("categoria");
-                        String nombre=plato.getString("nombre");
-                        String descripcion=plato.getString("descripcion");
-                        Double precio=plato.getDouble("precio");
-                        String image=plato.getString ("imagen");
-                        Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image);
-                        platosMenu.add (m);
+                        JSONArray datos = response.getJSONArray ("datos");
+                        for (int i = 0; i < datos.length(); i++)
+                        {
+                            JSONObject plato = datos.getJSONObject(i);
+                            int idPlato=plato.getInt ("idplatos");
+                            String categoria=plato.getString("categoria");
+                            String nombre=plato.getString("nombre");
+                            String descripcion=plato.getString("descripcion");
+                            Double precio=plato.getDouble("precio");
+                            String image=plato.getString ("imagen");
+                            Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image);
+                            platosMenu.add (m);
+                        }
+                        adaptadorListaPlatosMenu.notifyDataSetChanged();
+                    }else
+                    {
+                        String error = response.getString ("error");
+                        Toast.makeText(getContext(), respuesta.booleanValue ()+" Error: "+error,Toast.LENGTH_SHORT).show();
                     }
-                    adaptadorListaPlatosMenu.notifyDataSetChanged();
-
                 } catch (JSONException e)
                 {
                     e.printStackTrace ();
