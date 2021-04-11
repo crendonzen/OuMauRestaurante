@@ -311,7 +311,8 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
                             cantMesas = mesas.size ();
                         }
 
-                        if (mesa instanceof  Mesa){
+                        if (mesa instanceof  Mesa)
+                        {
                             Bundle bundleEnvio = new Bundle ();
                             bundleEnvio.putSerializable ("mesa", mesa);
                             getParentFragmentManager ().setFragmentResult ("key", bundleEnvio);
@@ -633,7 +634,6 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
     @Override
     public void onStop()
     {
-
         super.onStop();
         this.mesa=null;
         if(this.timer != null){

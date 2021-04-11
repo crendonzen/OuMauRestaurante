@@ -63,7 +63,7 @@
                 android:layout_height="42dp"
                 android:layout_marginStart="77dp"
                 android:layout_marginTop="20dp"
-                android:entries="@array/Spinner_items"
+                android:entries="@array/Spinner_estados"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtModDescripcion" />
 

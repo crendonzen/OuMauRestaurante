@@ -179,7 +179,7 @@ public class PlatosFragment extends Fragment {
     public void cargarPlatos(String platoNombre)
     {
         Map<String,String> params= new HashMap<String, String>();
-        params.put("buscarPlatos",platoNombre);
+        params.put("buscarPlatosTodos",platoNombre);
         JSONObject parameters = new JSONObject(params);
         String url=Servidor.HOST +"/consultas/platos.php";
         jsonRequest=new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject> ()
@@ -202,8 +202,9 @@ public class PlatosFragment extends Fragment {
                             String nombre=plato.getString("nombre");
                             String descripcion=plato.getString("descripcion");
                             Double precio=plato.getDouble("precio");
+                            String estado=plato.getString ("estado");
                             String image=plato.getString ("imagen");
-                            Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image);
+                            Plato m=new Plato( idPlato, categoria,  nombre, descripcion,precio,image,estado);
                             platosMenu.add (m);
                         }
                         adaptadorListaPlatosMenu.notifyDataSetChanged();

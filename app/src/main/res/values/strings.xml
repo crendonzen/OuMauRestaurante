@@ -32,4 +32,9 @@
         <item> Bebidas</item>
         <item> Extras</item>
     </string-array>
+
+    <string-array name="Spinner_estados">
+        <item>Activo</item>
+        <item>Inactivo</item>
+    </string-array>
 </resources>

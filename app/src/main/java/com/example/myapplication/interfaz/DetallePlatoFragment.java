@@ -206,12 +206,16 @@ public class DetallePlatoFragment extends Fragment
 
         if(objetoPlato !=null)
         {
+            final ProgressDialog loading = ProgressDialog.show(getContext (),"Cargando plato...","Espere por favor...",false,false);
+
             this.platos = (Plato) objetoPlato.getSerializable ("plato");
             this.nombrePlato.setText (platos.getNombre ());
             this.precioPlato.setText (platos.getPrecio () + "");
             this.descripcionPlato.setText (platos.getDescripcion());
 
-            this. categoriaPalto.setSelection (platos.getPosicionCategoria ());
+            this.categoriaPalto.setSelection (platos.getPosicionCategoria ());
+
+            this.estadoPlato.setSelection (platos.getPosicionEstado ());
 
             this.rutaImg=platos.getImage ();
             if (!this.rutaImg.isEmpty ())
@@ -228,6 +232,7 @@ public class DetallePlatoFragment extends Fragment
                             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                 bitmap = resource;
                                 imagenPlato.setImageBitmap (bitmap);
+                                loading.dismiss ();
                             }
                         });
             }

@@ -85,9 +85,22 @@ public class PDFAdapter extends PrintDocumentAdapter
                     @Override
                     public void onResponse(JSONObject response)
                     {
+                        try
+                        {
+                            Boolean respuesta = response.getBoolean ("respuesta");
+                            if (respuesta.booleanValue ())
+                            {
+                                Toast.makeText (context, "La "+pedidoFactura.getMesas_numero ()+" ah sido desocupada", Toast.LENGTH_SHORT).show ();
+                            }else
+                            {
+                                String error = response.getString ("error");
+                                Toast.makeText(null, respuesta.booleanValue ()+" Error: "+error,Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace ();
+                        }
 
 
-                        Toast.makeText (context, "La "+pedidoFactura.getMesas_numero ()+" ah sido desocupada", Toast.LENGTH_SHORT).show ();
 
                     }
                 }, new Response.ErrorListener () {

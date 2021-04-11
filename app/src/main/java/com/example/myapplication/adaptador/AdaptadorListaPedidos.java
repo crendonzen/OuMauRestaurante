@@ -70,8 +70,12 @@ public class AdaptadorListaPedidos extends  RecyclerView.Adapter<AdaptadorListaP
         String image = list.get (position).getImage ();
         if (!holder.imgPlatos.isShown ())
         {
+            Glide.get(contexto).clearMemory();
             Glide.with (contexto)
                     .load (image )
+                   // .diskCacheStrategy(DiskCacheStrategy.NONE)
+                   // .skipMemoryCache(true)
+                   // .fitCenter()
                     .into (holder.imgPlatos);
         }
         holder.item.setTag (position);

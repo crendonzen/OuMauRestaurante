@@ -23,8 +23,8 @@ public class Plato implements Serializable
     private String nombre;
     private String descripcion;
     private double precio;
+    private String  estado;
     private String  image;
-
     public Plato(int idPlato, String categoria, String nombre, String descripcion, double precio, String  image)
     {
         this.idPlato = idPlato;
@@ -33,6 +33,16 @@ public class Plato implements Serializable
         this.descripcion = descripcion;
         this.precio = precio;
         this.image = image;
+    }
+    public Plato(int idPlato, String categoria, String nombre, String descripcion, double precio, String  image, String  estado)
+    {
+        this.idPlato = idPlato;
+        this.categoria = categoria;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.image = image;
+        this.estado=estado;
     }
 
 
@@ -148,8 +158,27 @@ public class Plato implements Serializable
             return 6;
         }
     }
+
+    public int getPosicionEstado()
+    {
+        if (this.estado.equals ("Activo"))
+        {
+            return 0;
+        }else {
+            return 1;
+        }
+    }
     @Override
     public int hashCode() {
         return Objects.hash (idPlato, categoria, nombre, descripcion, precio, image);
+    }
+
+    public void setEstado(String estado)
+    {
+        this.estado=estado;
+    }
+
+    public String getEstado() {
+        return estado;
     }
 }
