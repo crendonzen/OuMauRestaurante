@@ -262,7 +262,7 @@ public class DetallePlatoFragment extends Fragment
 
             Object selectEstado = this.estadoPlato.getSelectedItem ();
             String descripcion = this.descripcionPlato.getText ().toString ();
-            if (this.platos.equals (new Plato( select.toString(),  nombre,  descripcion,  precio,   this.rutaImg)))
+            if (this.platos.equals (new Plato( select.toString(),  nombre,  descripcion,  precio,this.rutaImg,selectEstado.toString ())))
             {
                 Toast.makeText(getContext(), "No se detectaron cambios",Toast.LENGTH_SHORT).show();
             }else if (bitmap==null)

@@ -55,6 +55,17 @@
                         app:layout_constraintTop_toBottomOf="@+id/txtNombrePlato_menu" />
 
                     <TextView
+                        android:id="@+id/txtEstado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="204dp"
+
+                        android:text="Precio"
+                        android:textColor="#FBF9F9"
+                        app:layout_constraintStart_toEndOf="@+id/textView7"
+                        app:layout_constraintTop_toBottomOf="@+id/txtNombrePlato_menu" />
+
+                    <TextView
                         android:id="@+id/textView7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -100,7 +100,8 @@ public class PedidosMesaFragment extends Fragment implements View.OnDragListener
     }
 
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
         this.timer = new Timer();
         this.timer.scheduleAtFixedRate(new TimerTask ()

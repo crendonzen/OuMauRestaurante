@@ -44,6 +44,15 @@ public class Plato implements Serializable
         this.image = image;
         this.estado=estado;
     }
+    public Plato( String categoria, String nombre, String descripcion, double precio, String  image, String  estado)
+    {
+        this.categoria = categoria;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.image = image;
+        this.estado=estado;
+    }
 
 
     public Plato(String categoria, String nombre, String descripcion, double precio, String  image)
@@ -54,6 +63,7 @@ public class Plato implements Serializable
         this.precio = precio;
         this.image = image;
     }
+
 
     public int getIdplato()
     {
@@ -131,7 +141,8 @@ public class Plato implements Serializable
             categoria.equals (otroPlato.getCategoria ()) &&
             nombre.equals (otroPlato.getNombre ()) &&
             descripcion.equals (otroPlato.getDescripcion ()) &&
-            image.equals (otroPlato.getImage ());
+            image.equals (otroPlato.getImage ()) &&
+                    estado.equals (otroPlato.getEstado ());
     }
     public int getPosicionCategoria()
     {

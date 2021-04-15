@@ -82,6 +82,7 @@ public class AdaptadorListaPlatosMenu extends  RecyclerView.Adapter<AdaptadorLis
             holder.txtNombrePlato.setText(list.get(position).getNombre());
             holder.txtPrecioPlato.setText(String.valueOf(nf.format(list.get(position).getPrecio())));
             holder.txtCategoriaPlato.setText(list.get(position).getCategoria());
+            holder.txtEstado.setText(list.get(position).getEstado ());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,14 +113,14 @@ public class AdaptadorListaPlatosMenu extends  RecyclerView.Adapter<AdaptadorLis
     public class ViewHolder extends RecyclerView.ViewHolder
     {
 
-        TextView txtNombrePlato,txtPrecioPlato,txtCategoriaPlato,txtDescripcionPlato;
+        TextView txtNombrePlato,txtPrecioPlato,txtCategoriaPlato,txtEstado;
         ImageView imgPlatos;
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
             txtNombrePlato=(TextView) itemView.findViewById(R.id.txtNombrePlato_menu);
             txtPrecioPlato=(TextView) itemView.findViewById(R.id.txtPrecio_menu);
-
+            txtEstado=(TextView) itemView.findViewById(R.id.txtEstado);
             txtCategoriaPlato=(TextView) itemView.findViewById(R.id.categoria_menu);
             imgPlatos=(ImageView) itemView.findViewById(R.id.imgPlatos_menu);
 
